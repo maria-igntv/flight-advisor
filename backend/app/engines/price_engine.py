@@ -10,7 +10,12 @@ from datetime import date, timedelta
 
 from .. import db
 from ..config import CURRENCY
+from ..tools import fx
 from ..tools.gf import search_flights
+
+# Fallback-валюта: если Google не отдаёт цены в выбранной валюте (бывает на
+# некоторых направлениях/регионах), ищем в USD и конвертируем по курсу ЦБ РФ.
+FALLBACK_CURRENCY = "USD"
 
 
 def _pax_key(adults: int, children: int, infants: int) -> str:
@@ -38,16 +43,74 @@ def get_price_calendar(
 
     Кэш: свежий снапшот (<= CACHE_TTL_HOURS) берём из SQLite, иначе
     запрашиваем Google Flights и сохраняем. One-way (return_date IS NULL),
-    round-trip и разный состав пассажиров не смешиваются.
+    round-trip, разный состав пассажиров и разные валюты не смешиваются.
+
+    Если ни одной цены в выбранной валюте нет — повторяем поиск в USD и
+    конвертируем по курсу ЦБ РФ (в результатах поле fx = {from, rate}).
     """
     db.init_db()
     ret_iso = return_date.isoformat() if return_date else None
     pax = _pax_key(adults, children, infants)
+
+    calendar = _fetch_calendar(
+        origin, dest, start_date, end_date, currency,
+        force_refresh=force_refresh, ret_iso=ret_iso, pax=pax,
+        adults=adults, children=children, infants=infants,
+    )
+    if any(c["price"] is not None for c in calendar) or currency == FALLBACK_CURRENCY:
+        return calendar
+
+    # Fallback: пробуем USD и конвертируем в выбранную валюту.
+    try:
+        rate = fx.get_rate(FALLBACK_CURRENCY, currency)
+    except RuntimeError:
+        return calendar  # курса нет — отдаём как есть (UI честно скажет «нет цен»)
+    usd_calendar = _fetch_calendar(
+        origin, dest, start_date, end_date, FALLBACK_CURRENCY,
+        force_refresh=force_refresh, ret_iso=ret_iso, pax=pax,
+        adults=adults, children=children, infants=infants,
+    )
+    if not any(c["price"] is not None for c in usd_calendar):
+        return calendar  # и в USD пусто — смысла в конвертации нет
+
+    for c in usd_calendar:
+        if c["price"] is None:
+            continue
+        c["price"] = int(round(c["price"] * rate))
+        if c.get("cheapest_offer") and c["cheapest_offer"].get("price") is not None:
+            c["cheapest_offer"]["price"] = int(round(c["cheapest_offer"]["price"] * rate))
+        c["fx"] = {"from": FALLBACK_CURRENCY, "rate": rate}
+        # Сохраняем конвертированные снапшоты в целевой валюте — следующие
+        # запросы возьмут их из кэша, не дёргая Google повторно.
+        db.save_snapshot(
+            origin, dest, c["dep_date"], c["price"], c["airlines"], currency,
+            return_date=ret_iso, cheapest_offer=c.get("cheapest_offer"),
+            passengers=pax,
+        )
+    return usd_calendar
+
+
+def _fetch_calendar(
+    origin: str,
+    dest: str,
+    start_date: date,
+    end_date: date,
+    currency: str,
+    force_refresh: bool,
+    ret_iso: str | None,
+    pax: str,
+    adults: int,
+    children: int,
+    infants: int,
+) -> list[dict]:
+    """Один проход по диапазону дат в заданной валюте (кэш + Google)."""
     results: list[dict] = []
     d = start_date
     while d <= end_date:
         iso = d.isoformat()
-        cached = db.latest_snapshot(origin, dest, iso, ret_iso, passengers=pax)
+        cached = db.latest_snapshot(
+            origin, dest, iso, ret_iso, passengers=pax, currency=currency
+        )
         if cached and not force_refresh:
             results.append(
                 {
@@ -112,6 +175,8 @@ def recommend(
     )
     priced = [c for c in calendar if c["price"] is not None]
     cheapest = min(priced, key=lambda c: c["price"]) if priced else None
+    # Метка конвертации (поиск в USD + курс ЦБ РФ) — для честной подписи в UI.
+    fx_info = cheapest.get("fx") if cheapest else None
 
     return {
         "origin": origin,
@@ -121,6 +186,7 @@ def recommend(
         "passengers": {"adults": adults, "children": children, "infants": infants},
         "calendar": calendar,
         "cheapest_date": cheapest,
+        "fx": fx_info,
         "recommendation": _heuristic(cheapest, len(calendar), len(priced), bool(return_date)),
     }
 

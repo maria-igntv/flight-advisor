@@ -22,6 +22,7 @@ from backend.app.engines.forecast_engine import forecast_curve, forecast_summary
 from backend.app.engines.news_engine import get_news
 from backend.app.engines.orchestrator import verdict as make_verdict
 from backend.app.engines.price_engine import recommend
+from backend.app.engines.visa_engine import check_trip
 from backend.app.tools.airports import OTHER, load_entries, region_for
 from backend.app.tools.gf import build_search_url
 
@@ -308,33 +309,37 @@ if page == "🔍 Поиск цен":
                             format_func=lambda c: _dest_labels[c])
     currency = c3.selectbox("Валюта", ["RUB", "USD", "EUR"], index=0)
 
-    with st.form("query"):
-        d1, d2 = st.columns(2)
-        # Диапазон выбора дат: сегодня → +365 дней. Даты до сегодня серые
-        # и некликабельны (движок date_input сам блокирует вне min/max),
-        # год в навигации календаря ограничен 2026–2027.
-        _today = date.today()
-        _date_max = _today + timedelta(days=365)
-        # value=None: поле пустое до явного выбора пользователем (мок),
-        # формат DD.MM.YYYY; заполненность проверяем при сабмите.
-        dep_start = d1.date_input(
-            "Дата вылета", value=None, format="DD.MM.YYYY",
-            min_value=_today, max_value=_date_max,
-        )
-        dep_end = d2.date_input(
-            "Дата вылета (по) — диапазон, необязательно",
-            value=None, format="DD.MM.YYYY",
-            min_value=_today, max_value=_date_max,
-            help="Заполните, чтобы сравнить цены по диапазону дат. "
-                 "Если дата вылета известна точно — оставьте пустым.",
-        )
+    # Даты — ВНЕ формы: выбор «Дата вылета» сразу сужает календарь
+    # «Дата вылета (по)» (внутри формы min_value обновился бы только
+    # после сабмита — пользователь успел бы выбрать дату раньше вылета).
+    d1, d2 = st.columns(2)
+    # Диапазон выбора дат: сегодня → +365 дней. Даты до сегодня серые
+    # и некликабельны (движок date_input сам блокирует вне min/max),
+    # год в навигации календаря ограничен 2026–2027.
+    _today = date.today()
+    _date_max = _today + timedelta(days=365)
+    # value=None: поле пустое до явного выбора пользователем (мок),
+    # формат DD.MM.YYYY; заполненность проверяем при сабмите.
+    dep_start = d1.date_input(
+        "Дата вылета", value=None, format="DD.MM.YYYY",
+        min_value=_today, max_value=_date_max,
+    )
+    dep_end = d2.date_input(
+        "Дата вылета (по) — диапазон, необязательно",
+        value=None, format="DD.MM.YYYY",
+        min_value=dep_start or _today, max_value=_date_max,
+        help="Заполните, чтобы сравнить цены по диапазону дат. "
+             "Если дата вылета известна точно — оставьте пустым.",
+    )
 
+    with st.form("query"):
         round_trip = st.toggle("↩️ Туда — обратно", value=True,
                                help="Цена — итоговая за оба перелёта; обратный рейс подбирается в Google Flights.")
         if round_trip:
             ret = st.date_input(
                 "Дата возвращения", value=None, format="DD.MM.YYYY",
-                min_value=_today, max_value=_date_max,
+                min_value=(dep_start + timedelta(days=1)) if dep_start else _today,
+                max_value=_date_max,
             )
         else:
             ret = None
@@ -369,6 +374,11 @@ if page == "🔍 Поиск цен":
             # Новости региона назначения — рядом с ценой (кэш 1 час).
             city, country = region_for(dest_sel)
             res["_region"] = {"city": city, "country": country}
+
+            # Правила въезда для граждан РФ: окно поездки = вылет →
+            # возвращение (или конец диапазона вылетов, или сам вылет).
+            res["_visa"] = check_trip(country, dep_start, ret or dep_end_eff)
+
             if country:
                 try:
                     with st.spinner("Собираю новости региона…"):
@@ -410,6 +420,22 @@ if page == "🔍 Поиск цен":
             pax_parts.append(f"{pax['infants']} мл.")
         pax_label = ", ".join(pax_parts) if pax_parts else "1 взр."
         pax_key = f"{pax.get('adults', 1)}-{pax.get('children', 0)}-{pax.get('infants', 0)}"
+
+        # --- правила въезда для граждан РФ (🔴 превышение лимита / ⚠️ виза) ---
+        visa = res.get("_visa")
+        if visa:
+            if visa.get("overstay"):
+                st.error(
+                    f"🔴 **{visa['headline']}** — дата вылета обратно превышает "
+                    f"допустимый лимит нахождения в стране для граждан РФ. "
+                    f"{visa['note']}"
+                )
+            else:
+                st.warning(
+                    f"⚠️ **{visa['headline']}** — проверьте, нужна ли виза для "
+                    f"граждан РФ. {visa['note']} Перед покупкой перепроверьте "
+                    "актуальные правила (МИД/консульство)."
+                )
 
         # --- предупреждение о встречах в окно поездки (VK Workspace) ---
         trip_busy = res.get("_busy")
@@ -467,6 +493,16 @@ if page == "🔍 Поиск цен":
             m2.metric("Средняя", f"{int(prices.mean()):,} {currency}")
             m3.metric("Максимальная", f"{int(prices.max()):,} {currency}")
             m4.metric("Дороговизна макс.", f"+{int((prices.max() / prices.min() - 1) * 100)}%")
+
+            # Конвертация: Google не отдал цены в выбранной валюте — честно
+            # подписываем, что найдено в USD и пересчитано по курсу ЦБ РФ.
+            fx_info = res.get("fx")
+            if fx_info:
+                st.caption(
+                    f"💱 Google Flights не отдал цены в {currency} — билеты найдены "
+                    f"в {fx_info['from']} и сконвертированы по курсу ЦБ РФ: "
+                    f"1 {fx_info['from']} = {fx_info['rate']:.2f} {currency}."
+                )
 
             cheapest = res["cheapest_date"]
             offer = cheapest.get("cheapest_offer") if cheapest else None
@@ -773,7 +809,7 @@ if page == "🔍 Поиск цен":
                         ", ".join(c.get("airlines") or []) or "—" for c in cal
                     ],
                     "Рейс": [
-                        (c.get("cheapest_offer") or {}).get("segments", [{}])[0].get("flight_no")
+                        ((c.get("cheapest_offer") or {}).get("segments") or [{}])[0].get("flight_no")
                         if c.get("cheapest_offer") else "—"
                         for c in cal
                     ],

@@ -5,7 +5,7 @@ import json
 import sqlite3
 from datetime import datetime, timedelta
 
-from .config import DB_PATH, CACHE_TTL_HOURS, NEWS_TTL_HOURS
+from .config import DB_PATH, CACHE_TTL_HOURS, NEWS_TTL_HOURS, FX_TTL_HOURS
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS price_snapshots (
@@ -25,6 +25,11 @@ CREATE INDEX IF NOT EXISTS idx_route_date ON price_snapshots(origin, dest, dep_d
 CREATE TABLE IF NOT EXISTS news_cache (
     region_key TEXT PRIMARY KEY,
     payload TEXT NOT NULL,
+    fetched_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS fx_rates (
+    pair TEXT PRIMARY KEY,  -- "USD-RUB"
+    rate REAL NOT NULL,
     fetched_at TEXT NOT NULL
 );
 """
@@ -136,21 +141,23 @@ def synthetic_dates(
 
 def latest_snapshot(
     origin: str, dest: str, dep_date: str, return_date: str | None = None,
-    passengers: str = "1-0-0",
+    passengers: str = "1-0-0", currency: str = "RUB",
 ) -> dict | None:
     """Последний снапшот для маршрута+даты (для кэша), если свежий.
 
-    return_date и passengers обязательны в фильтре: one-way/round-trip и
-    разный состав пассажиров не смешиваются. Демо-синтетика (synthetic=1)
-    кэшем календаря быть не может — только реальными измерениями.
+    return_date, passengers и currency обязательны в фильтре: one-way/round-trip,
+    разный состав пассажиров и разные валюты не смешиваются (USD-снапшот не
+    должен выдаваться за RUB). Демо-синтетика (synthetic=1) кэшем календаря
+    быть не может — только реальными измерениями.
     """
     with _conn() as c:
         row = c.execute(
             "SELECT * FROM price_snapshots WHERE origin=? AND dest=? AND dep_date=? "
-            "AND return_date IS ? AND passengers IS ? AND price IS NOT NULL "
+            "AND return_date IS ? AND passengers IS ? AND currency IS ? "
+            "AND price IS NOT NULL "
             "AND COALESCE(synthetic, 0)=0 "
             "ORDER BY fetched_at DESC LIMIT 1",
-            (origin, dest, dep_date, return_date, passengers),
+            (origin, dest, dep_date, return_date, passengers, currency),
         ).fetchone()
     if row is None:
         return None
@@ -212,6 +219,30 @@ def set_news_cache(region_key: str, payload: dict) -> None:
             "ON CONFLICT(region_key) DO UPDATE SET payload=excluded.payload, "
             "fetched_at=excluded.fetched_at",
             (region_key, json.dumps(payload, ensure_ascii=False), datetime.now().isoformat()),
+        )
+
+
+def latest_fx_rate(base: str, quote: str) -> float | None:
+    """Кэшированный курс base→quote, если свежий (<= FX_TTL_HOURS)."""
+    with _conn() as c:
+        row = c.execute(
+            "SELECT rate, fetched_at FROM fx_rates WHERE pair=?",
+            (f"{base}-{quote}",),
+        ).fetchone()
+    if row is None:
+        return None
+    if datetime.now() - datetime.fromisoformat(row["fetched_at"]) > timedelta(hours=FX_TTL_HOURS):
+        return None
+    return float(row["rate"])
+
+
+def save_fx_rate(base: str, quote: str, rate: float) -> None:
+    with _conn() as c:
+        c.execute(
+            "INSERT INTO fx_rates (pair, rate, fetched_at) VALUES (?, ?, ?) "
+            "ON CONFLICT(pair) DO UPDATE SET rate=excluded.rate, "
+            "fetched_at=excluded.fetched_at",
+            (f"{base}-{quote}", rate, datetime.now().isoformat()),
         )
 
 

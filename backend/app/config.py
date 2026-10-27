@@ -33,3 +33,6 @@ POLL_REQUEST_PAUSE_SEC = 4
 NEWS_TTL_HOURS = 1
 NEWS_MAX_ITEMS = 5
 NEWS_MAX_AGE_DAYS = 14
+
+# Курсы валют для конвертации цен (ЦБ РФ / er-api): кэш в SQLite.
+FX_TTL_HOURS = 12

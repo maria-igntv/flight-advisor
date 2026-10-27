@@ -65,14 +65,23 @@ def check_trip(country_ru: str | None, dep: str | date, ret: str | date | None) 
     # поэтому предупреждение показываем для любой зарубежной страны.
 
     if regime == "visa_free" and days is None:
-        # Срок не ограничен — информировать не о чем.
-        return None
+        # Безвизовый режим без ограничения срока — предупреждение всё равно
+        # показываем (⚠️ «виза не нужна»), просто без проверки лимита.
+        return {
+            "regime": regime,
+            "regime_title": REGIME_TITLES["visa_free"],
+            "days": None,
+            "note": rule.get("note", ""),
+            "trip_days": trip_days,
+            "overstay": False,
+            "headline": f"{country_ru}: безвизовый въезд, срок пребывания не ограничен",        }
 
     overstay = bool(trip_days and days and trip_days > days)
     parts = [REGIME_TITLES.get(regime, regime)]
     if days:
         parts.append(f"до {days} дн.")
-    headline = f"🛂 {country_ru}: " + " — ".join(parts)
+    # Иконку (🔴/⚠️) добавляет UI, здесь — чистый заголовок.
+    headline = f"{country_ru}: " + " — ".join(parts)
 
     text = rule.get("note", "")
     if trip_days and days:
