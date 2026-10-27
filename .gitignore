@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Runtime-данные (БД, логи, пид-файлы, снимок календаря VK Workspace) — НЕ коммитим
+/data/
+
+# Окружение и системное
+.env
+.env.*
+.DS_Store
+
+# IDE
+.idea/
+.vscode/

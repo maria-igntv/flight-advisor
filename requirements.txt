@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+httpx
+selectolax
+fast-flights
+typing-extensions
+certifi
+streamlit
+pandas
+anthropic
