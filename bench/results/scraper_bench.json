@@ -1,0 +1,251 @@
+{
+ "meta": {
+  "started_at": "2026-10-27T17:42:44",
+  "routes": 10,
+  "where": "российский IP (локальный прогон)"
+ },
+ "summary": {
+  "httpx": {
+   "requests": 10,
+   "errors": 0,
+   "flights_page_pct": 100.0,
+   "priced_pct": 90.0,
+   "latency_p50": 0.86,
+   "latency_max": 1.37
+  },
+  "curl": {
+   "requests": 10,
+   "errors": 0,
+   "flights_page_pct": 100.0,
+   "priced_pct": 90.0,
+   "latency_p50": 9.62,
+   "latency_max": 14.2
+  },
+  "cache": {
+   "hits": 9,
+   "latency_p50_ms": 19.2
+  }
+ },
+ "rows": [
+  {
+   "route": "MOW->IST",
+   "date": "2026-12-15",
+   "httpx": {
+    "latency": 1.14,
+    "kind": "flights",
+    "offers": 5,
+    "priced": 5,
+    "min_price": 19455
+   },
+   "curl": {
+    "latency": 1.13,
+    "kind": "flights",
+    "offers": 5,
+    "priced": 5,
+    "min_price": 19455
+   },
+   "cache": {
+    "latency": 0.0192,
+    "hit": true
+   }
+  },
+  {
+   "route": "MOW->TYO",
+   "date": "2027-03-20",
+   "curl": {
+    "latency": 14.2,
+    "kind": "flights",
+    "offers": 9,
+    "priced": 7,
+    "min_price": 42771
+   },
+   "httpx": {
+    "latency": 0.67,
+    "kind": "flights",
+    "offers": 9,
+    "priced": 7,
+    "min_price": 42771
+   },
+   "cache": {
+    "latency": 0.0182,
+    "hit": true
+   }
+  },
+  {
+   "route": "MOW->DXB",
+   "date": "2027-01-10",
+   "httpx": {
+    "latency": 0.99,
+    "kind": "flights",
+    "offers": 7,
+    "priced": 7,
+    "min_price": 30419
+   },
+   "curl": {
+    "latency": 10.56,
+    "kind": "flights",
+    "offers": 7,
+    "priced": 7,
+    "min_price": 30419
+   },
+   "cache": {
+    "latency": 0.0185,
+    "hit": true
+   }
+  },
+  {
+   "route": "LED->AER",
+   "date": "2027-01-03",
+   "curl": {
+    "latency": 10.22,
+    "kind": "flights",
+    "offers": 3,
+    "priced": 1,
+    "min_price": 119610
+   },
+   "httpx": {
+    "latency": 0.6,
+    "kind": "flights",
+    "offers": 3,
+    "priced": 1,
+    "min_price": 119610
+   },
+   "cache": {
+    "latency": 0.0203,
+    "hit": true
+   }
+  },
+  {
+   "route": "MOW->BKK",
+   "date": "2027-02-05",
+   "httpx": {
+    "latency": 1.28,
+    "kind": "flights",
+    "offers": 7,
+    "priced": 6,
+    "min_price": 35444
+   },
+   "curl": {
+    "latency": 0.92,
+    "kind": "flights",
+    "offers": 7,
+    "priced": 6,
+    "min_price": 35444
+   },
+   "cache": {
+    "latency": 0.1005,
+    "hit": true
+   }
+  },
+  {
+   "route": "MOW->EVN",
+   "date": "2026-11-13",
+   "curl": {
+    "latency": 6.69,
+    "kind": "flights",
+    "offers": 2,
+    "priced": 2,
+    "min_price": 48453
+   },
+   "httpx": {
+    "latency": 0.74,
+    "kind": "flights",
+    "offers": 2,
+    "priced": 2,
+    "min_price": 48453
+   },
+   "cache": {
+    "latency": 0.0399,
+    "hit": true
+   }
+  },
+  {
+   "route": "MOW->LON",
+   "date": "2026-11-24",
+   "httpx": {
+    "latency": 1.01,
+    "kind": "flights",
+    "offers": 9,
+    "priced": 9,
+    "min_price": 21384
+   },
+   "curl": {
+    "latency": 12.97,
+    "kind": "flights",
+    "offers": 9,
+    "priced": 9,
+    "min_price": 21384
+   },
+   "cache": {
+    "latency": 0.0188,
+    "hit": true
+   }
+  },
+  {
+   "route": "MOW->BAX",
+   "date": "2026-11-30",
+   "curl": {
+    "latency": 6.86,
+    "kind": "flights",
+    "offers": 1,
+    "priced": 0,
+    "min_price": null
+   },
+   "httpx": {
+    "latency": 0.65,
+    "kind": "flights",
+    "offers": 1,
+    "priced": 0,
+    "min_price": null
+   },
+   "cache": {
+    "latency": 1.2696,
+    "hit": false
+   }
+  },
+  {
+   "route": "KZN->SVX",
+   "date": "2026-11-14",
+   "httpx": {
+    "latency": 1.37,
+    "kind": "flights",
+    "offers": 4,
+    "priced": 2,
+    "min_price": 97715
+   },
+   "curl": {
+    "latency": 11.6,
+    "kind": "flights",
+    "offers": 4,
+    "priced": 2,
+    "min_price": 97715
+   },
+   "cache": {
+    "latency": 0.0205,
+    "hit": true
+   }
+  },
+  {
+   "route": "MOW->PAR",
+   "date": "2027-05-01",
+   "curl": {
+    "latency": 9.01,
+    "kind": "flights",
+    "offers": 5,
+    "priced": 5,
+    "min_price": 32353
+   },
+   "httpx": {
+    "latency": 0.67,
+    "kind": "flights",
+    "offers": 5,
+    "priced": 5,
+    "min_price": 32353
+   },
+   "cache": {
+    "latency": 0.0185,
+    "hit": true
+   }
+  }
+ ]
+}

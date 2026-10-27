@@ -3,7 +3,7 @@
 Использует боевые промпты и описание инструмента из chat_engine; Google
 Flights не вызывается (результат search_prices подставляется из кейса).
 
-Запуск из корня проекта (ключи — в окружении или в .env):
+Запуск из корня проекта (ключи — в .streamlit/secrets.toml, .env или окружении):
     .venv/bin/python -m bench.run_llm_bench
     .venv/bin/python -m bench.run_llm_bench --providers anthropic,yandex:yandexgpt-lite/latest --repeats 3
 
@@ -365,7 +365,8 @@ def main() -> None:
             continue
         providers.append(p)
     if not providers:
-        sys.exit("Нет доступных провайдеров — задайте ключи в окружении или .env")
+        sys.exit("Нет доступных провайдеров — задайте ключи в .streamlit/secrets.toml "
+                 "(образец: .streamlit/secrets.toml.example)")
 
     jobs = [(p, t, c) for p in providers for _ in range(args.repeats)
             for t, cases in tasks for c in cases]

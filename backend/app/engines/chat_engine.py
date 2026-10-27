@@ -10,19 +10,20 @@
 from __future__ import annotations
 
 import json
-import os
 from datetime import date as _date, timedelta as _timedelta
 
 from anthropic import Anthropic
 
+from .. import settings
 from . import yandex_gpt
 
 _ANTHROPIC_TOKEN = "ANTHROPIC" + "_AUTH_TOKEN"
 _MISSING_LLM = (
-    "LLM не настроен. Веб-версия использует YandexGPT: в Secrets приложения "
-    "Streamlit Cloud укажите YANDEX_GPT_API_KEY (API-ключ сервисного аккаунта "
-    "Yandex Cloud) и YANDEX_GPT_FOLDER_ID (идентификатор каталога). "
-    "Локальный запуск использует ANTHROPIC_BASE_URL и ANTHROPIC_AUTH_TOKEN."
+    "LLM не настроен. Веб-версия: Streamlit Cloud → Manage app → Settings → "
+    "Secrets → YANDEX_GPT_API_KEY и YANDEX_GPT_FOLDER_ID. Локально: те же ключи "
+    "или ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN в файле "
+    "flight-advisor/.streamlit/secrets.toml (образец — secrets.toml.example). "
+    "Подробно — раздел «Как включить AI-помощника» в README."
 )
 
 SYSTEM_PROMPT = """\
@@ -47,16 +48,19 @@ SYSTEM_PROMPT = """\
 
 
 def _anthropic_ready() -> bool:
-    return bool(os.environ.get("ANTHROPIC_BASE_URL") and os.environ.get(_ANTHROPIC_TOKEN))
+    return bool(settings.get("ANTHROPIC_BASE_URL") and settings.get(_ANTHROPIC_TOKEN))
 
 
 def provider() -> str | None:
-    """anthropic, yandex или None, если ключей нет."""
-    if _anthropic_ready():
-        return "anthropic"
-    if yandex_gpt.ready():
-        return "yandex"
-    return None
+    """anthropic, yandex или None, если ключей нет.
+
+    LLM_PROVIDER=anthropic|yandex принудительно выбирает провайдера, если у
+    него есть ключи; иначе — Anthropic, если задан, затем YandexGPT."""
+    ready = {"anthropic": _anthropic_ready(), "yandex": yandex_gpt.ready()}
+    forced = settings.get("LLM_PROVIDER").lower()
+    if ready.get(forced):
+        return forced
+    return next((name for name, ok in ready.items() if ok), None)
 
 
 def configuration_error() -> str | None:
@@ -66,15 +70,15 @@ def configuration_error() -> str | None:
 
 
 def _client() -> Anthropic:
-    base_url = os.environ.get("ANTHROPIC_BASE_URL")
-    api_key = os.environ.get(_ANTHROPIC_TOKEN)
+    base_url = settings.get("ANTHROPIC_BASE_URL")
+    api_key = settings.get(_ANTHROPIC_TOKEN)
     if not base_url or not api_key:
         raise RuntimeError(_MISSING_LLM)
     return Anthropic(base_url=base_url, api_key=api_key)
 
 
 def _model() -> str:
-    return os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
+    return settings.get("ANTHROPIC_MODEL") or "claude-sonnet-5"
 
 
 def build_context(last_result: dict | None) -> str:

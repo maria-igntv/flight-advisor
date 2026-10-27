@@ -1,7 +1,20 @@
 # HANDOFF — Flight Ticket Advisor
 
-> Документ передачи контекста для продолжения работы другой моделью/агентом.
-> Актуально на 2026-10-24. Проект: `/Users/maria.ignatova/flight-advisor/`.
+> **Что это за файл.** Проект написан вайбкодингом: код писали ИИ-агенты
+> (Claude Code, затем Cursor), человек ставил задачи и принимал этапы.
+> У агента нет памяти между сессиями, поэтому после каждого этапа агент
+> дописывает сюда: что сделано, какие решения приняты и почему, какие
+> «гочи» найдены и что осталось. Новая сессия (или новый разработчик)
+> начинает с чтения этого файла — это «бортовой журнал» проекта.
+> README — витрина для людей; HANDOFF — рабочая память для агентов.
+>
+> Актуально на 2026-10-27. Пути ниже — относительно корня репозитория
+> (у автора локально: `~/flight-advisor/`). Старые абсолютные пути вида
+> `/Users/maria.ignatova/...` относятся к Mac автора.
+>
+> **Быстрый статус:** этапы 0–4 и фикс-раунды №1–10 выполнены (см. §4).
+> Открыто: метрики LLM-бенчмарка (нужны ключи), проверка цен на Streamlit
+> Cloud после деплоя (диагностика встроена), Travelpayouts, CatBoost.
 
 ---
 
@@ -209,6 +222,23 @@ fast-flights 3.1.0, httpx, selectolax, fastapi 0.162.0, uvicorn, streamlit 1.66.
 - **Багфикс app.py (~стр. 817)**: `(...).get("segments", [{}])[0]` падал IndexError при `segments: []` (default применяется только к отсутствующему ключу) → `(... .get("segments") or [{}])[0]`.
 - Проверено: py_compile ✓; unit-сценарии visa_engine (GB норма/190 дн., TR 61>60 дн., Армения безлимит, РФ/None, one-way=1 дн.) ✓; AppTest-интеграция MOW→LON one-way 24.11.2026 — min у dep_end = 2026-11-24, ⚠️ «Великобритания … нужна ли виза» в warnings, метрики цен (21 373 ₽ live), 0 исключений ✓; 🔴-ветка — инъекцией session_state (Турция 61 дн.) ✓.
 
+### Фикшн-раунд №9 (2026-10-27, PR #1, Cursor Agent): YandexGPT для веб-версии
+- **Проблема**: на Streamlit Cloud нет `ANTHROPIC_*` — корпоративный гейтвей `ai-proxy.vk.team` из облака недоступен в принципе (внутренняя сеть), а прямой Anthropic API не оплачивается российской картой.
+- **`backend/app/engines/yandex_gpt.py`**: клиент Yandex Cloud Foundation Models (`llm.api.cloud.yandex.net/foundationModels/v1/completion`, заголовок `Api-Key`), function calling (`tools` → `toolCallList`/`toolResultList`), фолбэк на ответ без инструментов при 400/422 (модель без tool-use), `complete_text()` для саммари.
+- **`chat_engine`**: `provider()` → anthropic | yandex | None; `_ask_yandex()` — тот же агентный цикл до 3 раундов с `search_prices`; `configuration_error()` — текст-подсказка для UI вместо падения.
+
+### Фикшн-раунд №10 (2026-10-27, Cursor): веб-версия, FastAPI, бенчмарки, документация
+- **`AttributeError: chat_engine.configuration_error` на streamlit.app** — причина: Streamlit перезапускает скрипт и следит только за папкой главного файла (`frontend/`); после `git pull` облака `app.py` новый, а модули `backend/` остаются старыми в `sys.modules`. Фикс: `_reload_changed_backend()` в начале `frontend/app.py` — если у любого модуля `backend.*` изменился mtime (или нет метки `_loaded_mtime` — загружен прежней версией app.py), весь backend перезагружается дважды (второй проход перевязывает `from x import f`). Проверено AppTest-ом с искусственно «устаревшим» модулем.
+- **«Не удалось получить цены» только на streamlit.app**: серверы Streamlit Cloud в США/ЕС; Google отдаёт им страницу согласия (consent.google.com) или капчу вместо выдачи. `tools/gf.py`: cookies `CONSENT`/`SOCS`, заголовок `Accept-Language`, `page_kind()` (flights/consent/captcha/empty/unknown), повтор через curl, если httpx получил не выдачу, `LAST_FETCH` — диагностика последнего запроса (выводится в UI под предупреждением и в `/api/diag`), опциональный прокси `GF_PROXY`. **Не проверено из облака** — после деплоя смотреть строку «🔧 Диагностика источника»; если `captcha` — нужен `GF_PROXY` (RU-прокси) или Travelpayouts.
+- **`backend/app/engines/advisor.py`**: `analyze()` — единый конвейер (цены → регион/виза → новости → занятость → динамика → вердикт) для UI и API; `forecast_for()` — прогноз для API. UI больше не дублирует конвейер.
+- **FastAPI** (`backend/app/main.py`, v0.2.0) догнан до UI: `/api/recommend` (round-trip, пассажиры, валидация, вердикт, прогноз, виза, новости, busy, диагностика источника при пустом ответе), `/api/calendar`, `/api/news/{dest}`, `/api/visa/{dest}`, `/api/busy`, `/api/chat`, `/api/diag`. Проверено TestClient-ом на живом MOW→IST (59 866 ₽ за двоих туда-обратно, BUY, 4 сигнала, 51 точка прогноза; 422 на кривой запрос; 503 на чат без ключей).
+- **`backend/app/settings.py`**: `get(name)` — env, затем `st.secrets` (работает и вне Streamlit, читает `.streamlit/secrets.toml` из текущей папки). Через него читаются ВСЕ ключи (Anthropic, YandexGPT, `GF_PROXY`, `LLM_PROVIDER`). Шаблон — `.streamlit/secrets.toml.example`.
+- **`LLM_PROVIDER`** = anthropic|yandex — принудительный выбор провайдера (по умолчанию Anthropic, если задан).
+- **Удалён** `tools/wiki.py` (нигде не вызывался — задел под «Информацию о городе»).
+- **Бенчмарки** (`bench/`): `run_llm_bench.py` + `cases.py` — 44 синтетических кейса (20 tool-call, 10 no-tool, 8 grounding, 6 digest) на боевых промптах, Google не вызывается; `run_scraper_bench.py` — httpx vs curl vs кэш на 10 маршрутах. Результаты: `bench/results/*.json|md`. Скрейпер (RU-IP): httpx p50 0.86 с vs curl 9.6 с, выдача 100%, цены 90% (MOW→BAX — без цен у перевозчика), кэш 19 мс. **LLM-бенчмарк ещё не прогнан — нет ключей.**
+- **Окружение агента**: Linux, Python 3.11 (код совместим с 3.11–3.13). pip зависал из-за пустого `PIP_INDEX_URL` и extra-index NVIDIA в глобальном конфиге → ставить `uv pip install --python .venv/bin/python --index-url https://pypi.org/simple -r requirements.txt`. Гоча: `pkill -f`/`pgrep -f` с шаблоном из той же команды убивает собственную оболочку — убивать по PID.
+- **README.md** и **docs/presentation.html** (интерактивная презентация) созданы.
+
 ---
 
 ## 5. Ключевые технические детали (важно для продолжения)
@@ -226,6 +256,8 @@ fast-flights 3.1.0, httpx, selectolax, fastapi 0.162.0, uvicorn, streamlit 1.66.
 - **curl** — работает стабильно.
 - Python `urllib`/SSL — нужен `certifi` (уже установлен); при `CERTIFICATE_VERIFY_FAILED` ставить `SSL_CERT_FILE=certifi.where()`.
 - **Установка pip-пакетов идёт крайне медленно / зависает** (сеть нестабильна). `fastapi uvicorn streamlit pandas` в итоге установились (проверено: импортируются), но процесс pip-установки завершался с ошибкой выхода — при будущих доустановках быть готовым к повторам/долгим таймаутам.
+- **Замер 2026-10-27 (Linux, RU-IP, `bench/run_scraper_bench.py`)**: httpx p50 0.86 с, curl p50 9.6 с, оба 0 ошибок на 10 маршрутах → порядок «httpx, затем curl» верный; на Mac автора httpx был флаки, поэтому fallback оставлен.
+- **Облако (Streamlit Cloud, США/ЕС)**: без cookies `CONSENT`/`SOCS` Google отдаёт страницу согласия; при блокировке IP — капчу (нужен `GF_PROXY`).
 
 ### 5.3. Холодный старт (ключевой продуктовый нюанс)
 Собственной истории цен ещё нет (копится месяцами). Поэтому в Этап 1 **CatBoost-прогноз НЕ делаем** — вместо него:
@@ -237,66 +269,48 @@ fast-flights 3.1.0, httpx, selectolax, fastapi 0.162.0, uvicorn, streamlit 1.66.
 
 ---
 
-## 6. Блокеры / открытые пункты
+## 6. Блокеры / открытые пункты (на 2026-10-27)
 
-1. ~~Установка зависимостей (fastapi/uvicorn/streamlit/pandas) не завершена~~ — **разрешено**: пакеты установлены и импортируются (fastapi 0.162.0, streamlit 1.66.1, pandas 3.1.0).
-2. **fast-flights неофициальный** — может сломаться при изменении HTML Google. Fallback: Travelpayouts (бесплатная регистрация) или прямой скрейпинг.
-3. **Холодный старт истории** — прогноз CatBoost невозможен без накопленных данных. Решение: `price_insights` Google Flights (отдельный XHR, пока НЕ реализован) или Travelpayouts, или поллер накопления.
-4. **VK Workspace MCP** доступен только внутри Claude Code; для отдельного web-процесса — VKWS API напрямую или MCP-сервер как subprocess (актуально для Этапа 4).
-5. **GDELT rate-limit** (1 запрос / 5 сек) — поллеры должны кэшировать (Этап 3).
-6. **Нет внешнего интернета у следующей модели** (если применимо): скрейперу и поллерам нужен доступ к google.com/travel, gdelt, RSS. Если сети нет — весь price/news-функционал будет недоступен; тогда можно работать только над структурой/UI на моках.
+1. **Цены на Streamlit Cloud** — фикс consent + диагностика задеплоены, результат из облака не проверен. Если «🔧 Диагностика источника» = `captcha` → `GF_PROXY` в Secrets (RU-прокси) или Travelpayouts.
+2. **LLM-бенчмарк без цифр** — харнесс готов (`bench/run_llm_bench.py`), нужны ключи обоих провайдеров в `.streamlit/secrets.toml`; результаты → `bench/results/llm_bench.{json,md}`, презентация подхватит JSON сама.
+3. **Ключи YandexGPT на Streamlit Cloud** — без `YANDEX_GPT_API_KEY`/`YANDEX_GPT_FOLDER_ID` в Secrets чат показывает подсказку (не падает). Инструкция — README, «Как включить AI-помощника».
+4. **fast-flights неофициальный / разметка Google** — парсер на позиционных индексах; при поломке — `bench/run_scraper_bench.py` покажет `kind=unknown`. Fallback: Travelpayouts (ждём токен).
+5. **Холодный старт истории** — CatBoost невозможен, пока поллер не накопит данные; прогноз — эвристическая кривая, помечена как демо.
+6. **VK Workspace MCP** доступен только внутри Claude Code → календарь = закоммиченный снапшот `data/calendar_busy.json` (названия встреч публичны — автор в курсе).
+7. **Тестов как набора нет** — проверки делались AppTest/TestClient-скриптами в сессиях; кандидат на `tests/`.
 
 ---
 
-## 7. Что осталось сделать (детально)
+## 7. Что дальше (бэклог по приоритету)
 
-### Этап 1 (завершить текущий)
-1. Доустановить зависимости: `.venv/bin/pip install fastapi uvicorn streamlit pandas` (из `~/flight-advisor`). Проверить импорт.
-2. Проверить `price_engine` напрямую:
-   ```bash
-   cd ~/flight-advisor
-   .venv/bin/python -c "import sys; sys.path.insert(0,'.'); from datetime import date; from backend.app.engines.price_engine import recommend; r=recommend('MOW','TYO', date(2027,3,20), date(2027,3,22)); print(r['cheapest_date']); print(len(r['calendar']))"
-   ```
-   (диапазон 2–3 дня, чтобы не долбить Google; 7 дней ≈ 15 сек).
-3. Запустить Streamlit: `.venv/bin/streamlit run frontend/app.py` → `http://localhost:8501`. Проверить: форма, график цены по датам, карточка «самая низкая цена на [дата]», оговорка про неполный прогноз, кэш при повторном запуске (не перекачивает).
-4. Проверить FastAPI (опционально): `.venv/bin/uvicorn backend.app.main:app --port 8000` → `POST /api/recommend {origin:"MOW",dest:"TYO",dep_start:"2027-03-20",dep_end:"2027-03-26"}`.
-
-**Критерий завершения Этапа 1:** пользователь видит на `localhost:8501` календарь цен + рекомендацию; повторный запрос идёт из кэша.
-
-### Этап 2 — alerts_engine — ✅ сделан (см. «Этап 3» выше, вместе с orchestrator)
-
-### Этап 3 — news_engine — ✅ сделан досрочно в Этапе 2 (Guardian+TASS, см. выше)
-Осталось возможное развитие: GDELT 2.0 (CAMEO/Goldstein) как доп. источник; сейчас не используется (таймаут из этой сети).
-
-### Этап 4 — calendar_engine (VK Workspace)
-- `calendar-find-free-slots` (MCP) → busyness → свободные окна.
-- Для web-процесса — VKWS API или MCP-сервер как subprocess.
-
-### Этап 5 — orchestrator (weighted score) — ✅ сделан (см. «Этап 3» выше)
-Валидация выполнена: юнит-тесты 7 сценариев + AppTest сквозного сабмита.
-
-### Этап 6 — чат (LLM) + полировка UI
-- Чат: вопрос текстом → LLM-парсинг в структуру → тот же `/api/recommend`.
-- LLM через ANTHROPIC-гейтвей или Ollama.
-- Dashboard (отслеживаемые маршруты, алерты).
+1. Проверить облако после деплоя: цены (диагностика), чат (ключи YandexGPT).
+2. Прогнать `python -m bench.run_llm_bench` с ключами, закоммитить `bench/results/`, обновить выводы в README.
+3. Travelpayouts как второй источник цен (РФ-направления, облако без прокси).
+4. `tests/` из AppTest/TestClient-сценариев этой сессии (поиск, чат без ключей, «устаревший модуль», FastAPI).
+5. CatBoost по накопленным снапшотам поллера (фичи: дни до вылета, день недели, маршрут, сезон) — заменит эвристику в `forecast_engine`.
+6. Вкладка «Информация о городе» (удалённый `wiki.py` есть в истории git, коммит `8653f5a`).
 
 ---
 
 ## 8. Как продолжить (первые команды)
 
 ```bash
-cd ~/flight-advisor
-# 1. зависимости УЖЕ установлены (fastapi/uvicorn/streamlit/pandas) — пропустить
-# 2. проверить движок
-.venv/bin/python -c "import sys; sys.path.insert(0,'.'); from datetime import date; from backend.app.engines.price_engine import recommend; print(recommend('MOW','TYO', date(2027,3,20), date(2027,3,21))['cheapest_date'])"
-# 3. запустить UI
-.venv/bin/streamlit run frontend/app.py
+cd flight-advisor                      # корень репозитория
+python3 -m venv .venv
+uv pip install --python .venv/bin/python --index-url https://pypi.org/simple -r requirements.txt
+cp .streamlit/secrets.toml.example .streamlit/secrets.toml   # и заполнить ключи
+.venv/bin/streamlit run frontend/app.py --server.headless true   # UI: http://localhost:8501
+.venv/bin/uvicorn backend.app.main:app --port 8000              # API: http://localhost:8000/docs
+.venv/bin/python -m bench.run_scraper_bench                     # источник цен
+.venv/bin/python -m bench.run_llm_bench                         # LLM (нужны ключи)
 ```
 
 ---
 
 ## 9. Важные детали окружения
 
-- Внутренний гейтвей LLM (для фазы 6): `ANTHROPIC_BASE_URL=https://ai-proxy.vk.team`, `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_MODEL` (значения НЕ раскрывать, только проверять наличие).
-- Память (авто-память Claude): `/Users/maria.ignatova/.claude/projects/-Users-maria-ignatova/memory/MEMORY.md` — есть заметки про SSH к VM пользователя, YT-таблицы, Jupyter и др. (к данному проекту почти не относятся, кроме: «не спрашивать разрешение на чтения», «Jupyter kernel python3 сломан — использовать py313»).
-- Полная стенограмма прошлой сессии: `/Users/maria.ignatova/.claude/projects/-Users-maria-ignatova/5e5d52e5-755d-4663-b846-014b796801e6.jsonl`.
+- Секреты читаются через `backend/app/settings.py`: переменные окружения, затем `.streamlit/secrets.toml` (локально) / Secrets (Streamlit Cloud). Значения ключей в логах/коммитах НЕ раскрывать — проверять только наличие.
+- Внутренний гейтвей LLM автора: `ANTHROPIC_BASE_URL=https://ai-proxy.vk.team` (доступен только из корпоративной сети).
+- Веб-версия: https://flight-advisor-budget-finder.streamlit.app/ (деплой из `main`, главный файл `frontend/app.py`).
+- Память/стенограммы Claude Code у автора: `~/.claude/projects/-Users-maria-ignatova/` (на Mac автора).
+

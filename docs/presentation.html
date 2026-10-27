@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flight Ticket Advisor — презентация</title>
+<style>
+:root{
+  --bg:#0f172a; --panel:#111c33; --card:#16233f; --line:#26385f;
+  --text:#e6ecf7; --muted:#9fb0cf; --accent:#38bdf8; --accent2:#a78bfa;
+  --buy:#22c55e; --wait:#f59e0b; --watch:#60a5fa; --careful:#f97316; --bad:#ef4444;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
+  font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent)}
+code{background:#0b1426;border:1px solid var(--line);border-radius:4px;padding:0 .3em;font-size:.9em}
+.deck{position:relative;height:100%;overflow:hidden}
+.slide{position:absolute;inset:0;padding:56px 7vw 90px;overflow:auto;opacity:0;pointer-events:none;
+  transform:translateX(30px);transition:opacity .35s,transform .35s}
+.slide.active{opacity:1;pointer-events:auto;transform:none}
+h1{font-size:clamp(2rem,4.5vw,3.4rem);margin:.2em 0;line-height:1.1}
+h2{font-size:clamp(1.5rem,3vw,2.2rem);margin:0 0 .6em}
+h3{margin:.2em 0 .4em}
+.kicker{color:var(--accent);text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;font-weight:700}
+.muted{color:var(--muted)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:700;border:1px solid var(--line)}
+.p-tested{background:#3b1d1d;color:#fca5a5}.p-rej{background:#2a2340;color:#c4b5fd}
+.p-later{background:#1e3a2f;color:#86efac}.p-used{background:#0c3346;color:#7dd3fc}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.big{font-size:2.4rem;font-weight:800;line-height:1}
+.nav{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;
+  padding:12px 7vw;background:linear-gradient(transparent,rgba(15,23,42,.95) 40%)}
+.nav button{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:10px;
+  padding:8px 14px;cursor:pointer;font-size:1rem}
+.nav button:hover{border-color:var(--accent)}
+.progress{flex:1;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}
+.count{color:var(--muted);font-variant-numeric:tabular-nums;min-width:60px;text-align:right}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.toc button{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 12px;cursor:pointer}
+.toc button:hover{color:var(--text);border-color:var(--accent)}
+/* architecture */
+.arch{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
+@media (max-width:900px){.arch{grid-template-columns:1fr}}
+svg text{fill:var(--text);font-size:12px;font-family:inherit}
+.node rect{fill:var(--card);stroke:var(--line);stroke-width:1.5;rx:10;cursor:pointer;transition:all .2s}
+.node:hover rect,.node.sel rect{stroke:var(--accent);fill:#1b2d52}
+.node.llm rect{stroke:var(--accent2)}
+.edge{stroke:#3b5283;stroke-width:1.5;fill:none;marker-end:url(#arr)}
+.edge.hl{stroke:var(--accent);stroke-width:2.5}
+/* decisions */
+.dec{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--card);overflow:hidden}
+.dec summary{cursor:pointer;padding:14px 18px;font-weight:700;list-style:none;display:flex;gap:12px;align-items:center}
+.dec summary::-webkit-details-marker{display:none}
+.dec .num{background:var(--accent);color:#04111f;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;flex:none}
+.dec[open] summary{border-bottom:1px solid var(--line)}
+.dec .body{padding:12px 18px 16px;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.dec .body div b{display:block;color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+/* simulator */
+.ctrl{display:grid;gap:14px}
+.ctrl label{display:grid;gap:4px;font-size:.95rem}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{background:var(--card);color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer}
+.seg button.on{color:#04111f;background:var(--accent);border-color:var(--accent);font-weight:700}
+.verdict{border-radius:14px;padding:18px 20px;border:2px solid}
+.v-BUY{border-color:var(--buy);background:#0f2a1b}.v-WAIT{border-color:var(--wait);background:#2b2110}
+.v-WATCH{border-color:var(--watch);background:#10213b}
+.sig{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.sig .tag{flex:none;font-size:.75rem;font-weight:800;padding:2px 8px;border-radius:6px;height:fit-content}
+.t-buy{background:var(--buy);color:#04140a}.t-wait{background:var(--wait);color:#1f1300}
+.t-neutral{background:#334155;color:#e2e8f0}.t-careful{background:var(--careful);color:#1f0d00}
+/* bars */
+.bar{display:grid;grid-template-columns:150px 1fr 70px;gap:10px;align-items:center;margin:6px 0;font-size:.92rem}
+.bar .track{height:16px;background:#0b1426;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.bar .fill{height:100%;border-radius:8px;transition:width .8s}
+/* timeline */
+.tl{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px}
+.tl button{flex:none;background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.88rem}
+.tl button.on{border-color:var(--accent);color:var(--text);background:#1b2d52}
+.loop{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.loop span{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;transition:all .3s}
+.loop span.on{border-color:var(--accent);background:#1b2d52;box-shadow:0 0 0 3px rgba(56,189,248,.2)}
+.loop em{color:var(--muted);font-style:normal}
+.steps{counter-reset:s;display:grid;gap:10px}
+.step{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.step input{width:22px;height:22px;accent-color:var(--buy);margin-top:3px}
+.step.done .txt{opacity:.55;text-decoration:line-through}
+pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;font-size:.85rem}
+.warn{border-left:4px solid var(--wait);background:#2b2110;padding:10px 14px;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide" data-title="Старт">
+  <div class="kicker">Вайбкодинг-проект · октябрь 2026</div>
+  <h1>✈️ Flight Ticket Advisor</h1>
+  <p style="font-size:1.3rem;max-width:820px">Когда покупать авиабилет, чтобы заплатить меньше: реальные цены Google Flights,
+    объяснимый вердикт <b style="color:var(--buy)">BUY</b> / <b style="color:var(--wait)">WAIT</b> / <b style="color:var(--watch)">WATCH</b>,
+    прогноз до вылета, новости, визы, календарь и AI-помощник.</p>
+  <div class="grid g3" style="max-width:900px;margin-top:24px">
+    <div class="card"><div class="big">4 + 10</div><div class="muted">этапов и фикс-раундов за 4 дня</div></div>
+    <div class="card"><div class="big">~4,7k</div><div class="muted">строк Python, написанных ИИ-агентами</div></div>
+    <div class="card"><div class="big">0,86 с</div><div class="muted">p50 запроса к Google (кэш — 19 мс)</div></div>
+  </div>
+  <p class="muted" style="margin-top:28px">← → или пробел — листать · <a href="https://flight-advisor-budget-finder.streamlit.app/">веб-версия</a> ·
+    <a href="https://github.com/maria-igntv/flight-advisor">репозиторий</a></p>
+  <div class="toc" id="toc"></div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-title="Задача">
+  <div class="kicker">Проблема</div>
+  <h2>«Вчера 100 000 ₽, сегодня 102 000 ₽. Покупать или ждать?»</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Целевой сценарий</h3>
+      <p>Октябрь 2026. Москва → Токио на сезон сакуры (вылет 20–26 марта 2027).
+      Агрегаторы показывают цену <i>сейчас</i>, но не говорят, <b>когда</b> она будет минимальной.</p></div>
+    <div class="card"><h3>Что отвечает платформа</h3>
+      <ul>
+        <li>календарь min-цен по датам вылета (туда / туда-обратно, любой состав пассажиров);</li>
+        <li>вердикт с <b>объяснением каждого сигнала</b>;</li>
+        <li>прогноз цены от сегодня до вылета: окно минимума и пик;</li>
+        <li>риски: новости региона, визовый лимит, встречи в календаре;</li>
+        <li>AI-помощник, который сам ищет цены по вопросу текстом.</li>
+      </ul></div>
+  </div>
+  <p class="warn" style="margin-top:18px">Принцип: <b>ядро — числа и правила, LLM — только интерфейс.</b> LLM не знает сегодняшних цен и может их выдумать.</p>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-title="Архитектура">
+  <div class="kicker">Архитектура · кликните на блок</div>
+  <h2>Модульный монолит: движки + общий конвейер + два входа</h2>
+  <div class="arch">
+    <svg viewBox="0 0 640 420" id="archsvg" role="img" aria-label="Схема архитектуры">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#3b5283"/></marker></defs>
+      <g id="edges"></g><g id="nodes"></g>
+    </svg>
+    <div class="card" id="archinfo"><h3>Выберите блок</h3><p class="muted">Покажу, что он делает, почему он такой и как связан с остальными.</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-title="Почему так">
+  <div class="kicker">Осознанный выбор архитектуры</div>
+  <h2>Почему монолит — и что ещё пробовали</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Аргументы</h3>
+      <ul>
+        <li><b>Объём и команда:</b> 1 человек + ИИ-агент, сжатые сроки. Микросервисам и агентным фреймворкам некому служить.</li>
+        <li><b>Деплой:</b> Streamlit Cloud = один Python-процесс без внешних БД → SQLite и модули работают «как есть».</li>
+        <li><b>Объяснимость:</b> каждый движок отдаёт сигнал с текстом, оркестратор — прозрачная сумма.</li>
+        <li><b>Заменяемость:</b> движки общаются словарями — скрейпер → Travelpayouts, эвристика → CatBoost, SQLite → Postgres без правки UI.</li>
+      </ul></div>
+    <div class="card"><h3>Рассмотрено / протестировано</h3>
+      <table id="alts"></table></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-title="7 решений">
+  <div class="kicker">Ключевые решения · раскройте карточку</div>
+  <h2>7 решений и их обоснование</h2>
+  <div id="decisions"></div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-title="Симулятор вердикта">
+  <div class="kicker">Интерактив · та же логика, что в orchestrator.py</div>
+  <h2>Как рождается вердикт BUY / WAIT / WATCH</h2>
+  <div class="grid g2">
+    <div class="card ctrl">
+      <label>📅 Насколько минимум диапазона ниже средней: <b id="discv">5%</b>
+        <input type="range" id="disc" min="0" max="20" value="5"></label>
+      <label>Дат с ценой в диапазоне: <b id="ndv">7</b>
+        <input type="range" id="nd" min="1" max="18" value="7"></label>
+      <div><div style="margin-bottom:4px">📈 Динамика цены (последняя vs медиана истории)</div>
+        <div class="seg" id="dyn"><button data-v="растёт">растёт</button><button data-v="стабильно" class="on">стабильно</button>
+          <button data-v="падает">падает</button><button data-v="collecting">мало данных</button></div></div>
+      <div><div style="margin-bottom:4px">📰 Новости региона</div>
+        <div class="seg" id="news"><button data-v="ok" class="on">спокойно</button><button data-v="warning">тревожные события</button></div></div>
+      <div><div style="margin-bottom:4px">🗓 Встречи в день вылета</div>
+        <div class="seg" id="busy"><button data-v="0" class="on">нет</button><button data-v="1">есть</button></div></div>
+    </div>
+    <div>
+      <div class="verdict" id="verdict"></div>
+      <div class="card" style="margin-top:12px" id="signals"></div>
+      <p class="muted" style="font-size:.88rem">Скор: buy = +1, wait = −1, neutral/careful = 0. «careful» не меняет скор, но добавляет ⚠️. Порог «заметно дешевле» — 3% (<code>CHEAP_DISCOUNT_PCT</code>).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-title="Прогноз">
+  <div class="kicker">Интерактив · та же кривая, что в forecast_engine.py</div>
+  <h2>Прогноз цены от сегодня до вылета</h2>
+  <div class="grid g2">
+    <div class="card ctrl">
+      <label>Дней до вылета: <b id="dbdv">150</b><input type="range" id="dbd" min="5" max="330" value="150"></label>
+      <label>Текущая цена (якорь, реальная цена Google): <b id="ancv">60 000 ₽</b><input type="range" id="anc" min="5000" max="200000" step="1000" value="60000"></label>
+      <div><div style="margin-bottom:4px">Новости региона</div>
+        <div class="seg" id="frisk"><button data-v="0" class="on">спокойно</button><button data-v="1">тревожные → коридор шире вверх</button></div></div>
+      <p id="fsum" style="margin:0"></p>
+      <p class="muted" style="font-size:.88rem;margin:0">Почему не CatBoost: Google не отдаёт историю цен, поллер копит её с 24.10.2026 — учить не на чем.
+        Кривая бронирования нормирована на сегодняшнюю реальную цену → работает для любого маршрута; в UI помечена как демо.</p>
+    </div>
+    <div class="card"><svg id="fchart" viewBox="0 0 560 320" style="width:100%"></svg></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-title="Два LLM">
+  <div class="kicker">LLM-провайдеры</div>
+  <h2>Anthropic локально, YandexGPT в вебе — почему</h2>
+  <table>
+    <tr><th>Критерий</th><th>Anthropic (гейтвей <code>ai-proxy.vk.team</code>)</th><th>YandexGPT (Foundation Models)</th></tr>
+    <tr><td>Доступ из Streamlit Cloud (США/ЕС)</td><td>❌ только корпоративная сеть</td><td>✅ публичный API по ключу</td></tr>
+    <tr><td>Доступ с ноутбука автора</td><td>✅ уже настроен (Claude Code)</td><td>✅ при наличии ключа</td></tr>
+    <tr><td>Оплата</td><td>за счёт компании; прямой api.anthropic.com — не оплатить картой РФ</td><td>рубли, стартовый грант</td></tr>
+    <tr><td>Function calling для <code>search_prices</code></td><td>✅ нативный tool-use</td><td>✅ tools (откат на текст, если модель не умеет)</td></tr>
+    <tr><td>Сильная сторона</td><td>многошаговый tool-use, интерпретация дат («на Рождество»)</td><td>русский язык, данные в РФ-облаке</td></tr>
+  </table>
+  <p style="margin-top:16px"><b>Вывод:</b> выбор определяет <b>доступность</b>, а не вкус. Код общий (<code>chat_engine</code>), переключение — настройка <code>LLM_PROVIDER</code>.
+    Гипотезу «Anthropic сильнее в tool-use» проверяет бенчмарк на синтетике (следующий слайд).</p>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-title="Метрики">
+  <div class="kicker">Метрики</div>
+  <h2>Что измерено</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Источник цен: httpx vs curl <span class="pill p-used">измерено</span></h3>
+      <p class="muted" style="margin-top:0">10 маршрутов, 27.10.2026, российский IP · <code>bench/run_scraper_bench.py</code></p>
+      <div id="scraperbars"></div>
+      <p style="font-size:.92rem">Выдача получена в 100% запросов, цены — в 90% (MOW→BAX: перевозчик не отдаёт цены в Google). Кэш SQLite: <b>19 мс</b>.
+        Вывод: httpx — основной путь, curl — страховка от SSL-сбоев.</p></div>
+    <div class="card"><h3>LLM на синтетике <span class="pill" id="llmstatus">…</span></h3>
+      <p class="muted" style="margin-top:0">44 кейса на боевом промпте: 20 tool-call, 10 «без поиска», 8 опора на данные, 6 саммари новостей · <code>bench/run_llm_bench.py</code></p>
+      <div id="llmbench"></div></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="Вайбкодинг: процесс">
+  <div class="kicker">Как делали</div>
+  <h2>Вайбкодинг: человек — продакт, ИИ-агент — разработчик</h2>
+  <div class="card"><h3>Цикл одного этапа</h3>
+    <div class="loop" id="loop"></div>
+    <p class="muted" style="margin-bottom:0">Подсвечивается по кругу. Самопроверка агента — py_compile, юнит-сценарии, Streamlit AppTest, живой запрос к Google — до показа человеку.</p></div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><h3>1. Строго поэтапно</h3><p>После этапа — стоп, демо, валидация. Следующий этап — только после «ок».</p></div>
+    <div class="card"><h3>2. Честность в UI</h3><p>Синтетика помечена; «нет цен» ≠ «источник не отдаёт цены».</p></div>
+    <div class="card"><h3>3. Объяснимость</h3><p>Каждый вердикт — со списком сигналов и текстом.</p></div>
+    <div class="card"><h3>4. Память в файле</h3><p><code>HANDOFF.md</code> — журнал для агента без памяти; смена Claude Code → Cursor без потери контекста.</p></div>
+    <div class="card"><h3>5. Секреты не светим</h3><p>Агент проверяет только наличие ключей, значения не печатает.</p></div>
+    <div class="card"><h3>Главный урок</h3><p>Дорогие ошибки агента — в допущениях об окружении: «облако видит гейтвей», «Streamlit перечитает модули».</p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="Хронология">
+  <div class="kicker">Хронология · выберите этап</div>
+  <h2>От «достать цену» до веб-версии</h2>
+  <div class="tl" id="tl"></div>
+  <div class="grid g2" style="margin-top:12px">
+    <div class="card"><h3 id="tlt"></h3><p id="tld"></p></div>
+    <div class="card"><h3>Фидбек → решение</h3><p id="tlf"></p></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="Включить чат">
+  <div class="kicker">Инструкция · отмечайте шаги</div>
+  <h2>Как включить AI-помощника</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Веб-версия (YandexGPT)</h3><div class="steps" id="stepsWeb"></div></div>
+    <div class="card"><h3>Локально (Anthropic или YandexGPT)</h3><div class="steps" id="stepsLocal"></div>
+<pre># &lt;корень репозитория&gt;/.streamlit/secrets.toml
+ANTHROPIC_BASE_URL = "https://ai-proxy.vk.team"
+ANTHROPIC_AUTH_TOKEN = "..."
+ANTHROPIC_MODEL = "claude-sonnet-5"
+# или
+YANDEX_GPT_API_KEY = "AQVN..."
+YANDEX_GPT_FOLDER_ID = "b1g..."</pre></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="Итоги">
+  <div class="kicker">Итоги</div>
+  <h2>Что получилось и что дальше</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Есть</h3><ul>
+      <li>реальные цены, кэш, история снапшотов, поллер;</li>
+      <li>объяснимый вердикт из 4 сигналов, прогноз до вылета;</li>
+      <li>новости, визы, календарь; AI-помощник с tool-use на двух провайдерах;</li>
+      <li>Streamlit + FastAPI на общем конвейере; бенчмарки; журнал разработки.</li></ul></div>
+    <div class="card"><h3>Дальше</h3><ol>
+      <li>прогнать LLM-бенчмарк с ключами и закрепить выбор цифрами;</li>
+      <li>Travelpayouts — второй источник цен (РФ-направления, облако);</li>
+      <li>тесты из сценариев AppTest/TestClient;</li>
+      <li>CatBoost по накопленной истории вместо эвристики.</li></ol></div>
+  </div>
+  <p style="margin-top:20px"><a href="https://github.com/maria-igntv/flight-advisor#readme">README</a> ·
+    <a href="https://github.com/maria-igntv/flight-advisor/blob/main/HANDOFF.md">HANDOFF.md</a> ·
+    <a href="https://flight-advisor-budget-finder.streamlit.app/">веб-версия</a></p>
+</section>
+
+</div>
+
+<div class="nav">
+  <button id="prev" aria-label="Назад">←</button>
+  <button id="next" aria-label="Вперёд">→</button>
+  <div class="progress"><i id="bar"></i></div>
+  <span class="count" id="count"></span>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const fmt = n => Math.round(n).toLocaleString('ru-RU');
+
+/* ---------- навигация ---------- */
+const slides = $$('.slide');
+let cur = 0;
+function go(i) {
+  cur = Math.max(0, Math.min(slides.length - 1, i));
+  slides.forEach((s, k) => s.classList.toggle('active', k === cur));
+  $('#bar').style.width = `${(cur + 1) / slides.length * 100}%`;
+  $('#count').textContent = `${cur + 1} / ${slides.length}`;
+  history.replaceState(null, '', `#${cur + 1}`);
+}
+$('#prev').onclick = () => go(cur - 1);
+$('#next').onclick = () => go(cur + 1);
+document.addEventListener('keydown', e => {
+  if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+});
+slides.forEach((s, k) => {
+  if (k === 0) return;
+  const b = document.createElement('button');
+  b.textContent = s.dataset.title; b.onclick = () => go(k);
+  $('#toc').appendChild(b);
+});
+
+/* ---------- архитектура ---------- */
+const NODES = {
+  ui:   {x: 20,  y: 40,  w: 130, t: 'Streamlit UI', d: 'frontend/app.py — форма поиска, вердикт, прогноз, календарь, чат. Для людей. Перезагружает изменённые модули backend/ (иначе облако держит старый код).', why: 'Формы, графики и чат за десятки строк; бесплатный хостинг Streamlit Cloud.'},
+  api:  {x: 20,  y: 120, w: 130, t: 'FastAPI', d: 'backend/app/main.py — /api/recommend, /calendar, /news, /visa, /busy, /chat, /diag. Для интеграций, документация на /docs.', why: 'pydantic-валидация и автодокументация; тот же конвейер, что у UI.'},
+  adv:  {x: 200, y: 80,  w: 130, t: 'advisor.analyze', d: 'Единый конвейер: цены → регион/виза → новости → занятость → динамика → вердикт.', why: 'Раньше конвейер жил в app.py, и API отстал на несколько этапов. Общая функция убирает этот класс ошибок.'},
+  pe:   {x: 380, y: 10,  w: 120, t: 'price_engine', d: 'Календарь min-цен по датам, кэш снапшотов, fallback USD → курс ЦБ.', why: 'Кэш: 19 мс против ~1 с на дату; изоляция ключа по пассажирам/валюте/round-trip.'},
+  or:   {x: 380, y: 80,  w: 120, t: 'orchestrator', d: 'Вердикт BUY/WAIT/WATCH из 4 сигналов, каждый с текстом.', why: 'Детерминированно, тестируемо (7 юнит-сценариев), объяснимо.'},
+  ne:   {x: 380, y: 150, w: 120, t: 'news · visa · cal', d: 'news_engine (Guardian + ТАСС → risk), visa_engine (справочник для граждан РФ), calendar_engine (снапшот VK Workspace).', why: 'Публичные источники без ключей и OAuth — веб-версия работает без авторизации.'},
+  fe:   {x: 200, y: 240, w: 130, t: 'forecast_engine', d: 'Кривая цены от сегодня до вылета с коридором неопределённости.', why: 'Нет истории для ML → эвристика с якорем на реальной цене, помечена как демо.'},
+  ch:   {x: 200, y: 320, w: 130, t: 'chat_engine', d: 'AI-помощник: агентный цикл до 3 раундов с инструментом search_prices.', why: 'LLM — интерфейс к тем же движкам, цифры берутся из реального поиска.'},
+  llm:  {x: 370, y: 320, w: 165, t: 'Anthropic / YandexGPT', d: 'Провайдер выбирается по наличию ключей или LLM_PROVIDER.', why: 'Облако не видит корпоративный гейтвей → YandexGPT в вебе.', llm: true},
+  gf:   {x: 540, y: 10,  w: 90,  t: 'gf.py', d: 'Скрейпер Google Flights: URL через fast_flights, httpx → curl, cookies согласия, диагностика consent/captcha.', why: 'Бесплатный источник без ключа с полной выдачей; httpx p50 0,86 с.'},
+  db:   {x: 540, y: 90,  w: 90,  t: 'SQLite', d: 'Снапшоты цен (+ синтетика с пометкой), кэш новостей и курсов.', why: 'Встроенная БД — ничего не нужно разворачивать в облаке.'},
+  poll: {x: 540, y: 170, w: 90,  t: 'поллер', d: 'scripts/poll_prices.py — каждые 4 часа опрашивает отслеживаемые маршруты.', why: 'История цен — путь к будущему CatBoost.'},
+};
+const EDGES = [['ui','adv'],['api','adv'],['adv','pe'],['adv','or'],['adv','ne'],['ui','fe'],['ui','ch'],['ch','llm'],['ch','pe'],['pe','gf'],['pe','db'],['poll','db']];
+const H = 40;
+function drawArch() {
+  const eg = $('#edges'), ng = $('#nodes');
+  EDGES.forEach(([a, b]) => {
+    const A = NODES[a], B = NODES[b];
+    const x1 = A.x + A.w, y1 = A.y + H / 2, x2 = B.x, y2 = B.y + H / 2;
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const [sx, sy, ex, ey] = x2 > x1 ? [x1, y1, x2, y2] : [A.x + A.w / 2, A.y + H, B.x + B.w / 2, B.y];
+    const mx = (sx + ex) / 2;
+    p.setAttribute('d', x2 > x1 ? `M${sx},${sy} C${mx},${sy} ${mx},${ey} ${ex},${ey}` : `M${sx},${sy} L${ex},${ey}`);
+    p.setAttribute('class', 'edge'); p.dataset.a = a; p.dataset.b = b;
+    eg.appendChild(p);
+  });
+  Object.entries(NODES).forEach(([id, n]) => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'node' + (n.llm ? ' llm' : '')); g.dataset.id = id;
+    g.innerHTML = `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${H}" rx="10"></rect>
+      <text x="${n.x + n.w / 2}" y="${n.y + H / 2 + 4}" text-anchor="middle">${n.t}</text>`;
+    g.onclick = () => selectNode(id);
+    ng.appendChild(g);
+  });
+}
+function selectNode(id) {
+  const n = NODES[id];
+  $$('.node').forEach(g => g.classList.toggle('sel', g.dataset.id === id));
+  const links = [];
+  $$('.edge').forEach(p => {
+    const on = p.dataset.a === id || p.dataset.b === id;
+    p.classList.toggle('hl', on);
+    if (on) links.push(NODES[p.dataset.a === id ? p.dataset.b : p.dataset.a].t);
+  });
+  $('#archinfo').innerHTML = `<h3>${n.t}</h3><p>${n.d}</p><p><b>Почему так:</b> ${n.why}</p>
+    <p class="muted">Связан с: ${links.join(', ')}</p>`;
+}
+drawArch();
+
+/* ---------- альтернативы ---------- */
+const ALTS = [
+  ['LangGraph / CrewAI', 'p-rej', 'отвергнут', 'ядро — числа и правила; агентный граф добавил бы недетерминизм'],
+  ['React + отдельный API', 'p-rej', 'отвергнут', 'Streamlit в разы быстрее для MVP и защиты'],
+  ['Flask (шаблон botify)', 'p-rej', 'образец', 'FastAPI — pydantic и /docs'],
+  ['fast_flights целиком', 'p-tested', 'не работает', 'HTTP-клиент primp падал на DNS; оставлена сборка URL'],
+  ['GDELT 2.0, BBC RSS', 'p-tested', 'не работает', 'таймауты из сети, лимит 1 запрос/5 с'],
+  ['Google Calendar OAuth', 'p-tested', 'сделан и удалён', 'неудобно в облаке; корпоративный календарь — VK Workspace'],
+  ['VK Workspace MCP из веба', 'p-tested', 'невозможно', 'MCP живёт только в Claude Code → снапшот'],
+  ['Postgres + Redis', 'p-later', 'позже', 'SQLite хватает: кэш 19 мс'],
+  ['CatBoost', 'p-later', 'позже', 'нет истории цен — поллер копит'],
+];
+$('#alts').innerHTML = '<tr><th>Вариант</th><th>Статус</th><th>Почему</th></tr>' +
+  ALTS.map(([a, c, s, w]) => `<tr><td>${a}</td><td><span class="pill ${c}">${s}</span></td><td>${w}</td></tr>`).join('');
+
+/* ---------- решения ---------- */
+const DEC = [
+  ['Ядро — правила и числа, LLM только интерфейс', 'Вердикт считает детерминированный оркестратор из 4 сигналов; LLM — чат и саммари.',
+   'LLM не знает сегодняшних цен; правила воспроизводимы, тестируемы (7 сценариев) и объяснимы.', '«Спросить GPT, когда покупать» — непроверяемо.'],
+  ['Свой скрейпер Google Flights', 'URL через fast_flights, страница — httpx, при сбое или странице согласия — curl; парсинг AF_initDataCallback.',
+   'Единственный бесплатный источник без ключа с полной выдачей. Замер: httpx 0,86 с vs curl 9,6 с, 0 ошибок.', 'Travelpayouts (токен, кэш-цены), Amadeus/Skyscanner (платно/партнёрка).'],
+  ['SQLite-кэш с изоляцией ключа + поллер', 'Снапшот на ключ «маршрут × дата × возврат × пассажиры × валюта», TTL 24 ч; поллер раз в 4 ч.',
+   '19 мс вместо ~1 с на дату, меньше риск бана; история — путь к ML. Изоляция — после реальных багов смешения валют и пассажиров.', 'Без кэша: минута на диапазон и бан.'],
+  ['Прогноз — эвристика с якорем, не CatBoost', 'Типовая кривая бронирования нормирована на текущую реальную цену + коридор.',
+   'Истории нет (Google её не отдаёт, поллер — с 24.10.2026). Якорь делает прогноз применимым к любому маршруту; помечен как демо.', 'CatBoost — когда накопится история (замена одной функции).'],
+  ['Модульный монолит + общий конвейер', 'advisor.analyze() вызывают и Streamlit, и FastAPI.',
+   'API отставал от UI на несколько этапов, пока конвейер жил в app.py. Один процесс — под Streamlit Cloud.', 'Микросервисы — инфраструктура без выгоды.'],
+  ['Два LLM: Anthropic локально, YandexGPT в вебе', 'Общий агентный цикл, выбор по ключам или LLM_PROVIDER.',
+   'Решает доступность: облако не видит корпоративный гейтвей; YandexGPT — публичный API с оплатой в рублях.', 'Один провайдер: либо нет облака, либо хуже локально.'],
+  ['Без ключей и OAuth: снапшот календаря, справочник виз, RSS', 'Календарь — JSON в репозитории, визы — JSON-справочник, новости — RSS.',
+   'Веб должен работать без авторизации пользователя. Цена: снапшот устаревает, названия встреч публичны (автор в курсе).', 'Google OAuth — сделан и удалён; MCP — недоступен веб-процессу.'],
+];
+$('#decisions').innerHTML = DEC.map(([t, s, w, a], i) => `<details class="dec"${i === 0 ? ' open' : ''}>
+  <summary><span class="num">${i + 1}</span>${t}</summary>
+  <div class="body"><div><b>Решение</b>${s}</div><div><b>Почему</b>${w}</div><div><b>Альтернатива</b>${a}</div></div></details>`).join('');
+
+/* ---------- симулятор вердикта (порт orchestrator.verdict) ---------- */
+const seg = id => { const el = $('#' + id); el.onclick = e => { if (e.target.tagName !== 'BUTTON') return;
+  $$('button', el).forEach(b => b.classList.toggle('on', b === e.target)); render(); }; };
+const segv = id => $(`#${id} button.on`).dataset.v;
+['dyn', 'news', 'busy', 'frisk'].forEach(seg);
+function verdict() {
+  const disc = +$('#disc').value, nd = +$('#nd').value, dyn = segv('dyn'), news = segv('news'), busy = segv('busy') === '1';
+  $('#discv').textContent = disc + '%'; $('#ndv').textContent = nd;
+  const S = [];
+  if (nd > 1 && disc >= 3) S.push(['📅 Календарь цен', `минимум на ${disc}% ниже средней по диапазону`, 'buy']);
+  else S.push(['📅 Календарь цен', nd > 1 ? `цены близки, разброс ${disc}%` : 'единственная дата с ценой', 'neutral']);
+  const dmap = {'растёт': 'buy', 'падает': 'wait', 'стабильно': 'neutral', 'collecting': 'neutral'};
+  S.push(['📈 Динамика цены', dyn === 'collecting' ? 'мало измерений — собираем историю' : `цена ${dyn} относительно медианы`, dmap[dyn]]);
+  S.push(['📰 Новости региона', news === 'warning' ? 'опасные события — возможны колебания цен и расписания' : 'опасных событий не обнаружено', news === 'warning' ? 'careful' : 'neutral']);
+  S.push(['🗓 Ваш календарь', busy ? 'в день вылета есть встречи' : 'занятых встреч нет', busy ? 'careful' : 'neutral']);
+  const score = S.reduce((a, s) => a + (s[2] === 'buy' ? 1 : s[2] === 'wait' ? -1 : 0), 0);
+  const careful = S.some(s => s[2] === 'careful');
+  let sig, title, text;
+  if (score > 0) [sig, title, text] = ['BUY', 'Покупайте сейчас', 'Цена заметно ниже соседних дат и/или растёт; дальше ждать обычно дороже.'];
+  else if (score < 0) [sig, title, text] = ['WAIT', 'Можно подождать — цена снижается', 'Цена падает относительно истории: покупка ближе к минимуму может быть выгоднее.'];
+  else [sig, title, text] = ['WATCH', 'Ситуация нейтральная — следим', 'Сильных сигналов «покупать срочно» или «ждать» нет.'];
+  if (careful) text += ' ⚠️ Есть предупреждения — см. сигналы.';
+  const conf = dyn !== 'collecting' ? 'средняя' : 'низкая';
+  $('#verdict').className = 'verdict v-' + sig;
+  $('#verdict').innerHTML = `<div class="kicker" style="color:inherit">${sig} · скор ${score > 0 ? '+' : ''}${score} · уверенность ${conf}</div><h3>${title}</h3><p style="margin:0">${text}</p>`;
+  $('#signals').innerHTML = S.map(([n, v, i]) => `<div class="sig"><span class="tag t-${i}">${i}</span><div><b>${n}</b><br><span class="muted">${v}</span></div></div>`).join('');
+}
+
+/* ---------- прогноз (порт demo_history._dbd_multiplier + forecast_curve) ---------- */
+function mult(d) {
+  if (d > 240) return 1.0;
+  if (d >= 90) return 0.92;
+  if (d >= 30) return 0.92 + 0.20 * (90 - d) / 60;
+  if (d >= 14) return 1.12 + 0.25 * (30 - d) / 16;
+  return 1.37 + 0.35 * (14 - d) / 13;
+}
+function forecast() {
+  const N = +$('#dbd').value, A = +$('#anc').value, risk = segv('frisk') === '1';
+  $('#dbdv').textContent = N; $('#ancv').textContent = fmt(A) + ' ₽';
+  const k0 = mult(N), pts = [];
+  for (let i = 0; i <= N; i++) {
+    const p = A * mult(N - i) / k0, u = 0.02 + 0.0025 * i;
+    pts.push({i, p, lo: p * (1 - u * (risk ? 1.25 : 1)), hi: p * (1 + u * (risk ? 2 : 1))});
+  }
+  const W = 560, Hh = 320, L = 60, R = 15, T = 15, B = 35;
+  const ymax = Math.max(...pts.map(p => p.hi)) * 1.03, ymin = Math.min(...pts.map(p => p.lo)) * 0.97;
+  const X = i => L + (W - L - R) * i / N, Y = v => T + (Hh - T - B) * (1 - (v - ymin) / (ymax - ymin));
+  const line = k => pts.map((p, j) => `${j ? 'L' : 'M'}${X(p.i).toFixed(1)},${Y(p[k]).toFixed(1)}`).join('');
+  const band = line('hi') + pts.slice().reverse().map(p => `L${X(p.i).toFixed(1)},${Y(p.lo).toFixed(1)}`).join('') + 'Z';
+  const pmin = pts.reduce((a, b) => b.p < a.p ? b : a), pmax = pts.reduce((a, b) => b.p > a.p ? b : a);
+  const plateau = pts.filter(p => p.p <= pmin.p * 1.005);
+  const day = i => { const d = new Date(); d.setDate(d.getDate() + i); return d.toLocaleDateString('ru-RU', {day: '2-digit', month: '2-digit'}); };
+  let grid = '';
+  for (let g = 0; g <= 4; g++) { const v = ymin + (ymax - ymin) * g / 4;
+    grid += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="#26385f"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end" style="font-size:11px;fill:#9fb0cf">${fmt(v / 1000)}k</text>`; }
+  $('#fchart').innerHTML = grid +
+    `<path d="${band}" fill="${risk ? 'rgba(249,115,22,.18)' : 'rgba(148,163,184,.18)'}"/>` +
+    `<rect x="${X(plateau[0].i)}" y="${T}" width="${Math.max(2, X(plateau[plateau.length - 1].i) - X(plateau[0].i))}" height="${Hh - T - B}" fill="rgba(34,197,94,.10)"/>` +
+    `<path d="${line('p')}" stroke="#38bdf8" stroke-width="2.5" fill="none"/>` +
+    `<circle cx="${X(pmin.i)}" cy="${Y(pmin.p)}" r="5" fill="#22c55e"/><circle cx="${X(pmax.i)}" cy="${Y(pmax.p)}" r="5" fill="#ef4444"/>` +
+    `<text x="${L}" y="${Hh - 10}" style="font-size:11px;fill:#9fb0cf">сегодня</text><text x="${W - R}" y="${Hh - 10}" text-anchor="end" style="font-size:11px;fill:#9fb0cf">вылет (через ${N} дн.)</text>`;
+  const minTxt = plateau.length > 3 ? `в окне ${day(plateau[0].i)} – ${day(plateau[plateau.length - 1].i)}` : (pmin.i === 0 ? 'сейчас — покупать сразу' : day(pmin.i));
+  $('#fsum').innerHTML = `🔻 Минимум ≈ <b>${fmt(pmin.p)} ₽</b> ${minTxt}<br>🔺 Максимум ≈ <b>${fmt(pmax.p)} ₽</b> к ${day(pmax.i)} (+${Math.round((pmax.p / A - 1) * 100)}% к текущей)` +
+    (risk ? '<br>⚠️ Тревожные события — цена может уйти выше полосы.' : '');
+}
+function render() { verdict(); forecast(); }
+['disc', 'nd', 'dbd', 'anc'].forEach(id => $('#' + id).addEventListener('input', render));
+render();
+
+/* ---------- метрики ---------- */
+function bars(el, rows, max, unit, color) {
+  el.innerHTML = rows.map(([n, v]) => v == null ? `<div class="bar"><span>${n}</span><span class="muted">нет данных</span><span></span></div>` :
+    `<div class="bar"><span>${n}</span><div class="track"><div class="fill" style="width:0;background:${color}" data-w="${Math.min(100, v / max * 100)}"></div></div><span>${v}${unit}</span></div>`).join('');
+  requestAnimationFrame(() => $$('.fill', el).forEach(f => f.style.width = f.dataset.w + '%'));
+}
+const SCRAPER = {httpx: {p50: 0.86, max: 1.37}, curl: {p50: 9.62, max: 14.2}};
+bars($('#scraperbars'), [['httpx · p50', SCRAPER.httpx.p50], ['httpx · max', SCRAPER.httpx.max], ['curl · p50', SCRAPER.curl.p50], ['curl · max', SCRAPER.curl.max]], 15, ' с', 'linear-gradient(90deg,#38bdf8,#a78bfa)');
+
+const LLM_ROWS = [['Маршрутизация F1', s => s.routing.f1], ['Аргументы: всё верно', s => s.tool_args_exact], ['Без лишнего поиска', s => s.no_tool_correct],
+  ['Опора на данные', s => s.grounding], ['Саммари новостей', s => s.digest], ['Итого', s => s.overall]];
+fetch('../bench/results/llm_bench.json').then(r => r.ok ? r.json() : Promise.reject()).then(j => {
+  $('#llmstatus').textContent = 'измерено'; $('#llmstatus').className = 'pill p-used';
+  const colors = ['#38bdf8', '#a78bfa', '#22c55e', '#f59e0b'];
+  $('#llmbench').innerHTML = `<p class="muted">Прогон ${j.meta.started_at}, повторов: ${j.meta.repeats}</p>` +
+    Object.entries(j.summary).map(([name, s], k) => `<h4 style="margin:10px 0 4px;color:${colors[k % 4]}">${name}</h4><div id="llm${k}"></div>
+      <p class="muted" style="margin:2px 0 8px;font-size:.88rem">латентность p50/p95: ${s.latency_p50}/${s.latency_p95} с · токены ${s.tokens_in_mean}/${s.tokens_out_mean} · ошибок ${s.errors}</p>`).join('');
+  Object.values(j.summary).forEach((s, k) => bars($('#llm' + k), LLM_ROWS.map(([n, f]) => [n, f(s)]), 100, '%', colors[k % 4]));
+}).catch(() => {
+  $('#llmstatus').textContent = 'ещё не прогнан'; $('#llmstatus').className = 'pill p-later';
+  $('#llmbench').innerHTML = `<p class="warn">Цифр пока нет: в окружении разработки не было ключей провайдеров, а выдумывать метрики мы не стали.
+    После <code>python -m bench.run_llm_bench</code> и коммита <code>bench/results/llm_bench.json</code> этот блок построит графики сам.</p>
+    <table><tr><th>Задача</th><th>Кейсов</th><th>Метрика</th></tr>
+    <tr><td>Вызов search_prices + аргументы</td><td>20</td><td>все поля верны, F1 маршрутизации</td></tr>
+    <tr><td>Общие вопросы без поиска</td><td>10</td><td>precision вызова</td></tr>
+    <tr><td>Опора на результат поиска</td><td>8</td><td>цена + дата, без выдуманных чисел</td></tr>
+    <tr><td>Саммари новостей</td><td>6</td><td>2–4 предложения, без маркдауна, риск отмечен</td></tr>
+    <tr><td>Эксплуатация</td><td>все</td><td>латентность p50/p95, токены, ошибки</td></tr></table>`;
+});
+
+/* ---------- вайбкодинг: цикл ---------- */
+const LOOP = ['задача + критерий', 'план агента', 'код', 'самопроверка агента', 'демо человеку', 'фидбек → фикс', 'запись в HANDOFF', 'коммит'];
+$('#loop').innerHTML = LOOP.map((s, i) => `<span>${s}</span>${i < LOOP.length - 1 ? '<em>→</em>' : '<em>↺</em>'}`).join('');
+let li = 0; setInterval(() => { $$('#loop span').forEach((s, k) => s.classList.toggle('on', k === li)); li = (li + 1) % LOOP.length; }, 1100);
+
+/* ---------- хронология ---------- */
+const TL = [
+  ['Этап 0', 'Источник данных', 'Проверили, что цены Google Flights реально достаются: MOW→TYO 20.03.2027 — 42 812 ₽ (Hainan).', 'fast_flights как библиотека не работает (primp, DNS) → свой скрейпер, библиотека только для URL.'],
+  ['Этап 1', 'MVP', 'price_engine, кэш SQLite, Streamlit, FastAPI. Кэш-хит 0,12 с.', 'Холодный старт: без истории цен CatBoost невозможен → эвристика «покупай заранее» с честной пометкой.'],
+  ['Этап 1.5', 'UI + чат + поллер', 'Дропдауны ~200 аэропортов, детали рейса, AI-чат, поллер истории каждые 4 ч.', '«Хочу видеть номер рейса» → разбор сегментов из payload Google.'],
+  ['Этап 2', 'Туда-обратно, новости', 'Round-trip, Guardian + ТАСС, risk-словарь катаклизмов и беспорядков.', '«strike» ловил военные удары → убран; «Turkish» не содержит «turkey» → словарь прилагательных.'],
+  ['Этап 3', 'Вердикт', 'alerts_engine (медиана) + orchestrator BUY/WAIT/WATCH со списком сигналов.', 'Принцип «объяснимый AI»: каждый вердикт с объяснением — и демо-материал для защиты.'],
+  ['Этап 4', 'Календарь', 'Занятость VK Workspace как 4-й сигнал «careful».', 'MCP недоступен веб-процессу → снапшот календаря в JSON.'],
+  ['Раунды 1–3', 'Пассажиры, BAX, tool-use', 'Состав пассажиров влияет на цену и ключ кэша; опциональные даты; чат сам ищет цены.', 'Модель считала текущим 2025 год и искала «Рождество 2025» → дата в системном промпте + ошибка на прошлые даты.'],
+  ['Раунды 4–5', 'Прогноз', 'Годовая демо-история, затем прогноз «сегодня → вылет».', '«Главное — когда покупать, а не ретроспектива» → прогноз вместо истории, история — в экспандер.'],
+  ['Раунды 6–8', 'Полировка и облако', 'Бегущая строка тревожных новостей, тёмная тема, валютный fallback, визы.', 'MOW→LON без цен в RUB → поиск в USD и курс ЦБ (Δ 0,06%); календарь пуст в облаке → снапшот в репозиторий.'],
+  ['Раунд 9', 'YandexGPT', 'Второй LLM-провайдер для веб-версии (Cursor Agent, PR #1).', 'Корпоративный гейтвей недоступен из Streamlit Cloud.'],
+  ['Раунд 10', 'Веб, API, метрики', 'Фикс облака, FastAPI на общем конвейере, бенчмарки, README, презентация.', 'AttributeError в облаке → перезагрузка модулей backend; «нет цен» в облаке → cookies согласия + диагностика.'],
+];
+$('#tl').innerHTML = TL.map((t, i) => `<button data-i="${i}">${t[0]}</button>`).join('');
+function tl(i) { $$('#tl button').forEach((b, k) => b.classList.toggle('on', k === i));
+  $('#tlt').textContent = `${TL[i][0]} · ${TL[i][1]}`; $('#tld').textContent = TL[i][2]; $('#tlf').textContent = TL[i][3]; }
+$('#tl').onclick = e => { if (e.target.dataset.i) tl(+e.target.dataset.i); };
+tl(0);
+
+/* ---------- инструкция ---------- */
+const WEB = [
+  'console.yandex.cloud → активный платёжный аккаунт (стартовый грант)',
+  'Каталог → скопировать его ID (b1g…) — это YANDEX_GPT_FOLDER_ID',
+  'IAM → Сервисные аккаунты → создать, роль ai.languageModels.user',
+  'Аккаунт → Создать API-ключ (yc.ai.languageModels.execute) → скопировать AQVN… — это YANDEX_GPT_API_KEY',
+  'share.streamlit.io → приложение → ⋮ → Settings → Secrets → вставить оба ключа → Save',
+  'Через минуту: страница «AI-помощник» → «Ответы генерирует YandexGPT»',
+];
+const LOCAL = [
+  'cd ~/flight-advisor && cp .streamlit/secrets.toml.example .streamlit/secrets.toml',
+  'Заполнить ANTHROPIC_* (токен гейтвея, как у Claude Code) или YANDEX_GPT_*',
+  'Если заданы оба, а нужен YandexGPT — LLM_PROVIDER = "yandex"',
+  'Перезапустить streamlit run frontend/app.py (секреты читаются при старте)',
+];
+const steps = (el, arr) => { el.innerHTML = arr.map(s => `<label class="step"><input type="checkbox"><span class="txt">${s}</span></label>`).join('');
+  el.onchange = e => e.target.closest('.step').classList.toggle('done', e.target.checked); };
+steps($('#stepsWeb'), WEB); steps($('#stepsLocal'), LOCAL);
+
+go(Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1));
+</script>
+</body>
+</html>
