@@ -4,27 +4,63 @@
 """
 from __future__ import annotations
 
+import importlib
+import os
 import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+
+def _backend_modules() -> list[tuple[object, float]]:
+    out = []
+    for name in sorted(n for n in sys.modules if n.startswith("backend.")):
+        mod = sys.modules[name]
+        path = getattr(mod, "__file__", None)
+        if path and os.path.exists(path):
+            out.append((mod, os.path.getmtime(path)))
+    return out
+
+
+def _reload_changed_backend() -> None:
+    """Streamlit следит только за папкой главного скрипта (frontend/), поэтому
+    после git pull на Streamlit Cloud модули backend/ остаются старыми в
+    sys.modules (AttributeError на новых функциях). Если изменился хоть один
+    модуль (или его загрузила прежняя версия app.py без _loaded_mtime) —
+    перезагружаем весь backend дважды: `from x import f` во втором проходе
+    связывается уже с обновлёнными модулями."""
+    mods = _backend_modules()
+    stale = [m for m, t in mods
+             if getattr(m, "_loaded_mtime", None) is None or t > m._loaded_mtime]
+    if not stale:
+        return
+    for _pass in range(2):
+        for mod, _ in mods:
+            importlib.reload(mod)
+    for mod, mtime in mods:
+        mod._loaded_mtime = mtime
+
+
+_reload_changed_backend()
+
 import altair as alt
 import pandas as pd
 import streamlit as st
 
 from backend.app import db
-from backend.app.engines import calendar_engine, chat_engine
+from backend.app.engines import chat_engine
+from backend.app.engines.advisor import analyze
 from backend.app.engines.alerts_engine import dynamics
 from backend.app.engines.demo_history import ensure_demo_history
 from backend.app.engines.forecast_engine import forecast_curve, forecast_summary
-from backend.app.engines.news_engine import get_news
-from backend.app.engines.orchestrator import verdict as make_verdict
-from backend.app.engines.price_engine import recommend
-from backend.app.engines.visa_engine import check_trip
-from backend.app.tools.airports import OTHER, load_entries, region_for
+from backend.app.tools.airports import OTHER, load_entries
+from backend.app.tools import gf
 from backend.app.tools.gf import build_search_url
+
+for _mod, _mtime in _backend_modules():
+    if getattr(_mod, "_loaded_mtime", None) is None:
+        _mod._loaded_mtime = _mtime
 
 st.set_page_config(page_title="Flight Ticket Advisor", page_icon="✈️", layout="wide")
 
@@ -364,44 +400,10 @@ if page == "🔍 Поиск цен":
         elif round_trip and ret <= (dep_end or dep_start):
             st.error("Дата возвращения должна быть позже даты вылета.")
         else:
-            dep_end_eff = dep_end or dep_start  # диапазон не указан → одна дата
-            pax_key = f"{adults}-{children}-{infants}"
-            with st.spinner("Запрашиваю Google Flights (может занять ~10–60 сек)…"):
-                res = recommend(
-                    origin_sel, dest_sel, dep_start, dep_end_eff, currency,
+            with st.spinner("Запрашиваю Google Flights и собираю новости (может занять ~10–60 сек)…"):
+                res = analyze(
+                    origin_sel, dest_sel, dep_start, dep_end, currency,
                     return_date=ret, adults=adults, children=children, infants=infants,
-                )
-            # Новости региона назначения — рядом с ценой (кэш 1 час).
-            city, country = region_for(dest_sel)
-            res["_region"] = {"city": city, "country": country}
-
-            # Правила въезда для граждан РФ: окно поездки = вылет →
-            # возвращение (или конец диапазона вылетов, или сам вылет).
-            res["_visa"] = check_trip(country, dep_start, ret or dep_end_eff)
-
-            if country:
-                try:
-                    with st.spinner("Собираю новости региона…"):
-                        res["news"] = get_news(country, city)
-                except Exception:  # noqa: BLE001 — новости не должны ломать страницу
-                    res["news"] = None
-
-            # Динамика цены + занятость календаря + итоговый вердикт (orchestrator).
-            # Занятость берём на ВСЁ окно поездки: вылет → возвращение (или конец
-            # диапазона вылетов) — предупредить и про обратный путь.
-            busy_map = None
-            if calendar_engine.has_data():
-                trip_to = ret or dep_end_eff
-                busy_map = calendar_engine.busy_dates(
-                    dep_start.isoformat(), trip_to.isoformat())
-                res["_busy"] = busy_map
-            if res.get("cheapest_date"):
-                res["dynamics"] = dynamics(
-                    origin_sel, dest_sel, res["cheapest_date"]["dep_date"],
-                    ret.isoformat() if ret else None, passengers=pax_key,
-                )
-                res["verdict"] = make_verdict(
-                    res, res.get("news"), res["dynamics"], busy=busy_map
                 )
             st.session_state["last_result"] = res
 
@@ -486,6 +488,19 @@ if page == "🔍 Поиск цен":
                     "Не удалось получить цены ни на одну дату — попробуйте позже "
                     "или другую валюту."
                 )
+                diag = gf.LAST_FETCH
+                reason = {
+                    "consent": "Google показал серверу страницу согласия на cookies вместо выдачи.",
+                    "captcha": "Google заподозрил бота (капча «unusual traffic») — сервер в облаке заблокирован.",
+                    "empty": "Google не ответил (сеть/таймаут).",
+                    "unknown": "Google вернул страницу без данных о рейсах.",
+                }.get(diag.get("kind"))
+                if reason:
+                    st.caption(
+                        f"🔧 Диагностика источника: {reason} "
+                        f"(через {diag.get('via')}, {diag.get('length', 0):,} байт"
+                        + (f", {diag['error']}" if diag.get("error") else "") + ")"
+                    )
         else:
             prices = priced_df["price"]
             m1, m2, m3, m4 = st.columns(4)

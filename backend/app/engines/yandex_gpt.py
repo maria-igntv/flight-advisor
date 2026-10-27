@@ -11,10 +11,11 @@
 from __future__ import annotations
 
 import json
-import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import httpx
+
+from .. import settings
 
 API_URL = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
 _DEFAULT_MODEL = "yandexgpt/latest"
@@ -24,21 +25,11 @@ _DEFAULT_MODEL = "yandexgpt/latest"
 class Turn:
     text: str
     tool_calls: list[dict]
+    usage: dict = field(default_factory=dict)
+    tools_dropped: bool = False
 
 
-def _setting(name: str) -> str:
-    value = os.environ.get(name, "").strip()
-    if value:
-        return value
-    try:
-        import streamlit as st
-
-        if name in st.secrets:
-            raw = st.secrets[name]
-            return str(raw).strip() if raw is not None else ""
-    except Exception:
-        return ""
-    return ""
+_setting = settings.get
 
 
 def ready() -> bool:
@@ -110,7 +101,15 @@ def _parse_turn(data: dict) -> Turn:
         if not name:
             continue
         calls.append({"name": name, "arguments": _parse_arguments(fn.get("arguments"))})
-    return Turn(text=text, tool_calls=calls)
+    usage = data["result"].get("usage") or {}
+    return Turn(
+        text=text,
+        tool_calls=calls,
+        usage={
+            "input_tokens": int(usage.get("inputTextTokens") or 0),
+            "output_tokens": int(usage.get("completionTokens") or 0),
+        },
+    )
 
 
 def complete(
@@ -118,13 +117,14 @@ def complete(
     *,
     tools: list[dict] | None = None,
     max_tokens: int = 2048,
+    model: str | None = None,
 ) -> Turn:
     """Один синхронный запрос completion. Бросает RuntimeError без ключа в тексте."""
     api_key = _setting("YANDEX_GPT_API_KEY")
     folder_id = _setting("YANDEX_GPT_FOLDER_ID")
     if not api_key or not folder_id:
         raise RuntimeError("YandexGPT: не заданы YANDEX_GPT_API_KEY и YANDEX_GPT_FOLDER_ID.")
-    model = _setting("YANDEX_GPT_MODEL") or _DEFAULT_MODEL
+    model = model or _setting("YANDEX_GPT_MODEL") or _DEFAULT_MODEL
     payload: dict = {
         "modelUri": _model_uri(folder_id, model),
         "completionOptions": {
@@ -144,7 +144,9 @@ def complete(
     if resp.status_code >= 400:
         # Модель без function calling — повторяем обычным текстом, чат остаётся живым.
         if tools and resp.status_code in (400, 422):
-            return complete(messages, tools=None, max_tokens=max_tokens)
+            turn = complete(messages, tools=None, max_tokens=max_tokens, model=model)
+            turn.tools_dropped = True
+            return turn
         raise RuntimeError(f"YandexGPT ответил {resp.status_code}: {_error_text(resp)}")
     try:
         data = resp.json()

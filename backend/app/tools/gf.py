@@ -19,11 +19,23 @@ from selectolax.lexbor import LexborHTMLParser
 
 from fast_flights import FlightQuery, Passengers, create_query
 
+from .. import settings
+
 GOOGLE_FLIGHTS_URL = "https://www.google.com/travel/flights"
 UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
 )
+# Серверы Streamlit Cloud стоят в США/ЕС: без этих cookies Google отдаёт им
+# страницу согласия (consent.google.com) вместо выдачи — цен в ней нет.
+COOKIES = {
+    "CONSENT": "PENDING+987",
+    "SOCS": "CAESHAgBEhJnd3NfMjAyMzA4MTAtMF9SQzIaAmRlIAEaBgiAo_CmBg",
+}
+HEADERS = {"User-Agent": UA, "Accept-Language": "ru-RU,ru;q=0.9,en;q=0.8"}
+
+# Диагностика последнего запроса (страница «Диагностика» в UI, /api/diag).
+LAST_FETCH: dict = {}
 
 
 def _parse_payload(html: str) -> dict:
@@ -116,28 +128,72 @@ def parse_flights(html: str) -> list[dict]:
     return flights
 
 
+def page_kind(html: str, final_url: str = "") -> str:
+    """Что вернул Google: flights / consent / captcha / empty / unknown."""
+    if not html:
+        return "empty"
+    if "consent.google" in final_url or "consent.google.com" in html[:5000]:
+        return "consent"
+    if "/sorry/" in final_url or "unusual traffic" in html or "recaptcha" in html[:20000]:
+        return "captcha"
+    if "AF_initDataCallback" in html and "ds:1" in html:
+        return "flights"
+    return "unknown"
+
+
+def _proxy() -> str | None:
+    """GF_PROXY (env или Secrets) — например, http://user:pass@host:port.
+    Нужен, если Google блокирует IP облака капчей."""
+    return settings.get("GF_PROXY") or None
+
+
+def _curl(url: str) -> tuple[str, str]:
+    cookie = "; ".join(f"{k}={v}" for k, v in COOKIES.items())
+    proxy = _proxy()
+    proc = subprocess.run(
+        ["curl", "-sL", "--max-time", "30", "-A", UA, "-b", cookie,
+         "-H", f"Accept-Language: {HEADERS['Accept-Language']}",
+         *(["-x", proxy] if proxy else []),
+         "-w", "\n__FINAL_URL__%{url_effective}", url],
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0 or not proc.stdout:
+        raise RuntimeError(f"fetch failed (curl rc={proc.returncode})")
+    body, _, final = proc.stdout.rpartition("\n__FINAL_URL__")
+    return body, final
+
+
 def _fetch_html(params: dict) -> str:
-    """Качаем страницу: httpx, иначе curl (проверено в этой среде)."""
+    """Качаем страницу: httpx, иначе (или если пришла не выдача) — curl."""
     url = f"{GOOGLE_FLIGHTS_URL}?{urlencode(params)}"
+    html, final, via, err = "", "", "httpx", None
     try:
         r = httpx.get(
             GOOGLE_FLIGHTS_URL,
             params=params,
-            headers={"User-Agent": UA},
+            headers=HEADERS,
+            cookies=COOKIES,
             timeout=20,
             follow_redirects=True,
+            proxy=_proxy(),
         )
         r.raise_for_status()
-        return r.text
-    except Exception:
-        proc = subprocess.run(
-            ["curl", "-s", "--max-time", "30", "-A", UA, url],
-            capture_output=True,
-            text=True,
-        )
-        if proc.returncode != 0 or not proc.stdout:
-            raise RuntimeError(f"fetch failed (curl rc={proc.returncode})")
-        return proc.stdout
+        html, final = r.text, str(r.url)
+    except Exception as e:  # noqa: BLE001 — сеть флаки, пробуем curl
+        err = f"httpx: {type(e).__name__}"
+    if page_kind(html, final) != "flights":
+        try:
+            html, final = _curl(url)
+            via = "curl"
+        except (RuntimeError, OSError) as e:
+            err = f"{err or ''} curl: {e}".strip()
+            if not html:
+                LAST_FETCH.update(url=url, via="none", kind="empty", length=0, error=err)
+                raise RuntimeError(err) from e
+    LAST_FETCH.update(url=url, final_url=final, via=via, kind=page_kind(html, final),
+                      length=len(html), error=err, proxy=bool(_proxy()))
+    return html
 
 
 def _pax(adults: int, children: int, infants: int) -> Passengers:

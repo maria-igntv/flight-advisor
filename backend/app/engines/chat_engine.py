@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import date as _date, datetime as _datetime, timedelta as _timedelta
+from datetime import date as _date, timedelta as _timedelta
 
 from anthropic import Anthropic
 
@@ -227,13 +227,17 @@ def _run_search(inp: dict) -> str:
     return json.dumps(out, ensure_ascii=False)
 
 
-def summarize_digest(news: dict, region: str) -> str:
-    """Короткое саммари новостного дайджеста региона на русском (2–4 фразы).
+DIGEST_SYSTEM = (
+    "Ты — редактор travel-платформы. Сделай краткое саммари новостей "
+    "региона назначения для путешественника: 2–4 предложения на русском, "
+    "по-человечески, без маркдауна и без перечисления всех заголовков. "
+    "Отметь тревожные события (⚠️), если они есть, и их возможное влияние "
+    "на поездку. Пиши только по фактам из списка, ничего не выдумывай."
+)
 
-    Вызывается при раскрытии раздела новостей на странице поиска.
-    Возвращает пустую строку, если дайджест пуст; бросает исключение
-    наверх при недоступности LLM (UI покажет только список ссылок).
-    """
+
+def digest_prompt(news: dict, region: str) -> str:
+    """User-сообщение для саммари дайджеста; пустая строка, если новостей нет."""
     digest = [d for d in (news or {}).get("digest", []) if d.get("title")]
     if not digest:
         return ""
@@ -242,29 +246,35 @@ def summarize_digest(news: dict, region: str) -> str:
         + (" ⚠️ тревожное событие" if d.get("risk") else "")
         for d in digest
     )
-    system = (
-        "Ты — редактор travel-платформы. Сделай краткое саммари новостей "
-        "региона назначения для путешественника: 2–4 предложения на русском, "
-        "по-человечески, без маркдауна и без перечисления всех заголовков. "
-        "Отметь тревожные события (⚠️), если они есть, и их возможное влияние "
-        "на поездку. Пиши только по фактам из списка, ничего не выдумывай."
-    )
-    user = f"Регион: {region}.\nНовости:\n{items}"
+    return f"Регион: {region}.\nНовости:\n{items}"
+
+
+def summarize_digest(news: dict, region: str) -> str:
+    """Короткое саммари новостного дайджеста региона на русском (2–4 фразы).
+
+    Вызывается при раскрытии раздела новостей на странице поиска.
+    Возвращает пустую строку, если дайджест пуст; бросает исключение
+    наверх при недоступности LLM (UI покажет только список ссылок).
+    """
+    user = digest_prompt(news, region)
+    if not user:
+        return ""
     if provider() == "yandex":
-        return yandex_gpt.complete_text(system, user, max_tokens=400).strip()
+        return yandex_gpt.complete_text(DIGEST_SYSTEM, user, max_tokens=400).strip()
     resp = _client().messages.create(
         model=_model(),
         max_tokens=400,
-        system=system,
+        system=DIGEST_SYSTEM,
         messages=[{"role": "user", "content": user}],
     )
     return "".join(b.text for b in resp.content if b.type == "text").strip()
 
 
-def _system_prompt(last_result: dict | None) -> str:
+def _system_prompt(last_result: dict | None, today: _date | None = None) -> str:
+    today = today or _date.today()
     return (
         f"{SYSTEM_PROMPT}\n\nСегодня: "
-        f"{_datetime.now().strftime('%d.%m.%Y')} ({_date.today().isoformat()}). "
+        f"{today.strftime('%d.%m.%Y')} ({today.isoformat()}). "
         "Все «праздники/сезоны» в вопросах пользователя относи к БУДУЩИМ датам "
         "относительно сегодняшней.\n\n"
         "Контекст последнего поиска на платформе (используй ТОЛЬКО если он "
