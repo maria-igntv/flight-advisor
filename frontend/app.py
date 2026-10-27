@@ -876,6 +876,11 @@ else:
         "слетать вдвоём в Нью-Йорк на Рождество на неделю?»). Открытый на платформе "
         "поиск используется только если он релевантен вопросу."
     )
+    cfg_error = chat_engine.configuration_error()
+    if cfg_error:
+        st.warning(cfg_error)
+    elif chat_engine.provider() == "yandex":
+        st.caption("Ответы генерирует YandexGPT.")
 
     if "chat" not in st.session_state:
         st.session_state.chat = []
