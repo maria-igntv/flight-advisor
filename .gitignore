@@ -4,13 +4,19 @@ __pycache__/
 .venv/
 venv/
 
-# Runtime-данные (БД, логи, пид-файлы, снимок календаря VK Workspace) — НЕ коммитим
-/data/
+# Runtime-данные (БД, логи, пид-файлы) — НЕ коммитим.
+# Исключение: data/calendar_busy.json — снапшот календаря VK Workspace,
+# нужен в репозитории, чтобы занятость работала на Streamlit Cloud.
+/data/*
+!/data/calendar_busy.json
 
 # Окружение и системное
 .env
 .env.*
 .DS_Store
+
+# Секреты Streamlit — НЕ коммитим
+.streamlit/secrets.toml
 
 # IDE
 .idea/

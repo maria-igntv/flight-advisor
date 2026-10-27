@@ -7,4 +7,5 @@ typing-extensions
 certifi
 streamlit
 pandas
+altair
 anthropic

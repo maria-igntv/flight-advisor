@@ -192,6 +192,14 @@ fast-flights 3.1.0, httpx, selectolax, fastapi 0.162.0, uvicorn, streamlit 1.66.
 - **Белая подложка графиков в тёмной теме**: тёмная тема — CSS-инъекция, а Vega красит графики в базовую (светлую) тему Streamlit. Хелпер `_themed_chart(charts, dark)`: `alt.layer(*charts).configure_axis(labelColor/titleColor/domainColor/tickColor=текст, gridColor).configure_legend(...).configure_view(stroke=None).configure(background="transparent")` + `st.altair_chart(..., theme=None)`. Применён ко всем трём Altair-графикам (прогноз, фолбэк-история, годовая демо-история).
 - Проверено: AppTest — моки по умолчанию = «Откуда»/«Куда»; выбор MOW в «Откуда» убирает MOW из «Куда» (214 вариантов); пустой сабмит → «Укажите аэропорты…», без даты → «Укажите дату вылета.»; полный поиск MOW→TYO 24.11/10.12 → subheader'ы только «🎯 Рекомендация» и «📈 Прогноз цены до вылета» (2 графика: прогноз + годовая история), «Сигналы вердикта» отсутствуют; чат без исключений; календарь в свежей сессии показывает мок-текст. Streamlit перезапущен (HTTP 200), поллер pid 94562 жив.
 
+### Фикшн-раунд №8a (2026-10-27, фидбек: календарь не работает на streamlit.app)
+- **Диагноз**: занятость календаря читается из снапшота `data/calendar_busy.json`, а `/data/` был в `.gitignore` → на Streamlit Cloud файла нет, календарь пуст. На localhost работает, потому что файл лежит на диске. Подключить MCP vkworkspace с облака НЕЛЬЗЯ: MCP-сервер живёт только внутри Claude Code на машине пользователя (авторизация корпоративной сессией).
+- **Удалён Google Calendar целиком** (OAuth + service account + iCal-фид): `calendar_engine.py` сведён к чтению снапшота — `has_data()`, `busy_dates(from, to)` без параметра `tokens`. Из `frontend/app.py` удалены `_gcal_*` (кнопка, сайдбар-секция, popup, OAuth-callback) и `import uuid`. Из `requirements.txt` убраны `google-api-python-client`, `google-auth`, `google-auth-oauthlib`, `icalendar`, `recurring-ical-events` (облаку меньше ставить). `.streamlit/secrets.toml.example` удалён (был целиком про Google).
+- **Снапшот в репозитории**: `.gitignore` теперь `/data/*` + `!/data/calendar_busy.json` (гоча: исключение `!file` не работает при игноре самой директории `/data/` — надо игнорировать содержимое `/data/*`, тогда отрицание применяется). Остальное содержимое data/ (БД, логи, пид-файлы) по-прежнему не коммитится.
+- ⚠️ В снапшоте видны названия рабочих встреч — они публикуются в публичном репо (пользователь в курсе, выбрал вариант «как есть»).
+- **Обновление снапшота**: MCP `calendar-list-events` (server `generic_vkworkspace-assistant`) → перезаписать `data/calendar_busy.json` → `git push`; облако передеплоится само.
+- Проверено: py_compile ✓; AppTest-смоук (0 исключений, кнопки Google нет, `busy_dates("2026-10-01","2027-12-31")` = 91 занятый день) ✓; Streamlit перезапущен из venv (pid в `data/streamlit.pid`, HTTP 200), поллер 94562 жив ✓.
+
 ---
 
 ## 5. Ключевые технические детали (важно для продолжения)

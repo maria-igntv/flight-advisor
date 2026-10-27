@@ -1,12 +1,14 @@
-"""calendar_engine — занятость календаря VK Workspace.
+"""calendar_engine — занятость календаря из снапшота VK Workspace.
 
-Web-процесс не умеет ходить в VKWS MCP (он доступен только внутри
-Claude Code), поэтому движок читает **снапшот** событий
-`data/calendar_busy.json`, выгруженный из календаря VK Workspace
-(MCP calendar-list-events; как обновлять — см. HANDOFF.md, Этап 4).
+Источник один: статический снапшот `data/calendar_busy.json`, экспортированный
+из календаря VK Workspace через MCP (calendar-list-events) и закоммиченный в
+репозиторий — поэтому работает и локально, и на Streamlit Cloud.
 
-Формат снапшота: {"events": [{"date": "YYYY-MM-DD", "time": "11:00–11:30",
-"title": "..."}, ...]} — события уже развёрнуты по датам (включая рекуррентные).
+Обновление снапшота: повторный экспорт через MCP + git push (см. HANDOFF.md).
+
+Публичный интерфейс (для frontend):
+    has_data() -> bool
+    busy_dates(from_date, to_date) -> {"YYYY-MM-DD": [{"time", "title"}, ...]}
 """
 from __future__ import annotations
 
@@ -17,7 +19,7 @@ from pathlib import Path
 _DATA = Path(__file__).resolve().parents[3] / "data" / "calendar_busy.json"
 
 
-def _load() -> list[dict]:
+def _load_snapshot() -> list[dict]:
     if not _DATA.exists():
         return []
     try:
@@ -27,8 +29,7 @@ def _load() -> list[dict]:
 
 
 def has_data() -> bool:
-    """Есть ли снапшот календаря (иначе сигнал занятости не показываем)."""
-    return bool(_load())
+    return _DATA.exists()
 
 
 def busy_dates(from_date, to_date) -> dict[str, list[dict]]:
@@ -39,11 +40,11 @@ def busy_dates(from_date, to_date) -> dict[str, list[dict]]:
     """
     lo, hi = str(from_date), str(to_date)
     out: dict[str, list[dict]] = {}
-    for ev in _load():
+    for ev in _load_snapshot():
         d = ev.get("date")
         if not d or not (lo <= d <= hi):
             continue
         out.setdefault(d, []).append(
-            {"time": ev.get("time", ""), "title": ev.get("title", "")}
+            {"time": ev.get("time", ""), "title": ev.get("title", "занято")}
         )
     return out

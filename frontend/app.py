@@ -382,7 +382,8 @@ if page == "🔍 Поиск цен":
             busy_map = None
             if calendar_engine.has_data():
                 trip_to = ret or dep_end_eff
-                busy_map = calendar_engine.busy_dates(dep_start.isoformat(), trip_to.isoformat())
+                busy_map = calendar_engine.busy_dates(
+                    dep_start.isoformat(), trip_to.isoformat())
                 res["_busy"] = busy_map
             if res.get("cheapest_date"):
                 res["dynamics"] = dynamics(
@@ -796,13 +797,13 @@ if page == "🔍 Поиск цен":
 # ---------------------------------------------------------------- страница: календарь
 
 elif page == "🗓 Календарь":
-    st.title("🗓 Календарь (VK Workspace)")
+    st.title("🗓 Календарь")
     # По умолчанию пусто: события показываются только после поиска —
     # и обновляются с каждым новым запросом (окно вылет → возвращение).
     res = st.session_state.get("last_result")
     if not res or res.get("_busy") is None:
         st.caption(
-            "События из календаря VK Workspace появятся при выборе дат — "
+            "События календаря появятся при выборе дат — "
             "выполните поиск на странице «🔍 Поиск цен»."
         )
     else:
@@ -821,9 +822,10 @@ elif page == "🗓 Календарь":
                     unsafe_allow_html=True,
                 )
             st.caption(
-                "События по снапшоту календаря VK Workspace. При поиске билетов "
-                "даты вылета с встречами помечаются в таблице дат, а "
-                "предупреждение о конфликтах показывается над результатами."
+                "События из подключённого календаря (Google Calendar или "
+                "снапшот VK Workspace). При поиске билетов даты вылета со "
+                "встречами помечаются в таблице дат, а предупреждение о "
+                "конфликтах показывается над результатами."
             )
         else:
             st.caption("Занятых встреч в этом окне нет — можно вылетать в любой день.")
