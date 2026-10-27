@@ -1,9 +1,11 @@
-"""AI-помощник: LLM через внутренний гейтвей (env ANTHROPIC_*).
-
-Универсальный travel-ассистент с tool-use: сам запускает поиск цен
+"""AI-помощник с tool-use: сам запускает поиск цен
 (инструмент search_prices -> price_engine.recommend), когда вопрос про
-конкретный маршрут/даты, и отвечает на общие вопросы своими знаниями —
-независимо от того, какой поиск открыт на платформе.
+конкретный маршрут/даты, и отвечает на общие вопросы своими знаниями.
+
+Провайдер:
+- локально — Anthropic-гейтвей (ANTHROPIC_BASE_URL и ANTHROPIC_AUTH_TOKEN);
+- веб-версия на Streamlit Cloud — YandexGPT (YANDEX_GPT_API_KEY и
+  YANDEX_GPT_FOLDER_ID в Secrets), если гейтвей не задан.
 """
 from __future__ import annotations
 
@@ -12,6 +14,16 @@ import os
 from datetime import date as _date, datetime as _datetime, timedelta as _timedelta
 
 from anthropic import Anthropic
+
+from . import yandex_gpt
+
+_ANTHROPIC_TOKEN = "ANTHROPIC" + "_AUTH_TOKEN"
+_MISSING_LLM = (
+    "LLM не настроен. Веб-версия использует YandexGPT: в Secrets приложения "
+    "Streamlit Cloud укажите YANDEX_GPT_API_KEY (API-ключ сервисного аккаунта "
+    "Yandex Cloud) и YANDEX_GPT_FOLDER_ID (идентификатор каталога). "
+    "Локальный запуск использует ANTHROPIC_BASE_URL и ANTHROPIC_AUTH_TOKEN."
+)
 
 SYSTEM_PROMPT = """\
 Ты — AI-помощник платформы Flight Ticket Advisor. Платформа показывает \
@@ -34,14 +46,30 @@ SYSTEM_PROMPT = """\
 """
 
 
+def _anthropic_ready() -> bool:
+    return bool(os.environ.get("ANTHROPIC_BASE_URL") and os.environ.get(_ANTHROPIC_TOKEN))
+
+
+def provider() -> str | None:
+    """anthropic, yandex или None, если ключей нет."""
+    if _anthropic_ready():
+        return "anthropic"
+    if yandex_gpt.ready():
+        return "yandex"
+    return None
+
+
+def configuration_error() -> str | None:
+    if provider():
+        return None
+    return _MISSING_LLM
+
+
 def _client() -> Anthropic:
     base_url = os.environ.get("ANTHROPIC_BASE_URL")
-    api_key = os.environ.get("ANTHROPIC" + "_AUTH_TOKEN")
+    api_key = os.environ.get(_ANTHROPIC_TOKEN)
     if not base_url or not api_key:
-        raise RuntimeError(
-            "LLM-гейтвей не настроен: нужны переменные окружения "
-            "ANTHROPIC_BASE_URL и ANTHROPIC_AUTH_TOKEN."
-        )
+        raise RuntimeError(_MISSING_LLM)
     return Anthropic(base_url=base_url, api_key=api_key)
 
 
@@ -214,22 +242,97 @@ def summarize_digest(news: dict, region: str) -> str:
         + (" ⚠️ тревожное событие" if d.get("risk") else "")
         for d in digest
     )
+    system = (
+        "Ты — редактор travel-платформы. Сделай краткое саммари новостей "
+        "региона назначения для путешественника: 2–4 предложения на русском, "
+        "по-человечески, без маркдауна и без перечисления всех заголовков. "
+        "Отметь тревожные события (⚠️), если они есть, и их возможное влияние "
+        "на поездку. Пиши только по фактам из списка, ничего не выдумывай."
+    )
+    user = f"Регион: {region}.\nНовости:\n{items}"
+    if provider() == "yandex":
+        return yandex_gpt.complete_text(system, user, max_tokens=400).strip()
     resp = _client().messages.create(
         model=_model(),
         max_tokens=400,
-        system=(
-            "Ты — редактор travel-платформы. Сделай краткое саммари новостей "
-            "региона назначения для путешественника: 2–4 предложения на русском, "
-            "по-человечески, без маркдауна и без перечисления всех заголовков. "
-            "Отметь тревожные события (⚠️), если они есть, и их возможное влияние "
-            "на поездку. Пиши только по фактам из списка, ничего не выдумывай."
-        ),
-        messages=[{
-            "role": "user",
-            "content": f"Регион: {region}.\nНовости:\n{items}",
-        }],
+        system=system,
+        messages=[{"role": "user", "content": user}],
     )
     return "".join(b.text for b in resp.content if b.type == "text").strip()
+
+
+def _system_prompt(last_result: dict | None) -> str:
+    return (
+        f"{SYSTEM_PROMPT}\n\nСегодня: "
+        f"{_datetime.now().strftime('%d.%m.%Y')} ({_date.today().isoformat()}). "
+        "Все «праздники/сезоны» в вопросах пользователя относи к БУДУЩИМ датам "
+        "относительно сегодняшней.\n\n"
+        "Контекст последнего поиска на платформе (используй ТОЛЬКО если он "
+        "релевантен вопросу пользователя):\n"
+        + build_context(last_result)
+    )
+
+
+def _yandex_tools() -> list[dict]:
+    return [
+        {
+            "function": {
+                "name": tool["name"],
+                "description": tool["description"],
+                "parameters": tool["input_schema"],
+            }
+        }
+        for tool in _TOOLS
+    ]
+
+
+def _execute_tool(name: str, arguments: dict) -> str:
+    if name == "search_prices":
+        try:
+            return _run_search(arguments)
+        except Exception as e:  # noqa: BLE001 — ошибку возвращаем модели
+            return f"Поиск не удался: {e}"
+    return f"Неизвестный инструмент: {name}"
+
+
+def _ask_yandex(question: str, history: list[dict], last_result: dict | None) -> str:
+    messages: list[dict] = [{"role": "system", "text": _system_prompt(last_result)}]
+    for m in history:
+        messages.append({"role": m["role"], "text": m["content"]})
+    messages.append({"role": "user", "text": question})
+    tools = _yandex_tools()
+    text = ""
+    for _round in range(_MAX_TOOL_ROUNDS + 1):
+        turn = yandex_gpt.complete(messages, tools=tools, max_tokens=2048)
+        text = turn.text
+        if not turn.tool_calls:
+            return text or "Не удалось получить ответ модели. Попробуйте переформулировать вопрос."
+        results = [
+            {"name": call["name"], "content": _execute_tool(call["name"], call["arguments"])}
+            for call in turn.tool_calls
+        ]
+        assistant: dict = {
+            "role": "assistant",
+            "toolCallList": {
+                "toolCalls": [
+                    {"functionCall": {"name": call["name"], "arguments": call["arguments"]}}
+                    for call in turn.tool_calls
+                ]
+            },
+        }
+        if turn.text:
+            assistant["text"] = turn.text
+        messages.append(assistant)
+        messages.append({
+            "role": "user",
+            "toolResultList": {
+                "toolResults": [
+                    {"functionResult": {"name": item["name"], "content": item["content"]}}
+                    for item in results
+                ]
+            },
+        })
+    return text or "Не удалось получить ответ модели. Попробуйте переформулировать вопрос."
 
 
 def ask(question: str, history: list[dict], last_result: dict | None = None) -> str:
@@ -239,16 +342,13 @@ def ask(question: str, history: list[dict], last_result: dict | None = None) -> 
     last_result: результат recommend() — контекст открытого на платформе
     поиска (используется моделью только если релевантен вопросу).
     """
+    active = provider()
+    if active is None:
+        raise RuntimeError(_MISSING_LLM)
+    if active == "yandex":
+        return _ask_yandex(question, history, last_result)
     client = _client()
-    system = (
-        f"{SYSTEM_PROMPT}\n\nСегодня: "
-        f"{_datetime.now().strftime('%d.%m.%Y')} ({_date.today().isoformat()}). "
-        "Все «праздники/сезоны» в вопросах пользователя относи к БУДУЩИМ датам "
-        "относительно сегодняшней.\n\n"
-        "Контекст последнего поиска на платформе (используй ТОЛЬКО если он "
-        "релевантен вопросу пользователя):\n"
-        + build_context(last_result)
-    )
+    system = _system_prompt(last_result)
     messages = [{"role": m["role"], "content": m["content"]} for m in history]
     messages.append({"role": "user", "content": question})
 
