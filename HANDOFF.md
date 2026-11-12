@@ -276,7 +276,7 @@ fast-flights 3.1.0, httpx, selectolax, fastapi 0.162.0, uvicorn, streamlit 1.66.
 3. **Ключи YandexGPT на Streamlit Cloud** — без `YANDEX_GPT_API_KEY`/`YANDEX_GPT_FOLDER_ID` в Secrets чат показывает подсказку (не падает). Инструкция — README, «Как включить AI-помощника».
 4. **fast-flights неофициальный / разметка Google** — парсер на позиционных индексах; при поломке — `bench/run_scraper_bench.py` покажет `kind=unknown`. Fallback: Travelpayouts (ждём токен).
 5. **Холодный старт истории** — CatBoost невозможен, пока поллер не накопит данные; прогноз — эвристическая кривая, помечена как демо.
-6. **VK Workspace MCP** доступен только внутри Claude Code → календарь = закоммиченный снапшот `data/calendar_busy.json` (названия встреч публичны — автор в курсе).
+6. **VK WorkSpace MCP** реализован через собственный CalDAV MCP-сервер (см. §10). Для живого режима нужны `VK_CALDAV_*` в Secrets; без них или при сбое остаётся закоммиченный снапшот (названия встреч публичны — автор в курсе).
 7. **Тестов как набора нет** — проверки делались AppTest/TestClient-скриптами в сессиях; кандидат на `tests/`.
 
 ---
@@ -314,3 +314,16 @@ cp .streamlit/secrets.toml.example .streamlit/secrets.toml   # и заполни
 - Веб-версия: https://flight-advisor-budget-finder.streamlit.app/ (деплой из `main`, главный файл `frontend/app.py`).
 - Память/стенограммы Claude Code у автора: `~/.claude/projects/-Users-maria-ignatova/` (на Mac автора).
 
+
+---
+
+## 10. MCP-интеграция VK WorkSpace Calendar (2026-11-12, Kimi Code)
+
+- **Осуществимость подтверждена официальной документацией VK**: календарь отдаёт ссылку CalDAV, для авторизации нужны корпоративная почта и отдельный пароль внешнего приложения: https://workspace.vk.ru/docs/saas/user-guides/ru/calendar/create-and-print.
+- **Реальная интеграция в приложении**: `backend/app/mcp/vk_calendar_server.py` предоставляет MCP tool `calendar_list_events(start, end)` поверх `caldav`; `backend/app/tools/calendar_mcp.py` вызывает его через официальный MCP Python SDK 2.3. По умолчанию stdio-подпроцесс, опционально удалённый Streamable HTTP (`CALENDAR_MCP_URL`).
+- **События**: `calendar.search(..., event=True, expand=True)` разворачивает рекуррентность; поддержаны timed/all-day/multi-day, Europe/Moscow, пропуск CANCELLED и TRANSPARENT. Ответ — Pydantic `CalendarEventsResponse`, иначе при возврате простого `dict` SDK не выдаёт `structured_content` (гоча).
+- **Основной конвейер**: `calendar_engine.calendar_data()` возвращает `{has_data, busy, source, fetched_at, error}`. MCP кэшируется на 5 минут; при ошибке используется `data/calendar_busy.json` с `source=snapshot_fallback`. `advisor` добавляет метаданные в `_calendar`; `/api/busy` возвращает их наружу.
+- **Настройки**: `VK_CALDAV_URL`, `VK_CALDAV_USERNAME`, `VK_CALDAV_PASSWORD`, необязательные `VK_CALENDAR_TIMEZONE` и `CALENDAR_MCP_URL`. Значения только env/Streamlit Secrets. Дочерний MCP stdio не наследует env сам — SDK требует явно передать secrets в `StdioServerParameters.env`, это сделано.
+- **UI**: успешный MCP и fallback явно подписаны; страница календаря показывает источник. Снапшот больше не основной путь, но остаётся в репозитории для работы без секретов.
+- **Проверки**: compileall; реальные MCP list_tools/call_tool через stdio и in-memory; structured output; CalDAV-фикстура timed/all-day/cancelled; FastAPI `/api/busy`; MCP/snapshot/snapshot_fallback; Streamlit AppTest страницы календаря — всё прошло. Живой VK не проверен: в окружении нет CalDAV credentials.
+- **Для запуска живого режима**: заполнить 3 `VK_CALDAV_*` в Secrets и перезапустить; ожидаемый `/api/busy` — `source=mcp`, `error=null`.

@@ -440,6 +440,13 @@ if page == "🔍 Поиск цен":
                 )
 
         # --- предупреждение о встречах в окно поездки (VK Workspace) ---
+        calendar_info = res.get("_calendar") or {}
+        if calendar_info.get("source") == "mcp" and calendar_info.get("has_data"):
+            st.caption("🗓 VK WorkSpace Calendar подключён через MCP; события обновляются при поиске.")
+        elif calendar_info.get("source") == "snapshot_fallback":
+            st.warning("MCP-календарь временно недоступен — показан резервный снапшот.")
+        elif calendar_info.get("error"):
+            st.warning("MCP-календарь временно недоступен; события в этом поиске не показаны.")
         trip_busy = res.get("_busy")
         if trip_busy:
             lines = "\n".join(
@@ -872,9 +879,10 @@ elif page == "🗓 Календарь":
                     f'<div class="news-item"><b>{_fmt_date(d)}</b> — {evs_txt}</div>',
                     unsafe_allow_html=True,
                 )
+            source = (res.get("_calendar") or {}).get("source")
+            source_label = "VK WorkSpace через MCP" if source == "mcp" else "резервный снапшот VK WorkSpace"
             st.caption(
-                "События из подключённого календаря (Google Calendar или "
-                "снапшот VK Workspace). При поиске билетов даты вылета со "
+                f"Источник: {source_label}. При поиске билетов даты вылета со "
                 "встречами помечаются в таблице дат, а предупреждение о "
                 "конфликтах показывается над результатами."
             )

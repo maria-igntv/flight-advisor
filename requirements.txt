@@ -9,3 +9,5 @@ streamlit
 pandas
 altair
 anthropic
+mcp>=2.3,<3
+caldav>=3.0,<4

@@ -117,10 +117,8 @@ def api_visa(dest: str, dep: date, ret: date | None = None) -> dict:
 
 @app.get("/api/busy")
 def api_busy(start: date, end: date) -> dict:
-    """Занятые дни из снапшота календаря VK Workspace."""
-    if not calendar_engine.has_data():
-        return {"has_data": False, "busy": {}}
-    return {"has_data": True, "busy": calendar_engine.busy_dates(start.isoformat(), end.isoformat())}
+    """Занятые дни VK WorkSpace через MCP с резервным JSON-снапшотом."""
+    return calendar_engine.calendar_data(start.isoformat(), end.isoformat())
 
 
 class ChatMessage(BaseModel):

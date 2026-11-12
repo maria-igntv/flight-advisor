@@ -50,8 +50,10 @@ def analyze(
             res["news"] = None
 
     busy_map = None
-    if calendar_engine.has_data():
-        busy_map = calendar_engine.busy_dates(dep_start.isoformat(), trip_to.isoformat())
+    calendar = calendar_engine.calendar_data(dep_start.isoformat(), trip_to.isoformat())
+    res["_calendar"] = {k: v for k, v in calendar.items() if k != "busy"}
+    if calendar["has_data"]:
+        busy_map = calendar["busy"]
         res["_busy"] = busy_map
 
     if res.get("cheapest_date"):
