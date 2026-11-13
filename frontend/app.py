@@ -49,7 +49,7 @@ import pandas as pd
 import streamlit as st
 
 from backend.app import db
-from backend.app.engines import chat_engine
+from backend.app.engines import calendar_engine, chat_engine
 from backend.app.engines.advisor import analyze
 from backend.app.engines.alerts_engine import dynamics
 from backend.app.engines.demo_history import ensure_demo_history
@@ -855,39 +855,48 @@ if page == "🔍 Поиск цен":
 # ---------------------------------------------------------------- страница: календарь
 
 elif page == "🗓 Календарь":
-    st.title("🗓 Календарь")
-    # По умолчанию пусто: события показываются только после поиска —
-    # и обновляются с каждым новым запросом (окно вылет → возвращение).
-    res = st.session_state.get("last_result")
-    if not res or res.get("_busy") is None:
-        st.caption(
-            "События календаря появятся при выборе дат — "
-            "выполните поиск на странице «🔍 Поиск цен»."
-        )
-    else:
-        ret_iso = res.get("return_date")
-        start = res["calendar"][0]["dep_date"]
-        end = ret_iso or res["calendar"][-1]["dep_date"]
-        st.caption(
-            f"Окно последнего поиска: {_fmt_date(start)} → {_fmt_date(end)}."
-        )
-        busy = res["_busy"]
-        if busy:
-            for d, evs in sorted(busy.items()):
-                evs_txt = "; ".join(f"{e['title']} ({e['time']})" for e in evs)
-                st.markdown(
-                    f'<div class="news-item"><b>{_fmt_date(d)}</b> — {evs_txt}</div>',
-                    unsafe_allow_html=True,
-                )
-            source = (res.get("_calendar") or {}).get("source")
-            source_label = "VK WorkSpace через MCP" if source == "mcp" else "резервный снапшот VK WorkSpace"
-            st.caption(
-                f"Источник: {source_label}. При поиске билетов даты вылета со "
-                "встречами помечаются в таблице дат, а предупреждение о "
-                "конфликтах показывается над результатами."
-            )
-        else:
-            st.caption("Занятых встреч в этом окне нет — можно вылетать в любой день.")
+    st.title("🗓 Календарь VK WorkSpace")
+    st.caption(
+        "События загружаются напрямую через MCP, без привязки к поиску билетов. "
+        "Календарь доступен только для чтения."
+    )
+    c1, c2, c3 = st.columns([1, 1, 1])
+    with c1:
+        calendar_start = st.date_input("Начало периода", value=date.today(), format="DD.MM.YYYY")
+    with c2:
+        calendar_days = st.selectbox("Период", [7, 30, 90], index=1, format_func=lambda d: f"{d} дней")
+    with c3:
+        st.write("")
+        if st.button("Обновить из VK WorkSpace", width="stretch"):
+            calendar_engine.clear_cache()
+    calendar_end = calendar_start + timedelta(days=calendar_days - 1)
+    calendar = calendar_engine.calendar_data(calendar_start.isoformat(), calendar_end.isoformat())
+    source = calendar["source"]
+    if source == "mcp" and calendar["has_data"]:
+        fetched = calendar.get("fetched_at")
+        suffix = f" Обновлено: {fetched[:16].replace('T', ' ')}." if fetched else ""
+        st.success(f"Синхронизировано с VK WorkSpace через MCP.{suffix}")
+    elif source == "snapshot_fallback":
+        st.warning("MCP временно недоступен. Показана резервная копия, новые события VK в ней не появляются.")
+    elif source == "snapshot":
+        st.info("Показана резервная копия. Для живой синхронизации настройте VK_CALDAV_* в Secrets.")
+    elif calendar.get("error"):
+        st.warning("Не удалось загрузить календарь через MCP. Попробуйте обновить страницу позже.")
+
+    busy = calendar["busy"]
+    st.caption(f"Период: {_fmt_date(calendar_start.isoformat())} → {_fmt_date(calendar_end.isoformat())}")
+    if busy:
+        m1, m2 = st.columns(2)
+        m1.metric("Событий", sum(len(events) for events in busy.values()))
+        m2.metric("Дней с событиями", len(busy))
+        for day, events in sorted(busy.items()):
+            with st.container(border=True):
+                st.markdown(f"**{_fmt_date(day)}**")
+                for event in events:
+                    st.markdown(f"{event['time']} · **{event['title']}**")
+        st.caption("Дни без событий не включены в список.")
+    elif calendar["has_data"]:
+        st.caption("В выбранном периоде событий нет.")
 
 # ---------------------------------------------------------------- страница: чат
 

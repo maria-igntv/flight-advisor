@@ -327,3 +327,14 @@ cp .streamlit/secrets.toml.example .streamlit/secrets.toml   # и заполни
 - **UI**: успешный MCP и fallback явно подписаны; страница календаря показывает источник. Снапшот больше не основной путь, но остаётся в репозитории для работы без секретов.
 - **Проверки**: compileall; реальные MCP list_tools/call_tool через stdio и in-memory; structured output; CalDAV-фикстура timed/all-day/cancelled; FastAPI `/api/busy`; MCP/snapshot/snapshot_fallback; Streamlit AppTest страницы календаря — всё прошло. Живой VK не проверен: в окружении нет CalDAV credentials.
 - **Для запуска живого режима**: заполнить 3 `VK_CALDAV_*` в Secrets и перезапустить; ожидаемый `/api/busy` — `source=mcp`, `error=null`.
+
+---
+
+## 11. Самостоятельная вкладка календаря (2026-11-13, Kimi Code)
+
+- **Живой VK подтверждён**: после настройки app password реальный вызов `calendar_list_events` через stdio MCP вернул `source=mcp`, `error=null`. Добавленное пользователем событие увеличило число событий на 14-дневном окне с 23 до 24 — синхронизация работает.
+- **Вкладка «🗓 Календарь» больше не зависит от `last_result` и поиска цен**. Она напрямую вызывает `calendar_engine.calendar_data()` для выбранного окна: начало периода + 7/30/90 дней. Показывает статус источника, время синхронизации, число событий/занятых дней и события по датам. Режим read-only.
+- **Ручное обновление**: кнопка «Обновить из VK WorkSpace» вызывает новый `calendar_engine.clear_cache()` и повторяет MCP-запрос, не дожидаясь TTL 5 минут.
+- **Fallback виден явно**: snapshot и snapshot_fallback предупреждают, что новые события VK в копии не появляются. События выводятся обычным Markdown, без `unsafe_allow_html`.
+- **Проверки**: compileall; AppTest с живым MCP (30 дней: 37 событий, 18 дней; успешный статус и метрики); кнопка ручного обновления; snapshot_fallback — всё прошло.
+- Локальные credentials остаются в ignored `.streamlit/secrets.toml`. Для облака их нужно отдельно задать в Streamlit Secrets и сделать Reboot.

@@ -48,6 +48,11 @@ def _mcp_events(from_date: str, to_date: str) -> dict:
     return payload
 
 
+def clear_cache() -> None:
+    with _cache_lock:
+        _cache.clear()
+
+
 def calendar_data(from_date, to_date) -> dict:
     """События диапазона и метаданные источника, без падения при недоступном MCP."""
     lo, hi = str(from_date), str(to_date)
