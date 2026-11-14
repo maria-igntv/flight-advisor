@@ -1,0 +1,97 @@
+{
+ "method": {
+  "data": "synthetic",
+  "rows": 189280,
+  "train": 169408,
+  "valid": 13888,
+  "test": 5984,
+  "test_start": "2025-09-24T18:00:00",
+  "split": "chronological by purchase date 70/15/15",
+  "lookahead": false,
+  "real_world_performance_claim": false
+ },
+ "metrics": {
+  "n": 5984,
+  "mae": 652.9268815142323,
+  "rmse": 906.8928038810303,
+  "mape_pct": 1.4897753685956752,
+  "r2": 0.9960135701954393,
+  "baseline_mape_pct": 5.711027154106471,
+  "baseline_rmse": 4491.534549474637,
+  "residual_p05_pct": -2.980539573205582,
+  "residual_p95_pct": 3.377379058363565
+ },
+ "feature_importance": {
+  "days_before_departure": 61.52,
+  "forecast_horizon_days": 31.11,
+  "purchase_day_of_week": 4.02,
+  "purchase_month": 2.25,
+  "departure_day_of_week": 0.61,
+  "departure_month": 0.48,
+  "purchase_hour": 0.0
+ },
+ "best_examples": [
+  {
+   "origin": "LED",
+   "dest": "IST",
+   "purchase_at": "2025-10-13T18:00:00",
+   "departure_at": "2025-11-12T12:00:00",
+   "current_price": 22581,
+   "target_price": 24252,
+   "predicted_price": 24252,
+   "abs_pct_error": 1.4729371400358843e-06
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "purchase_at": "2025-09-30T18:00:00",
+   "departure_at": "2025-11-12T12:00:00",
+   "current_price": 28890,
+   "target_price": 29340,
+   "predicted_price": 29340,
+   "abs_pct_error": 0.0003649081689766345
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "purchase_at": "2025-10-01T00:00:00",
+   "departure_at": "2025-11-12T12:00:00",
+   "current_price": 21180,
+   "target_price": 21213,
+   "predicted_price": 21213,
+   "abs_pct_error": 0.0004384646779506492
+  }
+ ],
+ "worst_examples": [
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "purchase_at": "2025-10-06T06:00:00",
+   "departure_at": "2025-11-12T12:00:00",
+   "current_price": 52514,
+   "target_price": 50533,
+   "predicted_price": 54154,
+   "abs_pct_error": 7.164715377136279
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "purchase_at": "2025-10-10T00:00:00",
+   "departure_at": "2025-11-12T12:00:00",
+   "current_price": 53494,
+   "target_price": 78062,
+   "predicted_price": 72543,
+   "abs_pct_error": 7.069960235769175
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "purchase_at": "2025-10-06T00:00:00",
+   "departure_at": "2025-11-12T12:00:00",
+   "current_price": 51778,
+   "target_price": 49909,
+   "predicted_price": 53395,
+   "abs_pct_error": 6.984526003505875
+  }
+ ]
+}

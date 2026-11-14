@@ -29,6 +29,7 @@ def analyze(
     children: int = 0,
     infants: int = 0,
     with_news: bool = True,
+    with_forecast: bool = True,
 ) -> dict:
     """Результат recommend() + _region, _visa, news, _busy, dynamics, verdict."""
     dep_end_eff = dep_end or dep_start
@@ -62,7 +63,12 @@ def analyze(
             return_date.isoformat() if return_date else None,
             passengers=f"{adults}-{children}-{infants}",
         )
-        res["verdict"] = make_verdict(res, res["news"], res["dynamics"], busy=busy_map)
+        forecast = forecast_for(res)
+        res["verdict"] = make_verdict(
+            res, res["news"], res["dynamics"], busy=busy_map, forecast=forecast
+        )
+        if with_forecast:
+            res["forecast"] = forecast
     return res
 
 

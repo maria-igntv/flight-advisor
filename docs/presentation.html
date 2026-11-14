@@ -204,7 +204,7 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
 
 <!-- 7 -->
 <section class="slide" data-title="Прогноз">
-  <div class="kicker">Интерактив · та же кривая, что в forecast_engine.py</div>
+  <div class="kicker">Интерактивная схема · боевой прогноз в приложении строит CatBoost</div>
   <h2>Прогноз цены от сегодня до вылета</h2>
   <div class="grid g2">
     <div class="card ctrl">
@@ -213,27 +213,24 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
       <div><div style="margin-bottom:4px">Новости региона</div>
         <div class="seg" id="frisk"><button data-v="0" class="on">спокойно</button><button data-v="1">тревожные → коридор шире вверх</button></div></div>
       <p id="fsum" style="margin:0"></p>
-      <p class="muted" style="font-size:.88rem;margin:0">Почему не CatBoost: Google не отдаёт историю цен, поллер копит её с 24.10.2026 — учить не на чем.
-        Кривая бронирования нормирована на сегодняшнюю реальную цену → работает для любого маршрута; в UI помечена как демо.</p>
+      <p class="muted" style="font-size:.88rem;margin:0">Слайд показывает схему кривой, не inference. В приложении CatBoost обучен на синтетике: test MAPE 1,49% против 5,71% у baseline.
+        Есть 383 реальных снапшота за 24–29.10; для реального обучения нужны 5–6 месяцев истории. Реальная полезность не доказана.</p>
     </div>
     <div class="card"><svg id="fchart" viewBox="0 0 560 320" style="width:100%"></svg></div>
   </div>
 </section>
 
 <!-- 8 -->
-<section class="slide" data-title="Два LLM">
-  <div class="kicker">LLM-провайдеры</div>
-  <h2>Anthropic локально, YandexGPT в вебе — почему</h2>
+<section class="slide" data-title="Выбор LLM">
+  <div class="kicker">LLM: доступность и измерение</div>
+  <h2>Что доступно сейчас и как это проверяется</h2>
   <table>
-    <tr><th>Критерий</th><th>Anthropic (гейтвей <code>ai-proxy.vk.team</code>)</th><th>YandexGPT (Foundation Models)</th></tr>
-    <tr><td>Доступ из Streamlit Cloud (США/ЕС)</td><td>❌ только корпоративная сеть</td><td>✅ публичный API по ключу</td></tr>
-    <tr><td>Доступ с ноутбука автора</td><td>✅ уже настроен (Claude Code)</td><td>✅ при наличии ключа</td></tr>
-    <tr><td>Оплата</td><td>за счёт компании; прямой api.anthropic.com — не оплатить картой РФ</td><td>рубли, стартовый грант</td></tr>
-    <tr><td>Function calling для <code>search_prices</code></td><td>✅ нативный tool-use</td><td>✅ tools (откат на текст, если модель не умеет)</td></tr>
-    <tr><td>Сильная сторона</td><td>многошаговый tool-use, интерпретация дат («на Рождество»)</td><td>русский язык, данные в РФ-облаке</td></tr>
+    <tr><th>Провайдер</th><th>Доступ</th><th>Роль в проекте</th><th>Ограничение проверки</th></tr>
+    <tr><td>Codex <code>gpt-6.1-sol</code></td><td>✅ Codex CLI, read-only</td><td>44 контрольных кейса на боевых промптах</td><td>Structured JSON, не нативный function calling</td></tr>
+    <tr><td>Kimi K3 Pro High</td><td>только текущий агент</td><td>разработка и анализ ошибок</td><td>Нет отдельного API/CLI для воспроизводимого бенчмарка</td></tr>
+    <tr><td>YandexGPT / Anthropic</td><td>отключены</td><td>исторические варианты в <code>chat_engine</code></td><td>Сравнение с ними без ключей невозможно</td></tr>
   </table>
-  <p style="margin-top:16px"><b>Вывод:</b> выбор определяет <b>доступность</b>, а не вкус. Код общий (<code>chat_engine</code>), переключение — настройка <code>LLM_PROVIDER</code>.
-    Гипотезу «Anthropic сильнее в tool-use» проверяет бенчмарк на синтетике (следующий слайд).</p>
+  <p style="margin-top:16px"><b>Вывод:</b> нельзя утверждать, что одна LLM лучше другой без прогона. Поэтому показаны только реальные результаты Codex, а ограничение сравнения зафиксировано явно.</p>
 </section>
 
 <!-- 9 -->
@@ -250,6 +247,10 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
       <p class="muted" style="margin-top:0">44 кейса на боевом промпте: 20 tool-call, 10 «без поиска», 8 опора на данные, 6 саммари новостей · <code>bench/run_llm_bench.py</code></p>
       <div id="llmbench"></div></div>
   </div>
+  <div class="card" style="margin-top:14px"><h3>ML и контрольные примеры <span class="pill p-tested">проверено</span></h3>
+    <p class="muted" style="margin-top:0"><code>train_synthetic_price_model.py</code> · <code>run_price_backtest.py</code> · <code>run_news_bench.py</code></p>
+    <p style="font-size:.92rem;margin-bottom:0"><b>Синтетика:</b> CatBoost MAPE <b>1,49%</b> против <b>5,71%</b> у baseline, R² 0,9960. <b>Реальная история:</b> 383 снапшота, MAPE <b>3,66%</b> (baseline 3,65%), coverage <b>81,7%</b>; WAIT успешен только в <b>29/239</b>.
+      Дайджест: <b>6/6</b> проверок, включая пустой результат и сбой источников. Синтетическая и краткосрочная оценка не доказывают реальную полезность.</p></div>
 </section>
 
 <!-- 10 -->
@@ -304,14 +305,14 @@ YANDEX_GPT_FOLDER_ID = "b1g..."</pre></div>
   <div class="grid g2">
     <div class="card"><h3>Есть</h3><ul>
       <li>реальные цены, кэш, история снапшотов, поллер;</li>
-      <li>объяснимый вердикт из 4 сигналов, прогноз до вылета;</li>
+      <li>объяснимый BUY/WAIT по прогнозу «сегодня → вылет»; CatBoost на синтетике;</li>
       <li>новости, визы, VK WorkSpace Calendar через MCP; AI-помощник с tool-use;</li>
-      <li>Streamlit + FastAPI на общем конвейере; бенчмарки; журнал разработки.</li></ul></div>
+      <li>Codex 43/44; digest 6/6; реальный backtest; HANDOFF и воспроизводимые команды.</li></ul></div>
     <div class="card"><h3>Дальше</h3><ol>
-      <li>прогнать LLM-бенчмарк с ключами и закрепить выбор цифрами;</li>
+      <li>сравнить с Kimi, когда появится отдельный API/CLI для прогона;</li>
       <li>Travelpayouts — второй источник цен (РФ-направления, облако);</li>
-      <li>тесты из сценариев AppTest/TestClient;</li>
-      <li>CatBoost по накопленной истории вместо эвристики.</li></ol></div>
+      <li>архивировать полный вердикт и все его сигналы;</li>
+      <li>переобучить CatBoost после сбора реальной истории за 5–6 месяцев.</li></ol></div>
   </div>
   <p style="margin-top:20px"><a href="https://github.com/maria-igntv/flight-advisor#readme">README</a> ·
     <a href="https://github.com/maria-igntv/flight-advisor/blob/main/HANDOFF.md">HANDOFF.md</a> ·
@@ -418,21 +419,21 @@ const ALTS = [
   ['Google Calendar OAuth', 'p-tested', 'сделан и удалён', 'неудобно в облаке; корпоративный календарь — VK Workspace'],
   ['VK WorkSpace MCP из веба', 'p-tested', 'реализовано', 'собственный MCP-сервер поверх CalDAV; stdio или Streamable HTTP'],
   ['Postgres + Redis', 'p-later', 'позже', 'SQLite хватает: кэш 19 мс'],
-  ['CatBoost', 'p-later', 'позже', 'нет истории цен — поллер копит'],
+  ['CatBoost', 'p-tested', 'на синтетике', 'временной split: MAPE 1,49% vs baseline 5,71%; реальная полезность не доказана'],
 ];
 $('#alts').innerHTML = '<tr><th>Вариант</th><th>Статус</th><th>Почему</th></tr>' +
   ALTS.map(([a, c, s, w]) => `<tr><td>${a}</td><td><span class="pill ${c}">${s}</span></td><td>${w}</td></tr>`).join('');
 
 /* ---------- решения ---------- */
 const DEC = [
-  ['Ядро — правила и числа, LLM только интерфейс', 'Вердикт считает детерминированный оркестратор из 4 сигналов; LLM — чат и саммари.',
-   'LLM не знает сегодняшних цен; правила воспроизводимы, тестируемы (7 сценариев) и объяснимы.', '«Спросить GPT, когда покупать» — непроверяемо.'],
+  ['Ядро — прогноз и правила, LLM только интерфейс', 'BUY/WAIT по минимуму прогноза «сегодня → вылет»; прошлый тренд — только контекст.',
+   'LLM не знает сегодняшних цен; прогноз и оркестратор воспроизводимы, каждый сигнал объясним.', '«Спросить GPT, когда покупать» — непроверяемо.'],
   ['Свой скрейпер Google Flights', 'URL через fast_flights, страница — httpx, при сбое или странице согласия — curl; парсинг AF_initDataCallback.',
    'Единственный бесплатный источник без ключа с полной выдачей. Замер: httpx 0,86 с vs curl 9,6 с, 0 ошибок.', 'Travelpayouts (токен, кэш-цены), Amadeus/Skyscanner (платно/партнёрка).'],
   ['SQLite-кэш с изоляцией ключа + поллер', 'Снапшот на ключ «маршрут × дата × возврат × пассажиры × валюта», TTL 24 ч; поллер раз в 4 ч.',
    '19 мс вместо ~1 с на дату, меньше риск бана; история — путь к ML. Изоляция — после реальных багов смешения валют и пассажиров.', 'Без кэша: минута на диапазон и бан.'],
-  ['Прогноз — эвристика с якорем, не CatBoost', 'Типовая кривая бронирования нормирована на текущую реальную цену + коридор.',
-   'Истории нет (Google её не отдаёт, поллер — с 24.10.2026). Якорь делает прогноз применимым к любому маршруту; помечен как демо.', 'CatBoost — когда накопится история (замена одной функции).'],
+  ['CatBoost на синтетике + реальный якорь', 'Модель предсказывает изменение цены на 1/3/7/14/30 дней; кривая нормируется на текущую цену.',
+   'Временной split: MAPE 1,49% vs baseline 5,71%. На реальных 5 днях полезность не доказана, WAIT слабый.', 'Переобучение после сбора реальной истории минимум за 5–6 месяцев.'],
   ['Модульный монолит + общий конвейер', 'advisor.analyze() вызывают и Streamlit, и FastAPI.',
    'API отставал от UI на несколько этапов, пока конвейер жил в app.py. Один процесс — под Streamlit Cloud.', 'Микросервисы — инфраструктура без выгоды.'],
   ['Два LLM: Anthropic локально, YandexGPT в вебе', 'Общий агентный цикл, выбор по ключам или LLM_PROVIDER.',
@@ -562,6 +563,8 @@ const TL = [
   ['Раунд 9', 'YandexGPT', 'Второй LLM-провайдер для веб-версии (Cursor Agent, PR #1).', 'Корпоративный гейтвей недоступен из Streamlit Cloud.'],
   ['Раунд 10', 'Веб, API, метрики', 'Фикс облака, FastAPI на общем конвейере, бенчмарки, README, презентация.', 'AttributeError в облаке → перезагрузка модулей backend; «нет цен» в облаке → cookies согласия + диагностика.'],
   ['Раунд 11', 'MCP-календарь', 'Приложение вызывает calendar_list_events через MCP SDK; сервер читает VK WorkSpace по CalDAV.', 'Вместо ручного экспорта — собственный MCP-сервер, кэш 5 минут и явный snapshot fallback.'],
+  ['Раунд 12', 'Качество прогноза', 'Backtest на 383 реальных снапшотах: baseline, coverage, BUY/WAIT, удачные и ошибочные кейсы.', 'Первый тест показал слабость старого WAIT и цену редкой ошибки BUY.'],
+  ['Раунд 13', 'ML и демо', 'CatBoost synthetic-v3, BUY/WAIT по будущему минимуму, digest 6/6, Codex 43/44.', 'Синтетика проверяет ML-конвейер; на реальных 5 днях полезность не доказана, WAIT 29/239.'],
 ];
 $('#tl').innerHTML = TL.map((t, i) => `<button data-i="${i}">${t[0]}</button>`).join('');
 function tl(i) { $$('#tl button').forEach((b, k) => b.classList.toggle('on', k === i));

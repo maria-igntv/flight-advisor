@@ -1,33 +1,57 @@
-"""forecast_engine — эвристический прогноз цены от «сегодня» до даты вылета.
+"""Прогноз цены: CatBoost на синтетике, эвристика как fallback.
 
-Отвечает на вопрос пользователя «когда покупать»: строит кривую ожидаемой
-минимальной цены на выбранную дату вылета от сегодняшнего дня до вылета и
-находит на ней точку минимума (рекомендуемое время покупки) и максимума.
-
-Пока накопленной истории мало для CatBoost, прогноз строится по типовой
-кривой бронирования (см. demo_history._dbd_multiplier: плато в «оптимальном
-окне» ~3–8 месяцев до вылета → плавный рост с ~30 дней → крутой рост в
-последние 2 недели). Кривая привязывается («якорь») к текущей реальной цене
-из календаря Google Flights и нормируется на сегодня — то есть прогноз
-работает для ЛЮБОГО маршрута, не только демо.
-
-Неопределённость растёт с горизонтом. Если news_engine вернул тревожные
-события в регионе (risk=warning), верхняя граница расширяется сильнее
-нижней — события (катаклизмы, беспорядки) обычно уводят цены вверх.
-
-Прогноз — ДЕМО/эвристика и честно помечается в UI; в БД не пишется
-(рассчитывается на лету при открытии графика).
+Модель обучена и проверена только на синтетических данных. Она не является
+подтверждённым прогнозом реальных цен: для этого нужна история минимум за
+5–6 месяцев. Текущая реальная цена используется как якорь нормировки.
 """
 from __future__ import annotations
 
+import json
 from datetime import date, timedelta
+from functools import lru_cache
+from pathlib import Path
+
+from catboost import CatBoostRegressor
 
 from .demo_history import _dbd_multiplier
 
-# Неопределённость прогноза: базовая ±2% + 0.25 п.п. за каждый день горизонта
-# (на 30 дней вперёд — примерно ±10%).
 UNCERTAINTY_BASE = 0.02
 UNCERTAINTY_PER_DAY = 0.0025
+_MODEL_FILE = Path(__file__).resolve().parent.parent / "data" / "price_model.cbm"
+_META_FILE = _MODEL_FILE.with_suffix(".json")
+
+
+@lru_cache(maxsize=1)
+def _load_model():
+    if not _MODEL_FILE.exists() or not _META_FILE.exists():
+        return None, {}
+    model = CatBoostRegressor()
+    model.load_model(_MODEL_FILE)
+    metadata = json.loads(_META_FILE.read_text(encoding="utf-8"))
+    return model, metadata
+
+
+def _features(purchase: date, target: date, dep: date) -> list[float]:
+    return [
+        (target - purchase).days, (dep - target).days, purchase.weekday(), purchase.month,
+        12, dep.weekday(), dep.month,
+    ]
+
+
+def _model_prices(anchor_price: float, today: date, dep: date) -> list[float] | None:
+    model, metadata = _load_model()
+    if model is None:
+        return None
+    days = []
+    current = today
+    while current <= dep:
+        days.append(current)
+        current += timedelta(days=1)
+    changes = model.predict([_features(today, day, dep) for day in days])
+    if not len(changes):
+        return None
+    prices = [anchor_price * (1 + (float(value) - float(changes[0])) / 100) for value in changes]
+    return prices if all(price > 0 for price in prices) else None
 
 
 def forecast_curve(
@@ -36,48 +60,44 @@ def forecast_curve(
     dep: date,
     risk_warning: bool = False,
 ) -> dict:
-    """Кривая прогноза минимальной цены от сегодня до даты вылета.
-
-    anchor_price — текущая реальная цена на эту дату вылета (за всех
-    пассажиров, в валюте поиска). today — «сегодня», dep — дата вылета.
-
-    Возвращает:
-      {
-        "points": [{date, price, low, high}, ...]   — ежедневные точки;
-        "min":  {date, price}                        — ожидаемый минимум;
-        "max":  {date, price}                        — ожидаемый максимум;
-        "risk_warning": bool,
-      }
-    Пустой словарь, если вылет уже сегодня/в прошлом или якорь некорректен.
-    """
+    """Ежедневная кривая от сегодня до вылета с якорем на реальной цене."""
     if dep <= today or anchor_price <= 0:
         return {}
-    # Нормируем кривую так, чтобы в «сегодня» прогноз совпадал с фактом.
+    model, metadata = _load_model()
+    ml_prices = _model_prices(anchor_price, today, dep)
+    model_name = metadata.get("version", "catboost") if ml_prices is not None else "heuristic-fallback"
     k_today = _dbd_multiplier((dep - today).days)
     points = []
-    d = today
-    while d <= dep:
-        horizon = (d - today).days
-        price = anchor_price * _dbd_multiplier((dep - d).days) / k_today
+    current = today
+    while current <= dep:
+        index = (current - today).days
+        horizon = index
+        if ml_prices is not None:
+            price = ml_prices[index]
+        else:
+            price = anchor_price * _dbd_multiplier((dep - current).days) / k_today
         unc = UNCERTAINTY_BASE + UNCERTAINTY_PER_DAY * horizon
         low = price * (1 - unc)
-        # При тревожных новостях: полоса шире в обе стороны и асимметрична
-        # вверх — «хвост риска» на повышение.
         high = price * (1 + unc * (2.0 if risk_warning else 1.0))
         if risk_warning:
             low = price * (1 - unc * 1.25)
         points.append({
-            "date": d.isoformat(),
+            "date": current.isoformat(),
             "price": round(price),
             "low": round(low),
             "high": round(high),
         })
-        d += timedelta(days=1)
-    # min() при плато возвращает первую точку минимума (самая ранняя дата
-    # покупки по минимальной цене) — это и есть рекомендуемое «когда покупать».
-    pmin = min(points, key=lambda p: p["price"])
-    pmax = max(points, key=lambda p: p["price"])
-    return {"points": points, "min": pmin, "max": pmax, "risk_warning": risk_warning}
+        current += timedelta(days=1)
+    pmin = min(points, key=lambda point: point["price"])
+    pmax = max(points, key=lambda point: point["price"])
+    return {
+        "points": points,
+        "min": pmin,
+        "max": pmax,
+        "risk_warning": risk_warning,
+        "model": model_name,
+        "trained_on": "synthetic" if ml_prices is not None else "none",
+    }
 
 
 def forecast_summary(fc: dict, anchor_price: float, currency: str = "RUB") -> str:
@@ -87,8 +107,6 @@ def forecast_summary(fc: dict, anchor_price: float, currency: str = "RUB") -> st
     pmin, pmax = fc["min"], fc["max"]
     growth = (pmax["price"] / anchor_price - 1) * 100 if anchor_price else 0
     d = lambda iso: date.fromisoformat(iso).strftime("%d.%m.%Y")  # noqa: E731
-    # Минимум обычно не одна дата, а «окно» (плато оптимального бронирования):
-    # покажем диапазон дат с ценой в пределах +0.5% от минимума.
     plateau = [p["date"] for p in fc["points"]
                if p["price"] <= pmin["price"] * 1.005]
     if len(plateau) > 3:

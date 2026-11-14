@@ -1,0 +1,163 @@
+{
+ "cases": 6,
+ "passed": 6,
+ "records": [
+  {
+   "id": "facts_links",
+   "query": "Новости Японии: факты и ссылки",
+   "expected": "Заголовок и URL совпадают с исходной публикацией",
+   "ok": true,
+   "actual": {
+    "region": "Япония",
+    "digest": [
+     {
+      "title": "Тайфун в Японии",
+      "url": "https://example.com/japan/typhoon",
+      "published": "2026-11-14T16:11:11.614186+00:00",
+      "source": "The Guardian",
+      "risk": "катаклизмы"
+     }
+    ],
+    "warnings": [
+     {
+      "title": "Тайфун в Японии",
+      "url": "https://example.com/japan/typhoon",
+      "published": "2026-11-14T16:11:11.614186+00:00",
+      "source": "The Guardian",
+      "risk": "катаклизмы"
+     }
+    ],
+    "risk_level": "warning",
+    "status": "ok",
+    "message": null,
+    "source_errors": [],
+    "fetched_at": "2026-11-14T19:11:11"
+   }
+  },
+  {
+   "id": "period",
+   "query": "Новости Японии: период",
+   "expected": "Старая публикация отфильтрована, свежая осталась",
+   "ok": true,
+   "actual": {
+    "region": "Япония",
+    "digest": [
+     {
+      "title": "Тайфун в Японии",
+      "url": "https://example.com/japan/typhoon",
+      "published": "2026-11-14T16:11:11.614186+00:00",
+      "source": "The Guardian",
+      "risk": "катаклизмы"
+     }
+    ],
+    "warnings": [
+     {
+      "title": "Тайфун в Японии",
+      "url": "https://example.com/japan/typhoon",
+      "published": "2026-11-14T16:11:11.614186+00:00",
+      "source": "The Guardian",
+      "risk": "катаклизмы"
+     }
+    ],
+    "risk_level": "warning",
+    "status": "ok",
+    "message": null,
+    "source_errors": [],
+    "fetched_at": "2026-11-14T19:11:11"
+   }
+  },
+  {
+   "id": "duplicates",
+   "query": "Новости Японии: повторы",
+   "expected": "Одинаковый заголовок показан один раз",
+   "ok": true,
+   "actual": {
+    "region": "Япония",
+    "digest": [
+     {
+      "title": "Тайфун в Японии",
+      "url": "https://example.com/japan/typhoon",
+      "published": "2026-11-14T16:11:11.614186+00:00",
+      "source": "The Guardian",
+      "risk": "катаклизмы"
+     }
+    ],
+    "warnings": [
+     {
+      "title": "Тайфун в Японии",
+      "url": "https://example.com/japan/typhoon",
+      "published": "2026-11-14T16:11:11.614186+00:00",
+      "source": "The Guardian",
+      "risk": "катаклизмы"
+     }
+    ],
+    "risk_level": "warning",
+    "status": "ok",
+    "message": null,
+    "source_errors": [],
+    "fetched_at": "2026-11-14T19:11:11"
+   }
+  },
+  {
+   "id": "empty",
+   "query": "Новости Японии: публикаций нет",
+   "expected": "status=empty и понятное сообщение",
+   "ok": true,
+   "actual": {
+    "region": "Япония",
+    "digest": [],
+    "warnings": [],
+    "risk_level": "ok",
+    "status": "empty",
+    "message": "Свежих новостей по региону не найдено.",
+    "source_errors": [],
+    "fetched_at": "2026-11-14T19:11:11"
+   }
+  },
+  {
+   "id": "partial_outage",
+   "query": "Новости Японии: Guardian недоступен, ТАСС работает",
+   "expected": "status=partial, новость ТАСС сохранена, сообщение о сбое",
+   "ok": true,
+   "actual": {
+    "region": "Япония",
+    "digest": [
+     {
+      "title": "Новости Японии",
+      "url": "https://example.com/japan/tass",
+      "published": "2026-11-14T16:11:11.614757+00:00",
+      "source": "ТАСС",
+      "risk": null
+     }
+    ],
+    "warnings": [],
+    "risk_level": "ok",
+    "status": "partial",
+    "message": "Один из источников недоступен; показаны новости из доступного источника.",
+    "source_errors": [
+     "timeout"
+    ],
+    "fetched_at": "2026-11-14T19:11:11"
+   }
+  },
+  {
+   "id": "full_outage",
+   "query": "Новости Японии: оба источника недоступны",
+   "expected": "status=error, пустой digest, сообщение о сбое",
+   "ok": true,
+   "actual": {
+    "region": "Япония",
+    "digest": [],
+    "warnings": [],
+    "risk_level": "ok",
+    "status": "error",
+    "message": "Источники новостей временно недоступны. Попробуйте обновить позже.",
+    "source_errors": [
+     "timeout",
+     "HTTP 503"
+    ],
+    "fetched_at": "2026-11-14T19:11:11"
+   }
+  }
+ ]
+}

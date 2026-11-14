@@ -134,21 +134,15 @@ def _region_keywords_en(cfg: dict) -> list[str]:
     return kws + [a for a in extra if a]
 
 
-def _collect_guardian(cfg: dict) -> list[dict]:
-    """Айтемы Guardian: региональная лента (или /world/rss) + keyword-фильтр.
-
-    Фильтр обязателен даже для региональной ленты: Guardian подмешивает
-    мировые новости, и без фильтра в дайджест Японии попадают наводнения
-    в Испании. Точность важнее полноты (ложные warning'ы хуже короткого дайджеста).
-    Матчим по заголовку ИЛИ description (в description чаще встречается город).
-    """
+def _collect_guardian(cfg: dict) -> tuple[list[dict], str | None]:
+    """Айтемы Guardian и ошибка источника для различения сбоя и пустой ленты."""
     slug = cfg.get("guardian_slug")
     url = f"{GUARDIAN_BASE}/{slug}/rss" if slug else GUARDIAN_WORLD_RSS
     keywords = _region_keywords_en(cfg)
     try:
         items = _parse_rss(http_get(url))
-    except RuntimeError:
-        return []
+    except RuntimeError as exc:
+        return [], f"The Guardian: {exc}"
     out = []
     for it in items:
         in_title = _matches(it["title"], keywords)
@@ -157,18 +151,18 @@ def _collect_guardian(cfg: dict) -> list[dict]:
         it["source"] = "The Guardian"
         it["matched_title"] = in_title
         out.append(it)
-    return out
+    return out, None
 
 
-def _collect_tass(cfg: dict, country_ru: str, city_ru: str | None) -> list[dict]:
-    """Айтемы TASS: общий фид + фильтр по рус. ключевым словам (страна + город)."""
+def _collect_tass(cfg: dict, country_ru: str, city_ru: str | None) -> tuple[list[dict], str | None]:
+    """Айтемы TASS и ошибка источника для различения сбоя и пустой ленты."""
     kws = list(cfg.get("keywords_ru", [])) + [country_ru]
     if city_ru:
         kws.append(city_ru)
     try:
         items = _parse_rss(http_get(TASS_RSS))
-    except RuntimeError:
-        return []
+    except RuntimeError as exc:
+        return [], f"ТАСС: {exc}"
     out = []
     for it in items:
         in_title = _matches(it["title"], kws)
@@ -177,7 +171,7 @@ def _collect_tass(cfg: dict, country_ru: str, city_ru: str | None) -> list[dict]
         it["source"] = "ТАСС"
         it["matched_title"] = in_title
         out.append(it)
-    return out
+    return out, None
 
 
 def get_news(
@@ -190,8 +184,8 @@ def get_news(
 
     Возвращает {
       region, digest: [{title,url,published,source,risk}], warnings: [...],
-      risk_level: "ok"|"warning", fetched_at
-    }. При недоступности источников — digest пуст, но без исключений.
+      risk_level: "ok"|"warning", status, message, source_errors, fetched_at
+    }. Сбой источника не ломает поиск и явно отличается от пустой ленты.
     """
     region_key = f"{country_ru}|{city_ru or ''}"
     db.init_db()  # свежий процесс может прийти до первого вызова price_engine
@@ -207,7 +201,10 @@ def get_news(
                "keywords_ru": []}
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=NEWS_MAX_AGE_DAYS)
-    raw = _collect_guardian(cfg) + _collect_tass(cfg, country_ru, city_ru)
+    guardian, guardian_error = _collect_guardian(cfg)
+    tass, tass_error = _collect_tass(cfg, country_ru, city_ru)
+    raw = guardian + tass
+    errors = [error for error in (guardian_error, tass_error) if error]
 
     seen_titles: set[str] = set()
     digest: list[dict] = []
@@ -238,11 +235,21 @@ def get_news(
         d.pop("matched_title", None)
 
     warnings = [d for d in digest if d["risk"]]
+    status = "error" if len(errors) == 2 else "partial" if errors else "empty" if not digest else "ok"
+    message = {
+        "ok": None,
+        "empty": "Свежих новостей по региону не найдено.",
+        "partial": "Один из источников недоступен; показаны новости из доступного источника.",
+        "error": "Источники новостей временно недоступны. Попробуйте обновить позже.",
+    }[status]
     payload = {
         "region": country_ru,
         "digest": digest,
         "warnings": warnings,
         "risk_level": "warning" if warnings else "ok",
+        "status": status,
+        "message": message,
+        "source_errors": errors,
         "fetched_at": datetime.now().isoformat(timespec="seconds"),
     }
     if use_cache:

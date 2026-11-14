@@ -338,3 +338,29 @@ cp .streamlit/secrets.toml.example .streamlit/secrets.toml   # и заполни
 - **Fallback виден явно**: snapshot и snapshot_fallback предупреждают, что новые события VK в копии не появляются. События выводятся обычным Markdown, без `unsafe_allow_html`.
 - **Проверки**: compileall; AppTest с живым MCP (30 дней: 37 событий, 18 дней; успешный статус и метрики); кнопка ручного обновления; snapshot_fallback — всё прошло.
 - Локальные credentials остаются в ignored `.streamlit/secrets.toml`. Для облака их нужно отдельно задать в Streamlit Secrets и сделать Reboot.
+
+---
+
+## 12. Проверка качества прогноза и BUY/WAIT (2026-11-14, Kimi Code)
+
+- **Найдена реальная история**: старый `/Users/maria.ignatova/flight-advisor/data/flight_advisor.db` содержит 423 снапшота за 24–29.10.2026, из них 383 с ценой. Текущий клон имел пустую БД. Не синтетика.
+- **Воспроизводимый dataset**: `bench/export_price_history.py --db ...` экспортирует только `synthetic=0 AND price IS NOT NULL` в `bench/data/price_history.json` (383 записи). Ключ: origin/dest/departure/return/passengers/currency.
+- **Backtest**: `bench/run_price_backtest.py` строит пары «прошлый якорь → будущий факт» без lookahead, сравнивает `forecast_curve` с baseline persistence (MAE/MAPE), считает coverage коридора и разбивает метрики по горизонту 1–5 дней. Сырые записи + summary в `bench/results/price_backtest.json`, отчёт в `.md`.
+- **BUY/WAIT**: в `alerts_engine` выделен чистый `dynamics_from_prices()`; боевой `dynamics()` и backtest используют один алгоритм. BUY успешен, если будущий минимум не падает >2%; WAIT — если падает ≥2%. Проверяется только ценовой компонент: новости/календарь/полный вердикт в истории не архивировались, это явно указано.
+- **Фактические результаты**: 1327 forecast pairs; MAPE=3.65%, baseline=3.65% (кривая на дальних вылетах всегда в плато и равна якорю), coverage=81.7%, падает 92.0% на 1 день → 55.2% на 5 дней. 29 decisions: BUY 9/10 success, mean benefit −3.11% из-за MOW→DXB ошибки −28.8%; WAIT 2/19 success, mean +0.36%; overall 37.9%, mean −0.83%.
+- **Разбор кейсов**: отчёт автоматически выбирает успешный и ошибочный BUY/WAIT и объясняет асимметрию accuracy/цены ошибки. Результат не приукрашиваем: WAIT слабый, долгосрочная полезность не доказана.
+- **Проверки**: compileall backend/bench; backtest прогнан; 5 регрессионных сценариев `dynamics_from_prices` (collecting/stable/rising/falling) прошли.
+- **LLM-бенчмарк остаётся блокером**: локально нет ANTHROPIC_* и YANDEX_GPT_*; `bench/results/llm_bench.*` отсутствуют. Не выдумывать результаты. После ключей: `.venv/bin/python -m bench.run_llm_bench --providers anthropic,yandex --repeats 3`, затем разобрать ошибки.
+
+---
+
+## 13. Качество и демо: ML на синтетике, новые BUY/WAIT, digest и Codex (2026-11-14, Kimi Code)
+
+- **Доступность LLM изменилась**: YandexGPT и корпоративный Anthropic отключены. Kimi K3 Pro High — текущий агент разработки, отдельного API/CLI нет. Codex CLI доступен; реальная модель конфигурации `gpt-6.1-sol` (псевдоним `sol-6-1` CLI не поддержал).
+- **Codex benchmark**: новый `bench/run_codex_bench.py`, 44 боевых кейса через read-only CLI + structured JSON (не native tool calling). Результат 43/44=97.7%, routing F1=97.4%, args exact=95%, no_tool=100%, grounding=100%, digest=100%, p50/p95=10.46/15.91s, API errors=0. Единственный FAIL `t07`: уточняющий вопрос вместо search_prices без города. `g03` сначала ложно FAIL из-за 43036 ₽/person; оценщик `run_llm_bench.score_grounding` исправлен для корректного деления цены за двоих; метрики пересчитаны offline без повторных вызовов.
+- **ML на синтетике**: `bench/train_synthetic_price_model.py`, 8 маршрутов, 7 вылетов/маршрут, полный годовой цикл. Пары «purchase date → future date», горизонты 1/3/7/14/30 дней; target change %, цена восстанавливается от anchor. Chronological split 70/15/15 по purchase date, seed=42. CatBoost synthetic-v3: test MAPE=1.4898% vs baseline=5.7110%, RMSE=906.9 vs 4491.5, R²=0.9960. Веса `backend/app/data/price_model.cbm`, метаданные `.json`, отчёт `bench/results/synthetic_price_model.*`.
+- **Production forecast**: `forecast_engine` загружает CatBoost lazily, предсказывает кривую «today→departure» и нормирует на текущую реальную цену. Старая эвристика только fallback. UI показывает модель и явный дисклеймер: 383 реальных снапшота за 24–29.10, для реального обучения/внешней проверки нужны 5–6 месяцев.
+- **BUY/WAIT исправлены по постановке пользователя**: будущий минимум >= текущей цены → BUY; ниже → WAIT с предполагаемыми датой/ценой. Прошлая динамика теперь neutral context, а не «растёт→BUY/падает→WAIT». `advisor.analyze` вычисляет forecast до verdict; `with_forecast` контролирует только выдачу кривой.
+- **Real backtest новой модели**: 1327 pairs, MAPE=3.66% vs baseline=3.65%, coverage=81.7%; 239 WAIT/0 BUY, WAIT success=29/239=12.1%, mean benefit +0.96%. Не скрывать: модель на реальной короткой истории слишком часто ждёт, реальная полезность НЕ доказана. Backtest проверяет forecast component, не news/calendar/spread полного оркестратора.
+- **Digest**: `news_engine` теперь возвращает `status=ok/empty/partial/error`, `message`, `source_errors`; UI отличает пусто/сбой и сохраняет доступные новости. `bench/run_news_bench.py`: 6/6 (facts+links, period, exact duplicates, empty, partial outage, full outage); ожидание и полный факт в `bench/results/news_bench.json`, таблица в `.md`.
+- **Проверки**: контрольные BUY/WAIT/no-forecast; advisor с моделью и WAIT; живой MOW→IST с Google+MCP+synthetic model; реальный Guardian+TASS status=ok, 5 items; news 6/6; compileall; backtest. Документация и презентация обновлены. Изменения не запушены.

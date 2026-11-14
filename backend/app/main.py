@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field, model_validator
 from . import db
 from .config import CURRENCY
 from .engines import calendar_engine, chat_engine
-from .engines.advisor import analyze, forecast_for
+from .engines.advisor import analyze
 from .engines.news_engine import get_news
 from .engines.price_engine import get_price_calendar
 from .engines.visa_engine import check_trip
@@ -77,10 +77,8 @@ def api_recommend(req: SearchRequest) -> dict:
     res = analyze(
         req.origin, req.dest, req.dep_start, req.dep_end, req.currency,
         return_date=req.return_date, adults=req.adults, children=req.children,
-        infants=req.infants, with_news=req.with_news,
+        infants=req.infants, with_news=req.with_news, with_forecast=req.with_forecast,
     )
-    if req.with_forecast:
-        res["forecast"] = forecast_for(res)
     if not res.get("cheapest_date"):
         res["source_diagnostics"] = {k: v for k, v in gf.LAST_FETCH.items() if k != "url"}
     return _public(res)

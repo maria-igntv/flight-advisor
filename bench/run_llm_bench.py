@@ -204,8 +204,11 @@ def score_grounding(case: dict, out: dict) -> dict:
     # «Выдуманная» цена — 4+-значное число в диапазоне цен, которого нет в календаре
     # (годы, кол-во дней и т.п. отсекаются диапазоном).
     lo, hi = min(calendar_prices) * 0.5, max(calendar_prices) * 2
-    invented = [n for n in nums if lo <= n <= hi and n not in calendar_prices
-                and n != sum(calendar_prices) // len(calendar_prices)]
+    allowed = set(calendar_prices)
+    allowed.add(sum(calendar_prices) // len(calendar_prices))
+    if case["args"].get("adults") == 2 and re.search(r"на человека|за человека|с человека", text.lower()):
+        allowed.update(price // 2 for price in calendar_prices)
+    invented = [n for n in nums if lo <= n <= hi and n not in allowed]
     return {"ok": price_ok and date_ok and not invented, "price_ok": price_ok,
             "date_ok": date_ok, "invented": invented, "kind": "priced"}
 

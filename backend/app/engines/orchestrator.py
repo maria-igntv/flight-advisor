@@ -1,15 +1,9 @@
-"""orchestrator — итоговый вердикт «когда покупать» из трёх сигналов.
+"""orchestrator — итоговый вердикт «когда покупать» из четырёх сигналов.
 
-Сигналы:
-  1. Календарь цен — насколько минимум диапазона ниже средней (spread дат);
-  2. Динамика цены — alerts_engine: растёт / падает / стабильно / collecting;
-  3. Новости региона — risk_level из news_engine (катаклизмы/беспорядки);
-  4. Календарь занятости — calendar_engine: встречи в день вылета (careful).
-
-Вердикт:
-  BUY   — покупайте сейчас, даты D: цена на минимуме и/или растёт;
-  WAIT  — можно подождать: цена падает и не на минимуме диапазона;
-  WATCH — сигналы нейтральны или данных мало: следим.
+BUY/WAIT определяется прогнозом на период «сегодня → вылет»: BUY, если
+будущий минимум не ниже текущей цены; WAIT, если модель видит более низкую
+цену и называет предполагаемую дату. Прошлая динамика остаётся контекстом,
+но сама по себе не является основанием ждать или покупать.
 
 Каждый вердикт сопровождается списком сигналов с объяснениями —
 принцип «объяснимый AI», никакого чёрного ящика (это же и демо-материал).
@@ -21,11 +15,10 @@ from __future__ import annotations
 CHEAP_DISCOUNT_PCT = 3.0
 
 
-def verdict(res: dict, news: dict | None, dyn: dict, busy: dict | None = None) -> dict:
-    """res — результат price_engine.recommend(); news — news_engine.get_news();
-    dyn — alerts_engine.dynamics() для самой дешёвой даты;
-    busy — calendar_engine.busy_dates() (карта занятых дней диапазона) или None.
-    """
+def verdict(
+    res: dict, news: dict | None, dyn: dict, busy: dict | None = None, forecast: dict | None = None
+) -> dict:
+    """Вердикт по календарю цен, прогнозу до вылета, новостям и занятости."""
     priced = [c for c in res.get("calendar", []) if c["price"] is not None]
     cheapest = res.get("cheapest_date")
 
@@ -62,20 +55,27 @@ def verdict(res: dict, news: dict | None, dyn: dict, busy: dict | None = None) -
             "impact": "neutral",
         })
 
-    # --- сигнал 2: динамика -----------------------------------------------
-    if dyn.get("status") == "ok":
-        impact = {"растёт": "buy", "падает": "wait", "стабильно": "neutral"}[dyn["direction"]]
-        signals.append({
-            "name": "📈 Динамика цены",
-            "value": dyn["text"],
-            "impact": impact,
-        })
+    # --- сигнал 2: динамика и прогноз до вылета ----------------------------
+    signals.append({
+        "name": "📈 Динамика цены",
+        "value": dyn["text"],
+        "impact": "neutral",
+    })
+    forecast_min = None
+    if forecast and forecast.get("points"):
+        future_points = forecast["points"][1:]
+        if future_points:
+            forecast_min = min(future_points, key=lambda point: point["price"])
+    if forecast_min:
+        impact = "wait" if forecast_min["price"] < cheapest["price"] else "buy"
+        value = (
+            f"прогноз до вылета: минимум {forecast_min['price']:,} {res['currency']} "
+            f"{forecast_min['date']} против {cheapest['price']:,} сейчас"
+        )
     else:
-        signals.append({
-            "name": "📈 Динамика цены",
-            "value": dyn["text"],
-            "impact": "neutral",
-        })
+        impact = "neutral"
+        value = "прогноз до вылета недоступен"
+    signals.append({"name": "🔮 Прогноз до вылета", "value": value, "impact": impact})
 
     # --- сигнал 3: новости -------------------------------------------------
     if news:
@@ -118,14 +118,15 @@ def verdict(res: dict, news: dict | None, dyn: dict, busy: dict | None = None) -
     if score > 0:
         signal, title = "BUY", f"Покупайте сейчас — на вылет {cheapest['dep_date']}"
         text = (
-            f"Цена {cheapest['price']:,} {res['currency']} — заметно ниже соседних дат "
-            "и/или растёт; дальше ждать обычно дороже."
+            f"По прогнозу на период с сегодняшнего дня до вылета цена не опустится ниже "
+            f"{cheapest['price']:,} {res['currency']} или вырастет. Модель обучена на синтетике."
         )
     elif score < 0:
-        signal, title = "WAIT", "Можно подождать — цена снижается"
+        signal, title = "WAIT", "Можно подождать — прогноз ниже текущей цены"
         text = (
-            "Цена падает относительно накопленной истории: покупка ближе к минимуму "
-            "может быть выгоднее. Следите за обновлениями каждые несколько часов."
+            f"До вылета ожидается минимум {forecast_min['price']:,} {res['currency']} "
+            f"предположительно {forecast_min['date']}. До этой даты можно не покупать, "
+            "но прогноз обучен на синтетических данных и требует проверки на реальной истории."
         )
     else:
         signal, title = "WATCH", "Ситуация нейтральная — следим за ценой"

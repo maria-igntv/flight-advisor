@@ -1,0 +1,1429 @@
+{
+ "meta": {
+  "started_at": "2026-10-27",
+  "today": "2026-10-27",
+  "repeats": 1,
+  "cases": 44,
+  "transport": "Codex CLI structured JSON, not native tool calling"
+ },
+ "summary": {
+  "codex:gpt-6.1-sol": {
+   "n": 44,
+   "errors": 0,
+   "tools_dropped": 0,
+   "routing": {
+    "precision": 100.0,
+    "recall": 95.0,
+    "f1": 97.4
+   },
+   "tool_args_exact": 95.0,
+   "tool_fields": {
+    "origin": 100.0,
+    "dest": 100.0,
+    "dep_date": 100.0,
+    "return_date": 100.0,
+    "adults": 100.0,
+    "children": 100.0,
+    "infants": 100.0,
+    "dep_end": 100.0,
+    "currency": 100.0
+   },
+   "no_tool_correct": 100.0,
+   "grounding": 100.0,
+   "digest": 100.0,
+   "overall": 97.7,
+   "latency_p50": 10.46,
+   "latency_p95": 15.91,
+   "latency_mean": 10.78,
+   "tokens_in_mean": 14680,
+   "tokens_out_mean": 113
+  }
+ },
+ "records": [
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t01",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "IST",
+      "dep_date": "2026-12-15",
+      "adults": 1,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 15087,
+    "output_tokens": 58
+   },
+   "latency": 10.428,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "IST",
+     "dep_date": "2026-12-15",
+     "adults": 1,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t02",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "LED",
+      "dest": "AER",
+      "dep_date": "2027-01-03",
+      "adults": 1,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 15092,
+    "output_tokens": 58
+   },
+   "latency": 8.185,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "LED",
+     "dest": "AER",
+     "dep_date": "2027-01-03",
+     "adults": 1,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t03",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "TYO",
+      "dep_date": "2027-03-20",
+      "return_date": "2027-04-04",
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 15106,
+    "output_tokens": 91
+   },
+   "latency": 10.563,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "TYO",
+     "dep_date": "2027-03-20",
+     "return_date": "2027-04-04",
+     "adults": 1,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t04",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "DXB",
+      "dep_date": "2027-01-10",
+      "return_date": "2027-01-17",
+      "adults": 2,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 15098,
+    "output_tokens": 111
+   },
+   "latency": 9.413,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "DXB",
+     "dep_date": "2027-01-10",
+     "return_date": "2027-01-17",
+     "adults": 2,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t05",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "BKK",
+      "dep_date": "2027-02-05",
+      "adults": 2,
+      "children": 1,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 15098,
+    "output_tokens": 68
+   },
+   "latency": 9.626,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "BKK",
+     "dep_date": "2027-02-05",
+     "adults": 2,
+     "children": 1,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t06",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "AYT",
+      "dep_date": "2027-06-01",
+      "adults": 2,
+      "children": 1,
+      "infants": 1,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14580,
+    "output_tokens": 68
+   },
+   "latency": 9.783,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "AYT",
+     "dep_date": "2027-06-01",
+     "adults": 2,
+     "children": 1,
+     "infants": 1,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t07",
+   "text": "Из какого города вылетаете? Посчитаю на двоих взрослых в Нью-Йорк на неделю с вылетом 24–30 декабря 2026 года.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14563,
+    "output_tokens": 87
+   },
+   "latency": 9.386,
+   "tools_dropped": false,
+   "score": {
+    "called": false,
+    "fields": {},
+    "all_ok": false
+   },
+   "ok": false
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t08",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "PAR",
+      "dep_date": "2027-05-01",
+      "return_date": "2027-05-06",
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 15095,
+    "output_tokens": 127
+   },
+   "latency": 11.036,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "PAR",
+     "dep_date": "2027-05-01",
+     "return_date": "2027-05-06",
+     "adults": 1,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t09",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "BAX",
+      "dep_date": "2026-11-30",
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14557,
+    "output_tokens": 68
+   },
+   "latency": 8.425,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "BAX",
+     "dep_date": "2026-11-30",
+     "adults": 1,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t10",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "EVN",
+      "dep_date": "2026-10-30",
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 15087,
+    "output_tokens": 162
+   },
+   "latency": 14.6,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "EVN",
+     "dep_date": "2026-10-30",
+     "adults": 1,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t11",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "BJS",
+      "dep_date": "2026-11-10",
+      "adults": 1,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 15088,
+    "output_tokens": 142
+   },
+   "latency": 12.665,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "BJS",
+     "dep_date": "2026-11-10",
+     "adults": 1,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t12",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "IST",
+      "dep_date": "2026-12-10",
+      "dep_end": "2026-12-15",
+      "adults": 1,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14567,
+    "output_tokens": 107
+   },
+   "latency": 10.476,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "dep_end": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "IST",
+     "dep_date": "2026-12-10",
+     "dep_end": "2026-12-15",
+     "adults": 1,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t13",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "KZN",
+      "dest": "SVX",
+      "dep_date": "2026-11-14",
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14558,
+    "output_tokens": 106
+   },
+   "latency": 11.362,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "KZN",
+     "dest": "SVX",
+     "dep_date": "2026-11-14",
+     "adults": 1,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t14",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "LON",
+      "dep_date": "2026-11-24",
+      "adults": 1,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14561,
+    "output_tokens": 89
+   },
+   "latency": 9.626,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "LON",
+     "dep_date": "2026-11-24",
+     "adults": 1,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t15",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "TYO",
+      "dep_date": "2027-03-27",
+      "return_date": "2027-04-06",
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14567,
+    "output_tokens": 121
+   },
+   "latency": 11.163,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "TYO",
+     "dep_date": "2027-03-27",
+     "return_date": "2027-04-06",
+     "adults": 1,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t16",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "HKT",
+      "dep_date": "2026-12-20",
+      "adults": 1,
+      "currency": "USD"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14561,
+    "output_tokens": 93
+   },
+   "latency": 8.763,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true,
+     "currency": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "HKT",
+     "dep_date": "2026-12-20",
+     "adults": 1,
+     "currency": "USD"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t17",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "LED",
+      "dest": "TBS",
+      "dep_date": "2026-12-30",
+      "return_date": "2027-01-03",
+      "adults": 2,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14576,
+    "output_tokens": 104
+   },
+   "latency": 10.902,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "LED",
+     "dest": "TBS",
+     "dep_date": "2026-12-30",
+     "return_date": "2027-01-03",
+     "adults": 2,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t18",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "AER",
+      "dep_date": "2027-03-08",
+      "adults": 3,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14563,
+    "output_tokens": 59
+   },
+   "latency": 7.641,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "AER",
+     "dep_date": "2027-03-08",
+     "adults": 3,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t19",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "IST",
+      "dep_date": "2026-10-28",
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14557,
+    "output_tokens": 162
+   },
+   "latency": 11.701,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "IST",
+     "dep_date": "2026-10-28",
+     "adults": 1,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "tool",
+   "id": "t20",
+   "text": "",
+   "tool_calls": [
+    {
+     "name": "search_prices",
+     "arguments": {
+      "origin": "MOW",
+      "dest": "DXB",
+      "dep_date": "2026-11-14",
+      "return_date": "2026-11-15",
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "currency": "RUB"
+     }
+    }
+   ],
+   "usage": {
+    "input_tokens": 14568,
+    "output_tokens": 104
+   },
+   "latency": 10.654,
+   "tools_dropped": false,
+   "score": {
+    "called": true,
+    "fields": {
+     "origin": true,
+     "dest": true,
+     "dep_date": true,
+     "return_date": true,
+     "adults": true,
+     "children": true,
+     "infants": true
+    },
+    "all_ok": true,
+    "arguments": {
+     "origin": "MOW",
+     "dest": "DXB",
+     "dep_date": "2026-11-14",
+     "return_date": "2026-11-15",
+     "adults": 1,
+     "children": 0,
+     "infants": 0,
+     "currency": "RUB"
+    }
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n01",
+   "text": "Да, гражданам РФ для туристической поездки в Японию нужна виза, оформленная заранее, даже для короткого отпуска. Обычно нужны загранпаспорт, анкета, фото, программа поездки и подтверждение финансов. Японская виза для граждан РФ, как правило, бесплатна, но посредник или визовый центр может взимать сервисный сбор.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14556,
+    "output_tokens": 121
+   },
+   "latency": 10.626,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n02",
+   "text": "За 3 дня в Стамбуле рекомендую такой маршрут:\n\n1. Султанахмет: Айя-София, Голубая мечеть, Цистерна Базилика и дворец Топкапы. На дворец заложите 2–3 часа; по вторникам он закрыт. В мечети лучше приходить вне времени молитв.\n2. Галата и Босфор: Галатская башня, улочки Каракёя, прогулка по Истикляль и паром до Кадыкёя. Вечером — набережная Мода и ужин в азиатской части города.\n3. Базары и старые кварталы: Египетский базар, мечеть Сулеймание, Гранд-базар и цветные улицы Балата. Гранд-базар закрыт по воскресеньям.\n\nПопробуйте симит, балык-экмек, чечевичный суп и пахлаву. Для транспорта удобно оформить Istanbulkart; обычный паром по Босфору — отличный способ посмотреть город с воды.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14554,
+    "output_tokens": 254
+   },
+   "latency": 18.442,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n03",
+   "text": "В Токио сакура обычно цветёт с конца марта до начала апреля, пик — примерно 25 марта–5 апреля. Для поездки в 2027 году ориентируйтесь на 25 марта–7 апреля: точные сроки зависят от погоды, а полное цветение обычно длится около недели.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14552,
+    "output_tokens": 83
+   },
+   "latency": 10.899,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n04",
+   "text": "Ближе к вылету дешёвые тарифы обычно уже раскуплены, а оставшиеся места продаются дороже. При этом растёт доля срочных и деловых поездок: такие пассажиры готовы платить больше, и авиакомпании учитывают это в ценах.\n\nОсобенно заметен рост за последние 7–14 дней и перед праздниками. Но это не строгое правило: при слабом спросе цена может снизиться. Рассчитывать на скидку в последний момент рискованно.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14556,
+    "output_tokens": 126
+   },
+   "latency": 11.586,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n05",
+   "text": "В эконом-классе обычно разрешены:\n• Ручная кладь: 1 место весом 5–10 кг, размером примерно 55×40×20 см.\n• Небольшая сумка или рюкзак под кресло — часто дополнительно, но не у всех перевозчиков.\n• Багаж в багажном отсеке: обычно 1 чемодан до 20–23 кг, если включён в тариф. В базовых тарифах часто оплачивается отдельно.\n\nТочные нормы зависят от авиакомпании и тарифа — проверьте их перед покупкой.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14557,
+    "output_tokens": 149
+   },
+   "latency": 9.211,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n06",
+   "text": "Билеты в Азию обычно выгоднее покупать за 3–6 месяцев до вылета. На Новый год, сезон сакуры в Японии и зимний высокий сезон в Таиланде — за 5–8 месяцев. В низкий сезон часто достаточно 2–4 месяцев. За последние 2–4 недели цены обычно растут, поэтому ждать горящих билетов рискованно. Это ориентиры: универсального самого дешёвого срока нет.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14560,
+    "output_tokens": 114
+   },
+   "latency": 9.241,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n07",
+   "text": "В январе в Дубае обычно +24…+26 °C днём и +15…+18 °C ночью. Море — около +21…+23 °C: купаться можно, но вода бодрит. Дожди редкие, иногда бывает ветрено. Для прогулок погода комфортная; на вечер пригодится лёгкая куртка.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14554,
+    "output_tokens": 96
+   },
+   "latency": 10.172,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n08",
+   "text": "Если разница в цене небольшая — лучше прямой: быстрее и меньше риск задержек или потери стыковки.\n\nПересадка в Стамбуле имеет смысл при экономии от 20–30%. Выбирайте единый билет и закладывайте 2–3 часа между рейсами. Проверьте аэропорты: IST и SAW — разные, пересадка между ними требует въезда в Турцию и долгого переезда.\n\nКакой маршрут и насколько отличаются цены?",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14560,
+    "output_tokens": 127
+   },
+   "latency": 11.328,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n09",
+   "text": "Из Нариты в центр Токио удобнее добраться поездом:\n• Keisei Skyliner → Nippori или Ueno: около 40–45 минут, ≈2 600 ¥. Удобен для севера и востока города.\n• Narita Express → Tokyo Station: около 60 минут; → Shinjuku: 80–90 минут. Стоимость ≈3 100–3 300 ¥, удобен с багажом.\n• Keisei Access Express → Asakusa: около 60 минут, ≈1 400 ¥ — бюджетный вариант без пересадки.\n• Автобус до Tokyo Station: 65–90 минут, ≈1 500 ¥; время зависит от пробок.\n\nЦены ориентировочные, за взрослого в одну сторону. Для Tokyo Station выбирайте Narita Express, для Ueno — Skyliner, для Asakusa — Access Express.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14556,
+    "output_tokens": 216
+   },
+   "latency": 15.977,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "no_tool",
+   "id": "n10",
+   "text": "Если ребёнок — гражданин РФ и вылетает из России, понадобятся:\n• Собственный действующий загранпаспорт, в том числе ребёнку до 14 лет.\n• Виза или другое разрешение на въезд, если этого требует страна назначения.\n• Свидетельство о рождении — возьмите для подтверждения родства, особенно при разных фамилиях.\n• Если ребёнок летит без родителей — нотариальное согласие хотя бы одного законного представителя. При выезде с одним родителем согласие второго для российской границы обычно не требуется, если нет запрета на выезд. У страны въезда и консульства могут быть дополнительные требования.\n\nСколько лет ребёнку, куда и с кем он летит?",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14556,
+    "output_tokens": 262
+   },
+   "latency": 16.793,
+   "tools_dropped": false,
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "grounding",
+   "id": "g01",
+   "text": "Москва — Стамбул, в одну сторону на 1 взрослого:\n• 10 декабря — от 26 533 ₽\n• 11 декабря — от 28 988 ₽\n• 12 декабря — от 29 227 ₽\n• 13 декабря — от 20 956 ₽\n• 14 декабря — от 24 269 ₽\n\nСамый дешёвый день — 13 декабря 2026 года: от 20 956 ₽.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14743,
+    "output_tokens": 121
+   },
+   "latency": 10.997,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "price_ok": true,
+    "date_ok": true,
+    "invented": [],
+    "kind": "priced"
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "grounding",
+   "id": "g02",
+   "text": "Дешевле всего вылететь 24 марта 2027 года — от 41 311 ₽ за одного взрослого в одну сторону из Москвы в Токио. Это минимальная цена за 20–26 марта; цены могут измениться.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 15313,
+    "output_tokens": 69
+   },
+   "latency": 15.498,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "price_ok": true,
+    "date_ok": true,
+    "invented": [],
+    "kind": "priced"
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "grounding",
+   "id": "g03",
+   "text": "Москва — Дубай туда-обратно на двоих, возвращение 20 января 2027:\n• 10 января — от 101 303 ₽\n• 11 января — от 111 649 ₽\n• 12 января — от 90 614 ₽\n• 13 января — от 86 072 ₽\n\nВыгоднее вылететь 13 января: 86 072 ₽ за двоих (43 036 ₽ на человека).",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14740,
+    "output_tokens": 123
+   },
+   "latency": 8.56,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "price_ok": true,
+    "date_ok": true,
+    "invented": [],
+    "kind": "priced"
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "grounding",
+   "id": "g04",
+   "text": "Самый дешёвый вылет Санкт-Петербург → Сочи — 5 января 2027 года: от 9 802 ₽ за одного взрослого в одну сторону. Это минимальная цена среди вылетов со 2 по 6 января.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14745,
+    "output_tokens": 68
+   },
+   "latency": 8.406,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "price_ok": true,
+    "date_ok": true,
+    "invented": [],
+    "kind": "priced"
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "grounding",
+   "id": "g05",
+   "text": "Москва — Нью-Йорк, 1 взрослый, в одну сторону:\n• 21 декабря — от 76 823 ₽\n• 22 декабря — от 69 719 ₽\n• 23 декабря — от 76 936 ₽\n• 24 декабря — от 67 097 ₽\n• 25 декабря — от 72 802 ₽\n\nСамый дешёвый вылет — 24 декабря 2026 года.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 15265,
+    "output_tokens": 115
+   },
+   "latency": 10.025,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "price_ok": true,
+    "date_ok": true,
+    "invented": [],
+    "kind": "priced"
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "grounding",
+   "id": "g06",
+   "text": "Дешевле всего вылететь 7 февраля 2027 — от 38 092 ₽ за одного взрослого в одну сторону.\n\n5 февраля — 46 503 ₽\n6 февраля — 42 355 ₽\n7 февраля — 38 092 ₽\n8 февраля — 38 765 ₽\n9 февраля — 41 496 ₽\n\nЭкономия относительно 5 февраля — 8 411 ₽. Цены могут измениться.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14745,
+    "output_tokens": 119
+   },
+   "latency": 8.574,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "price_ok": true,
+    "date_ok": true,
+    "invented": [],
+    "kind": "priced"
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "grounding",
+   "id": "g07",
+   "text": "На 30 ноября 2026 года Google Flights не вернул цены на билеты Москва — Барнаул. Ориентировочно билет в одну сторону на одного взрослого может стоить 8 000–18 000 ₽ экономклассом. Это оценка, не подтверждённая текущим поиском; багаж может оплачиваться отдельно.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14673,
+    "output_tokens": 93
+   },
+   "latency": 11.321,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "kind": "honest_no_data"
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "grounding",
+   "id": "g08",
+   "text": "Москва — Ереван, в одну сторону на 1 взрослого:\n• 13 ноября — от 15 919 ₽\n• 14 ноября — от 14 808 ₽\n• 15 ноября — от 12 462 ₽\n• 16 ноября — от 14 876 ₽\n• 17 ноября — от 12 052 ₽ — дешевле всего.\n\nОбратный билет в эти цены не включён.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14737,
+    "output_tokens": 152
+   },
+   "latency": 12.084,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "price_ok": true,
+    "date_ok": true,
+    "invented": [],
+    "kind": "priced"
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "digest",
+   "id": "d01",
+   "text": "⚠️ У побережья Токио произошло землетрясение магнитудой 6,8, движение поездов приостановлено — это может затруднить передвижение во время поездки. В Японии ожидают раннее цветение сакуры в марте, а японские авиакомпании планируют увеличить число рейсов в Европу.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14323,
+    "output_tokens": 95
+   },
+   "latency": 8.179,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "checks": {
+     "sentences_2_4": true,
+     "no_markdown": true,
+     "russian": true,
+     "risk_flagged": true
+    },
+    "sentences": 2
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "digest",
+   "id": "d02",
+   "text": "⚠️ В Стамбуле прошли массовые протесты, полиция перекрыла центр города — это может затруднить передвижение и доступ к достопримечательностям в центре. Турецкая лира упала до рекордного минимума к доллару, поэтому при планировании расходов стоит учитывать изменение курса. Новый аэропорт Стамбула сообщил о рекордном числе обслуженных пассажиров.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14324,
+    "output_tokens": 105
+   },
+   "latency": 10.205,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "checks": {
+     "sentences_2_4": true,
+     "no_markdown": true,
+     "russian": true,
+     "risk_flagged": true
+    },
+    "sentences": 3
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "digest",
+   "id": "d03",
+   "text": "В Дубае представили планы крупнейшего в мире аэропортового терминала, а турпоток из России в ОАЭ за год вырос на 20%. ОАЭ также объявили новые правила долгосрочных туристических виз — при планировании длительной поездки стоит уточнить условия. Подробностей визовых изменений и сроков реализации аэропортового проекта в списке нет; тревожных событий не отмечено.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14310,
+    "output_tokens": 106
+   },
+   "latency": 10.45,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "checks": {
+     "sentences_2_4": true,
+     "no_markdown": true,
+     "russian": true,
+     "risk_flagged": true
+    },
+    "sentences": 3
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "digest",
+   "id": "d04",
+   "text": "⚠️ После рекордных муссонных дождей пригороды Бангкока столкнулись с сильными наводнениями, что может затруднить передвижение в затронутых районах. Таиланд также продлил безвизовый режим для россиян до 60 дней — это позволяет планировать более длительную поездку без визы.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14304,
+    "output_tokens": 94
+   },
+   "latency": 9.955,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "checks": {
+     "sentences_2_4": true,
+     "no_markdown": true,
+     "russian": true,
+     "risk_flagged": true
+    },
+    "sentences": 2
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "digest",
+   "id": "d05",
+   "text": "⚠️ Во Франции забастовка авиадиспетчеров привела к отмене сотен рейсов — это может затронуть перелёт в Париж. Парижские музеи продлевают часы работы на зимний сезон, так что времени на посещение будет больше. В следующем году Франция повысит туристический налог в крупных городах, что стоит учесть в бюджете поездки.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14321,
+    "output_tokens": 104
+   },
+   "latency": 11.24,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "checks": {
+     "sentences_2_4": true,
+     "no_markdown": true,
+     "russian": true,
+     "risk_flagged": true
+    },
+    "sentences": 3
+   },
+   "ok": true
+  },
+  {
+   "provider": "codex:gpt-6.1-sol",
+   "task": "digest",
+   "id": "d06",
+   "text": "В аэропорту Звартноц запустили новые рейсы в Россию — это расширяет выбор перелётов для поездки в Ереван. В Армении также растёт винный туризм на фоне возвращения путешественников. Тревожных событий в подборке нет.",
+   "tool_calls": [],
+   "usage": {
+    "input_tokens": 14295,
+    "output_tokens": 78
+   },
+   "latency": 8.341,
+   "tools_dropped": false,
+   "score": {
+    "ok": true,
+    "checks": {
+     "sentences_2_4": true,
+     "no_markdown": true,
+     "russian": true,
+     "risk_flagged": true
+    },
+    "sentences": 3
+   },
+   "ok": true
+  }
+ ]
+}

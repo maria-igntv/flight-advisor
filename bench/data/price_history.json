@@ -1,0 +1,3836 @@
+{
+ "source": "Google Flights min-price snapshots",
+ "exported_at": "2026-11-14T17:40:42",
+ "records": [
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42812,
+   "fetched_at": "2026-10-24T23:22:39.515227"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-24T23:23:15.909587"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-24T23:26:20.674872"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-24T23:26:21.644418"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-24T23:26:22.679251"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-24T23:26:23.651318"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-24T23:26:24.468148"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42812,
+   "fetched_at": "2026-10-24T23:33:49.449597"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42812,
+   "fetched_at": "2026-10-24T23:38:06.521665"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-24T23:38:11.346010"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-24T23:38:16.243599"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-24T23:38:21.205919"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-24T23:38:26.236676"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-24T23:38:31.143712"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-24T23:38:36.040791"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25791,
+   "fetched_at": "2026-10-24T23:38:40.813371"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25791,
+   "fetched_at": "2026-10-24T23:38:45.516557"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25791,
+   "fetched_at": "2026-10-24T23:38:50.213910"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19123,
+   "fetched_at": "2026-10-24T23:38:54.917360"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23091,
+   "fetched_at": "2026-10-24T23:38:59.736437"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19123,
+   "fetched_at": "2026-10-24T23:39:04.539222"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22256,
+   "fetched_at": "2026-10-24T23:39:09.240592"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-24T23:39:14.045866"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-24T23:39:18.768977"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-24T23:39:23.491583"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-24T23:39:28.227043"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-24T23:39:32.982955"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-24T23:39:37.706347"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-24T23:39:42.432294"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2026-12-29",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42664,
+   "fetched_at": "2026-10-24T23:43:15.063579"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2026-12-30",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53318,
+   "fetched_at": "2026-10-24T23:43:15.802776"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2026-12-31",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53351,
+   "fetched_at": "2026-10-24T23:43:16.539709"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-01",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42725,
+   "fetched_at": "2026-10-24T23:43:17.246447"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-02",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53563,
+   "fetched_at": "2026-10-24T23:43:17.971693"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-03",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53563,
+   "fetched_at": "2026-10-24T23:43:18.656932"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-04",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 34986,
+   "fetched_at": "2026-10-24T23:43:19.393605"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-05",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 27350,
+   "fetched_at": "2026-10-24T23:43:20.056480"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-06",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 34986,
+   "fetched_at": "2026-10-24T23:43:20.769056"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-07",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 29956,
+   "fetched_at": "2026-10-24T23:43:21.434209"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-08",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30369,
+   "fetched_at": "2026-10-24T23:43:22.102026"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-01-09",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 35901,
+   "fetched_at": "2026-10-24T23:43:22.799413"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 103737,
+   "fetched_at": "2026-10-25T00:00:08.404028"
+  },
+  {
+   "origin": "MOW",
+   "dest": "MIL",
+   "dep_date": "2026-12-28",
+   "return_date": "2027-01-10",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 86991,
+   "fetched_at": "2026-10-25T00:06:16.523636"
+  },
+  {
+   "origin": "MOW",
+   "dest": "MIL",
+   "dep_date": "2026-12-29",
+   "return_date": "2027-01-10",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 85871,
+   "fetched_at": "2026-10-25T00:06:17.060479"
+  },
+  {
+   "origin": "MOW",
+   "dest": "MIL",
+   "dep_date": "2026-12-30",
+   "return_date": "2027-01-10",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 88971,
+   "fetched_at": "2026-10-25T00:06:17.520094"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42812,
+   "fetched_at": "2026-10-25T11:19:23.383102"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T11:19:28.195311"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T11:19:33.242306"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T11:19:38.272111"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T11:19:43.163162"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T11:19:48.020902"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T11:19:52.936225"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25791,
+   "fetched_at": "2026-10-25T11:19:57.662898"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25791,
+   "fetched_at": "2026-10-25T11:20:02.352315"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25791,
+   "fetched_at": "2026-10-25T11:20:07.142213"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19123,
+   "fetched_at": "2026-10-25T11:20:11.891447"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23091,
+   "fetched_at": "2026-10-25T11:20:16.598594"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19123,
+   "fetched_at": "2026-10-25T11:20:21.308876"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22256,
+   "fetched_at": "2026-10-25T11:20:26.118738"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42667,
+   "fetched_at": "2026-10-25T11:20:30.828727"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-25T11:20:35.604168"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-25T11:20:40.286596"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-25T11:20:45.045696"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-25T11:20:49.798270"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-25T11:21:14.570085"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-25T11:21:19.324958"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 112946,
+   "fetched_at": "2026-10-25T12:13:26.730928"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 114325,
+   "fetched_at": "2026-10-25T12:13:27.934797"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 112946,
+   "fetched_at": "2026-10-25T12:13:29.274867"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 114325,
+   "fetched_at": "2026-10-25T12:13:30.554056"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 112946,
+   "fetched_at": "2026-10-25T12:13:31.798822"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 114325,
+   "fetched_at": "2026-10-25T12:13:32.818608"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-18",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 136477,
+   "fetched_at": "2026-10-25T12:24:18.590757"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-19",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 112946,
+   "fetched_at": "2026-10-25T12:24:19.717467"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-27",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 106347,
+   "fetched_at": "2026-10-25T12:24:20.796479"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-28",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 118445,
+   "fetched_at": "2026-10-25T12:24:21.879268"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-29",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 122712,
+   "fetched_at": "2026-10-25T12:24:22.958721"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-30",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 122712,
+   "fetched_at": "2026-10-25T12:24:44.171638"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-31",
+   "return_date": "2027-04-04",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 132612,
+   "fetched_at": "2026-10-25T12:24:45.165039"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 86898,
+   "fetched_at": "2026-10-25T13:45:17.785496"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2026-12-25",
+   "return_date": "2027-01-07",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 126600,
+   "fetched_at": "2026-10-25T14:16:30.433206"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2026-11-02",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 107222,
+   "fetched_at": "2026-10-25T14:17:33.387049"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2026-11-03",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 145211,
+   "fetched_at": "2026-10-25T14:17:34.374385"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2026-11-04",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 88768,
+   "fetched_at": "2026-10-25T14:17:35.603666"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2026-11-05",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 85132,
+   "fetched_at": "2026-10-25T14:17:36.807535"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2026-11-06",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 86228,
+   "fetched_at": "2026-10-25T14:17:37.812187"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-02",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 113700,
+   "fetched_at": "2026-10-25T14:17:40.130545"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-03",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 110594,
+   "fetched_at": "2026-10-25T14:17:41.107348"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-04",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 94700,
+   "fetched_at": "2026-10-25T14:17:42.367947"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-05",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 94700,
+   "fetched_at": "2026-10-25T14:17:43.244858"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-06",
+   "return_date": "2026-11-12",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 94700,
+   "fetched_at": "2026-10-25T14:17:44.221029"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-02",
+   "return_date": "2026-11-12",
+   "passengers": "1-1-0",
+   "currency": "RUB",
+   "price": 113700,
+   "fetched_at": "2026-10-25T14:22:08.027715"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-03",
+   "return_date": "2026-11-12",
+   "passengers": "1-1-0",
+   "currency": "RUB",
+   "price": 110594,
+   "fetched_at": "2026-10-25T14:22:09.373857"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-04",
+   "return_date": "2026-11-12",
+   "passengers": "1-1-0",
+   "currency": "RUB",
+   "price": 94700,
+   "fetched_at": "2026-10-25T14:22:10.346767"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-05",
+   "return_date": "2026-11-12",
+   "passengers": "1-1-0",
+   "currency": "RUB",
+   "price": 94700,
+   "fetched_at": "2026-10-25T14:22:11.526266"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-06",
+   "return_date": "2026-11-12",
+   "passengers": "1-1-0",
+   "currency": "RUB",
+   "price": 94700,
+   "fetched_at": "2026-10-25T14:22:12.421921"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-02",
+   "return_date": "2026-11-12",
+   "passengers": "2-1-0",
+   "currency": "RUB",
+   "price": 170550,
+   "fetched_at": "2026-10-25T14:22:21.862248"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-03",
+   "return_date": "2026-11-12",
+   "passengers": "2-1-0",
+   "currency": "RUB",
+   "price": 165891,
+   "fetched_at": "2026-10-25T14:22:22.880500"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-04",
+   "return_date": "2026-11-12",
+   "passengers": "2-1-0",
+   "currency": "RUB",
+   "price": 142050,
+   "fetched_at": "2026-10-25T14:22:23.882407"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-05",
+   "return_date": "2026-11-12",
+   "passengers": "2-1-0",
+   "currency": "RUB",
+   "price": 142050,
+   "fetched_at": "2026-10-25T14:22:24.878873"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-11-06",
+   "return_date": "2026-11-12",
+   "passengers": "2-1-0",
+   "currency": "RUB",
+   "price": 142050,
+   "fetched_at": "2026-10-25T14:22:25.981131"
+  },
+  {
+   "origin": "MOW",
+   "dest": "AER",
+   "dep_date": "2026-10-27",
+   "return_date": "2026-11-05",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 128545,
+   "fetched_at": "2026-10-25T14:45:57.067902"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-27",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 46098,
+   "fetched_at": "2026-10-25T14:58:16.020994"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-28",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 65663,
+   "fetched_at": "2026-10-25T14:58:16.853377"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-29",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 62707,
+   "fetched_at": "2026-10-25T14:58:17.808739"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-30",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 63622,
+   "fetched_at": "2026-10-25T14:58:18.684864"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-31",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 100505,
+   "fetched_at": "2026-10-25T14:58:19.661339"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-01",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 65822,
+   "fetched_at": "2026-10-25T14:58:20.589682"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-02",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53394,
+   "fetched_at": "2026-10-25T14:58:21.340135"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-03",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 58886,
+   "fetched_at": "2026-10-25T14:58:22.268536"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-04",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 46068,
+   "fetched_at": "2026-10-25T14:58:23.192747"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-05",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 65822,
+   "fetched_at": "2026-10-25T14:58:24.177408"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-06",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 65822,
+   "fetched_at": "2026-10-25T14:58:25.020592"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-07",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 59833,
+   "fetched_at": "2026-10-25T14:58:26.015116"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-08",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53394,
+   "fetched_at": "2026-10-25T14:58:26.978347"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-09",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 44292,
+   "fetched_at": "2026-10-25T14:58:27.889725"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-04-10",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 58886,
+   "fetched_at": "2026-10-25T14:58:28.835503"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-28",
+   "return_date": "2027-04-08",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 115700,
+   "fetched_at": "2026-10-25T14:59:01.699391"
+  },
+  {
+   "origin": "MOW",
+   "dest": "NYC",
+   "dep_date": "2026-12-25",
+   "return_date": "2027-01-01",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 233810,
+   "fetched_at": "2026-10-25T15:00:14.138236"
+  },
+  {
+   "origin": "MOW",
+   "dest": "NYC",
+   "dep_date": "2026-12-24",
+   "return_date": "2026-12-31",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 210020,
+   "fetched_at": "2026-10-25T15:01:29.999058"
+  },
+  {
+   "origin": "MOW",
+   "dest": "NYC",
+   "dep_date": "2026-12-26",
+   "return_date": "2027-01-02",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 268210,
+   "fetched_at": "2026-10-25T15:01:31.224289"
+  },
+  {
+   "origin": "MOW",
+   "dest": "NYC",
+   "dep_date": "2026-12-28",
+   "return_date": "2027-01-04",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 233810,
+   "fetched_at": "2026-10-25T15:01:32.357234"
+  },
+  {
+   "origin": "MOW",
+   "dest": "EVN",
+   "dep_date": "2026-11-04",
+   "return_date": "2026-11-08",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 295532,
+   "fetched_at": "2026-10-25T15:04:51.833181"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 43449,
+   "fetched_at": "2026-10-25T15:27:31.332794"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T15:27:36.293436"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T15:27:41.223436"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T15:27:46.005309"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T15:27:50.845571"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T15:27:55.734943"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T15:28:00.724797"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 26177,
+   "fetched_at": "2026-10-25T15:28:05.448907"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 26177,
+   "fetched_at": "2026-10-25T15:28:10.189657"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 26177,
+   "fetched_at": "2026-10-25T15:28:14.899209"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19409,
+   "fetched_at": "2026-10-25T15:28:19.600829"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19409,
+   "fetched_at": "2026-10-25T15:28:24.328444"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19409,
+   "fetched_at": "2026-10-25T15:28:29.060189"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22589,
+   "fetched_at": "2026-10-25T15:28:33.828110"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T15:28:38.566493"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T15:28:43.231912"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T15:28:48.151721"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T15:28:52.886976"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T15:28:57.601924"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30317,
+   "fetched_at": "2026-10-25T15:29:02.270273"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T15:29:07.275125"
+  },
+  {
+   "origin": "MOW",
+   "dest": "AER",
+   "dep_date": "2027-04-12",
+   "return_date": "2027-04-20",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 40738,
+   "fetched_at": "2026-10-25T15:37:46.468451"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-15",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53616,
+   "fetched_at": "2026-10-25T15:39:51.149368"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-16",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:39:52.325077"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-17",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:39:53.512833"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-18",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:39:54.600626"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-19",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 60912,
+   "fetched_at": "2026-10-25T15:39:55.567893"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 57437,
+   "fetched_at": "2026-10-25T15:39:56.745445"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53616,
+   "fetched_at": "2026-10-25T15:39:57.972674"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53616,
+   "fetched_at": "2026-10-25T15:39:59.161818"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:40:00.284482"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-11-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:40:01.454871"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 81194,
+   "fetched_at": "2026-10-25T15:40:02.586822"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 81194,
+   "fetched_at": "2026-10-25T15:40:03.567652"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 85589,
+   "fetched_at": "2026-10-25T15:40:04.453301"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 85589,
+   "fetched_at": "2026-10-25T15:40:05.733625"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 83209,
+   "fetched_at": "2026-10-25T15:40:06.714286"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 91899,
+   "fetched_at": "2026-10-25T15:40:07.697338"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 91899,
+   "fetched_at": "2026-10-25T15:40:08.782259"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-27",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 89614,
+   "fetched_at": "2026-10-25T15:40:09.853049"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-28",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 89614,
+   "fetched_at": "2026-10-25T15:40:10.751315"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2026-12-29",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 89614,
+   "fetched_at": "2026-10-25T15:40:11.572888"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-12",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:40:12.808307"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-13",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:40:13.750463"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-14",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 62533,
+   "fetched_at": "2026-10-25T15:40:14.920353"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-15",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 64022,
+   "fetched_at": "2026-10-25T15:40:15.960808"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-16",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 59267,
+   "fetched_at": "2026-10-25T15:40:17.113664"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-17",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 63340,
+   "fetched_at": "2026-10-25T15:40:18.274295"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-18",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 57437,
+   "fetched_at": "2026-10-25T15:40:19.433434"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-19",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:40:20.349532"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:40:21.441017"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-01-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:40:22.576316"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-02-10",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 51618,
+   "fetched_at": "2026-10-25T15:40:23.683054"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-02-11",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 57437,
+   "fetched_at": "2026-10-25T15:40:24.785213"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-02-12",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 57437,
+   "fetched_at": "2026-10-25T15:40:25.925696"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-02-13",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53616,
+   "fetched_at": "2026-10-25T15:40:26.736430"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CPT",
+   "dep_date": "2027-02-14",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 53616,
+   "fetched_at": "2026-10-25T15:40:27.894856"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2026-12-28",
+   "return_date": "2027-01-11",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 151948,
+   "fetched_at": "2026-10-25T15:53:23.588145"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 43449,
+   "fetched_at": "2026-10-25T16:07:10.499881"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T16:07:15.335581"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T16:07:20.255353"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T16:07:25.267682"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T16:07:30.188442"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-25T16:07:35.041381"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-25T16:07:39.971072"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 26177,
+   "fetched_at": "2026-10-25T16:07:45.024549"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 26177,
+   "fetched_at": "2026-10-25T16:07:49.998985"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 26177,
+   "fetched_at": "2026-10-25T16:07:54.726475"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19409,
+   "fetched_at": "2026-10-25T16:07:59.417421"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19409,
+   "fetched_at": "2026-10-25T16:08:04.110286"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19409,
+   "fetched_at": "2026-10-25T16:08:08.778815"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22589,
+   "fetched_at": "2026-10-25T16:08:13.512324"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T16:08:18.261652"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T16:08:22.943670"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T16:08:27.708628"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T16:08:32.547243"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T16:08:37.250956"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T16:08:41.976058"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30771,
+   "fetched_at": "2026-10-25T16:08:46.723258"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2026-11-16",
+   "return_date": "2026-12-03",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 197756,
+   "fetched_at": "2026-10-25T16:17:06.113905"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 43037,
+   "fetched_at": "2026-10-26T12:55:43.988006"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-26T12:55:49.256064"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-26T12:55:54.399557"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-26T12:55:59.514074"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-26T12:56:04.660667"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-26T12:56:10.016934"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-26T12:56:15.237679"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25908,
+   "fetched_at": "2026-10-26T12:56:20.409036"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25908,
+   "fetched_at": "2026-10-26T12:56:25.346729"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25908,
+   "fetched_at": "2026-10-26T12:56:30.321780"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19210,
+   "fetched_at": "2026-10-26T12:56:35.387242"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19210,
+   "fetched_at": "2026-10-26T12:56:40.446746"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19210,
+   "fetched_at": "2026-10-26T12:56:45.390786"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22357,
+   "fetched_at": "2026-10-26T12:56:50.388462"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30456,
+   "fetched_at": "2026-10-26T12:56:55.369141"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30738,
+   "fetched_at": "2026-10-26T12:57:00.389155"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30724,
+   "fetched_at": "2026-10-26T12:57:05.392063"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30721,
+   "fetched_at": "2026-10-26T12:57:10.324912"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30456,
+   "fetched_at": "2026-10-26T12:57:15.283904"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30455,
+   "fetched_at": "2026-10-26T12:57:20.253424"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30456,
+   "fetched_at": "2026-10-26T12:57:25.328115"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42945,
+   "fetched_at": "2026-10-26T17:29:30.014712"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-26T17:29:35.183152"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-26T17:29:40.223578"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-26T17:29:45.498049"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-26T17:29:50.547511"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47934,
+   "fetched_at": "2026-10-26T17:29:55.615864"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56814,
+   "fetched_at": "2026-10-26T17:30:00.901516"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25925,
+   "fetched_at": "2026-10-26T17:30:05.860426"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25925,
+   "fetched_at": "2026-10-26T17:30:10.807702"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 25925,
+   "fetched_at": "2026-10-26T17:30:15.788796"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19223,
+   "fetched_at": "2026-10-26T17:30:20.780670"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19223,
+   "fetched_at": "2026-10-26T17:30:25.730199"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19223,
+   "fetched_at": "2026-10-26T17:30:30.672392"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22372,
+   "fetched_at": "2026-10-26T17:30:35.675607"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30428,
+   "fetched_at": "2026-10-26T17:30:40.807814"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30428,
+   "fetched_at": "2026-10-26T17:30:45.783829"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30428,
+   "fetched_at": "2026-10-26T17:30:50.729359"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30428,
+   "fetched_at": "2026-10-26T17:30:55.804138"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30428,
+   "fetched_at": "2026-10-26T17:31:00.760628"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30428,
+   "fetched_at": "2026-10-26T17:31:05.738961"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30428,
+   "fetched_at": "2026-10-26T17:31:10.726120"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2026-11-24",
+   "return_date": "2026-12-10",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 66866,
+   "fetched_at": "2026-10-26T17:44:04.579869"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2026-11-10",
+   "return_date": "2026-11-22",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 171387,
+   "fetched_at": "2026-10-26T17:52:01.474773"
+  },
+  {
+   "origin": "MOW",
+   "dest": "AER",
+   "dep_date": "2026-10-31",
+   "return_date": "2026-12-21",
+   "passengers": "2-0-0",
+   "currency": "RUB",
+   "price": 99922,
+   "fetched_at": "2026-10-26T18:14:55.096353"
+  },
+  {
+   "origin": "MOW",
+   "dest": "VIE",
+   "dep_date": "2026-11-04",
+   "return_date": "2026-12-12",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 46878,
+   "fetched_at": "2026-10-26T18:32:19.367301"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2026-11-04",
+   "return_date": "2026-12-12",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 86626,
+   "fetched_at": "2026-10-26T18:32:37.938480"
+  },
+  {
+   "origin": "MOW",
+   "dest": "CDG",
+   "dep_date": "2026-11-04",
+   "return_date": "2026-12-12",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 59399,
+   "fetched_at": "2026-10-26T18:33:56.202875"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2027-06-14",
+   "return_date": "2027-08-06",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47071,
+   "fetched_at": "2026-10-26T18:35:13.945564"
+  },
+  {
+   "origin": "MOW",
+   "dest": "HKG",
+   "dep_date": "2026-11-17",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 49363,
+   "fetched_at": "2026-10-27T12:43:09.937959"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42785,
+   "fetched_at": "2026-10-27T13:20:06.432155"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-27T13:20:11.829680"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-27T13:20:17.132875"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-27T13:20:22.292167"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-27T13:20:27.387501"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-27T13:20:32.587018"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-27T13:20:37.742366"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23757,
+   "fetched_at": "2026-10-27T13:20:42.996747"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23757,
+   "fetched_at": "2026-10-27T13:20:47.893483"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22852,
+   "fetched_at": "2026-10-27T13:20:52.881515"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19122,
+   "fetched_at": "2026-10-27T13:20:57.777240"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19122,
+   "fetched_at": "2026-10-27T13:21:02.713663"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19122,
+   "fetched_at": "2026-10-27T13:21:07.611802"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22350,
+   "fetched_at": "2026-10-27T13:21:12.514740"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30455,
+   "fetched_at": "2026-10-27T13:21:17.551247"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30475,
+   "fetched_at": "2026-10-27T13:21:22.509129"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30455,
+   "fetched_at": "2026-10-27T13:21:27.546878"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30494,
+   "fetched_at": "2026-10-27T13:21:32.483751"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30493,
+   "fetched_at": "2026-10-27T13:21:37.405257"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30475,
+   "fetched_at": "2026-10-27T13:21:42.315166"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30493,
+   "fetched_at": "2026-10-27T13:21:47.357933"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2026-11-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "USD",
+   "price": 266,
+   "fetched_at": "2026-10-27T14:42:05.426002"
+  },
+  {
+   "origin": "MOW",
+   "dest": "LON",
+   "dep_date": "2026-11-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 21373,
+   "fetched_at": "2026-10-27T15:01:53.166348"
+  },
+  {
+   "origin": "MOW",
+   "dest": "PAR",
+   "dep_date": "2026-10-28",
+   "return_date": "2026-11-13",
+   "passengers": "1-0-0",
+   "currency": "USD",
+   "price": 697,
+   "fetched_at": "2026-10-27T16:53:20.271902"
+  },
+  {
+   "origin": "MOW",
+   "dest": "MIL",
+   "dep_date": "2026-11-27",
+   "return_date": "2026-12-09",
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 37489,
+   "fetched_at": "2026-10-27T17:10:24.483057"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42771,
+   "fetched_at": "2026-10-27T17:26:07.200003"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-27T17:26:12.563778"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-27T17:26:17.824887"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-27T17:26:23.051572"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-27T17:26:28.107324"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-27T17:26:33.335367"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-27T17:26:38.514279"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23757,
+   "fetched_at": "2026-10-27T17:26:43.655902"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23757,
+   "fetched_at": "2026-10-27T17:26:48.814183"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22852,
+   "fetched_at": "2026-10-27T17:26:53.832306"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19098,
+   "fetched_at": "2026-10-27T17:26:58.835084"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19098,
+   "fetched_at": "2026-10-27T17:27:03.938221"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19098,
+   "fetched_at": "2026-10-27T17:27:08.950443"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22322,
+   "fetched_at": "2026-10-27T17:27:14.126710"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30399,
+   "fetched_at": "2026-10-27T17:27:19.164227"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30399,
+   "fetched_at": "2026-10-27T17:27:24.597438"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30399,
+   "fetched_at": "2026-10-27T17:27:29.697327"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30399,
+   "fetched_at": "2026-10-27T17:27:34.776036"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30399,
+   "fetched_at": "2026-10-27T17:27:39.841481"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30399,
+   "fetched_at": "2026-10-27T17:27:44.841366"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30399,
+   "fetched_at": "2026-10-27T17:27:50.864033"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42648,
+   "fetched_at": "2026-10-28T13:23:20.928336"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47465,
+   "fetched_at": "2026-10-28T13:23:26.227140"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56245,
+   "fetched_at": "2026-10-28T13:23:31.351576"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56245,
+   "fetched_at": "2026-10-28T13:23:36.449646"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56245,
+   "fetched_at": "2026-10-28T13:23:41.740733"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47465,
+   "fetched_at": "2026-10-28T13:23:47.144307"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56245,
+   "fetched_at": "2026-10-28T13:23:52.525277"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23741,
+   "fetched_at": "2026-10-28T13:23:57.457230"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23741,
+   "fetched_at": "2026-10-28T13:24:02.528794"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22836,
+   "fetched_at": "2026-10-28T13:24:07.415258"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19077,
+   "fetched_at": "2026-10-28T13:24:12.385882"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19077,
+   "fetched_at": "2026-10-28T13:24:17.294443"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19077,
+   "fetched_at": "2026-10-28T13:24:22.263981"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22299,
+   "fetched_at": "2026-10-28T13:24:27.243863"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30456,
+   "fetched_at": "2026-10-28T13:24:32.213002"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30447,
+   "fetched_at": "2026-10-28T13:24:37.448982"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30381,
+   "fetched_at": "2026-10-28T13:24:42.398211"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30447,
+   "fetched_at": "2026-10-28T13:24:47.469918"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30447,
+   "fetched_at": "2026-10-28T13:24:52.526664"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30447,
+   "fetched_at": "2026-10-28T13:24:57.516586"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30456,
+   "fetched_at": "2026-10-28T13:25:02.456196"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 42485,
+   "fetched_at": "2026-10-28T18:02:55.641060"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47465,
+   "fetched_at": "2026-10-28T18:03:00.820259"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56245,
+   "fetched_at": "2026-10-28T18:03:06.130224"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56245,
+   "fetched_at": "2026-10-28T18:03:11.289095"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56245,
+   "fetched_at": "2026-10-28T18:03:16.754354"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47465,
+   "fetched_at": "2026-10-28T18:03:21.972518"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56245,
+   "fetched_at": "2026-10-28T18:03:27.222999"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23741,
+   "fetched_at": "2026-10-28T18:03:32.238160"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23741,
+   "fetched_at": "2026-10-28T18:03:37.162263"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22836,
+   "fetched_at": "2026-10-28T18:03:42.075045"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 18990,
+   "fetched_at": "2026-10-28T18:03:47.035704"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 18990,
+   "fetched_at": "2026-10-28T18:03:52.189280"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 18990,
+   "fetched_at": "2026-10-28T18:03:57.181444"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22198,
+   "fetched_at": "2026-10-28T18:04:02.195728"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30389,
+   "fetched_at": "2026-10-28T18:04:07.171143"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30260,
+   "fetched_at": "2026-10-28T18:04:12.225901"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30260,
+   "fetched_at": "2026-10-28T18:04:17.278996"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30389,
+   "fetched_at": "2026-10-28T18:04:22.284919"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30390,
+   "fetched_at": "2026-10-28T18:04:27.325152"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30260,
+   "fetched_at": "2026-10-28T18:04:32.457387"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30389,
+   "fetched_at": "2026-10-28T18:04:37.816025"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-29T11:31:14.392835"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-29T11:31:19.261977"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 83088,
+   "fetched_at": "2026-10-29T11:31:24.146953"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-29T11:31:28.966713"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 86311,
+   "fetched_at": "2026-10-29T11:31:33.953649"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-29T11:31:38.952557"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-29T11:31:43.827733"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23757,
+   "fetched_at": "2026-10-29T11:31:48.513552"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23757,
+   "fetched_at": "2026-10-29T11:31:53.235076"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22852,
+   "fetched_at": "2026-10-29T11:31:57.959338"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19089,
+   "fetched_at": "2026-10-29T11:32:02.649356"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19089,
+   "fetched_at": "2026-10-29T11:32:07.508819"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19089,
+   "fetched_at": "2026-10-29T11:32:12.194137"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22241,
+   "fetched_at": "2026-10-29T11:32:17.009146"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30381,
+   "fetched_at": "2026-10-29T11:32:21.715816"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30493,
+   "fetched_at": "2026-10-29T11:32:26.457213"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30381,
+   "fetched_at": "2026-10-29T11:32:31.123333"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30506,
+   "fetched_at": "2026-10-29T11:32:35.832267"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30381,
+   "fetched_at": "2026-10-29T11:32:40.545264"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30506,
+   "fetched_at": "2026-10-29T11:32:45.261018"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30381,
+   "fetched_at": "2026-10-29T11:32:49.965873"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-29T15:31:15.275255"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-29T15:31:20.220575"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 82822,
+   "fetched_at": "2026-10-29T15:31:25.208339"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-29T15:31:30.121997"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 86311,
+   "fetched_at": "2026-10-29T15:31:34.981222"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 47475,
+   "fetched_at": "2026-10-29T15:31:40.064396"
+  },
+  {
+   "origin": "MOW",
+   "dest": "TYO",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 56255,
+   "fetched_at": "2026-10-29T15:31:44.978061"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23757,
+   "fetched_at": "2026-10-29T15:31:49.706132"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 23757,
+   "fetched_at": "2026-10-29T15:31:54.396371"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22852,
+   "fetched_at": "2026-10-29T15:31:59.146559"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19027,
+   "fetched_at": "2026-10-29T15:32:04.033958"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19027,
+   "fetched_at": "2026-10-29T15:32:08.784552"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 19027,
+   "fetched_at": "2026-10-29T15:32:13.512645"
+  },
+  {
+   "origin": "MOW",
+   "dest": "IST",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 22170,
+   "fetched_at": "2026-10-29T15:32:18.165873"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-20",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30410,
+   "fetched_at": "2026-10-29T15:32:22.914767"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-21",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30399,
+   "fetched_at": "2026-10-29T15:32:27.709810"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-22",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30410,
+   "fetched_at": "2026-10-29T15:32:32.562631"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-23",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30408,
+   "fetched_at": "2026-10-29T15:32:37.381637"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-24",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30400,
+   "fetched_at": "2026-10-29T15:32:42.070032"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-25",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30400,
+   "fetched_at": "2026-10-29T15:32:46.743086"
+  },
+  {
+   "origin": "MOW",
+   "dest": "DXB",
+   "dep_date": "2027-03-26",
+   "return_date": null,
+   "passengers": "1-0-0",
+   "currency": "RUB",
+   "price": 30410,
+   "fetched_at": "2026-10-29T15:32:51.435900"
+  }
+ ]
+}
