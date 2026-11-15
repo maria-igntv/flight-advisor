@@ -103,14 +103,14 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
 
 <!-- 1 -->
 <section class="slide" data-title="Старт">
-  <div class="kicker">Вайбкодинг-проект · октябрь 2026</div>
+  <div class="kicker">Вайбкодинг-проект · актуальная версия: ноябрь 2026</div>
   <h1>✈️ Flight Ticket Advisor</h1>
   <p style="font-size:1.3rem;max-width:820px">Когда покупать авиабилет, чтобы заплатить меньше: реальные цены Google Flights,
     объяснимый вердикт <b style="color:var(--buy)">BUY</b> / <b style="color:var(--wait)">WAIT</b> / <b style="color:var(--watch)">WATCH</b>,
     прогноз до вылета, новости, визы, календарь и AI-помощник.</p>
   <div class="grid g3" style="max-width:900px;margin-top:24px">
-    <div class="card"><div class="big">4 + 10</div><div class="muted">этапов и фикс-раундов за 4 дня</div></div>
-    <div class="card"><div class="big">~4,7k</div><div class="muted">строк Python, написанных ИИ-агентами</div></div>
+    <div class="card"><div class="big">4 + 13</div><div class="muted">этапов и фикс-раундов с проверками</div></div>
+    <div class="card"><div class="big">43 / 44</div><div class="muted">контрольных кейса Codex · digest 6/6</div></div>
     <div class="card"><div class="big">0,86 с</div><div class="muted">p50 запроса к Google (кэш — 19 мс)</div></div>
   </div>
   <p class="muted" style="margin-top:28px">← → или пробел — листать · <a href="https://flight-advisor-budget-finder.streamlit.app/">веб-версия</a> ·
@@ -162,7 +162,7 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
         <li><b>Объём и команда:</b> 1 человек + ИИ-агент, сжатые сроки. Микросервисам и агентным фреймворкам некому служить.</li>
         <li><b>Деплой:</b> Streamlit Cloud = один Python-процесс без внешних БД → SQLite и модули работают «как есть».</li>
         <li><b>Объяснимость:</b> каждый движок отдаёт сигнал с текстом, оркестратор — прозрачная сумма.</li>
-        <li><b>Заменяемость:</b> движки общаются словарями — скрейпер → Travelpayouts, эвристика → CatBoost, SQLite → Postgres без правки UI.</li>
+        <li><b>Заменяемость:</b> движки общаются словарями — скрейпер → Travelpayouts, синтетическая модель → модель на реальной истории, SQLite → Postgres.</li>
       </ul></div>
     <div class="card"><h3>Рассмотрено / протестировано</h3>
       <table id="alts"></table></div>
@@ -186,9 +186,10 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
         <input type="range" id="disc" min="0" max="20" value="5"></label>
       <label>Дат с ценой в диапазоне: <b id="ndv">7</b>
         <input type="range" id="nd" min="1" max="18" value="7"></label>
-      <div><div style="margin-bottom:4px">📈 Динамика цены (последняя vs медиана истории)</div>
-        <div class="seg" id="dyn"><button data-v="растёт">растёт</button><button data-v="стабильно" class="on">стабильно</button>
-          <button data-v="падает">падает</button><button data-v="collecting">мало данных</button></div></div>
+      <div><div style="margin-bottom:4px">🔮 Минимум прогноза «сегодня → вылет»</div>
+        <div class="seg" id="dyn"><button data-v="buy" class="on">не ниже текущей цены</button>
+          <button data-v="wait">ниже текущей цены</button><button data-v="collecting">прогноза нет</button></div></div>
+      <p class="muted" style="margin:0">Прошлый тренд в боевом оркестраторе — нейтральный контекст, а не основание BUY/WAIT.</p>
       <div><div style="margin-bottom:4px">📰 Новости региона</div>
         <div class="seg" id="news"><button data-v="ok" class="on">спокойно</button><button data-v="warning">тревожные события</button></div></div>
       <div><div style="margin-bottom:4px">🗓 Встречи в день вылета</div>
@@ -220,6 +221,29 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
   </div>
 </section>
 
+<section class="slide" data-title="MCP-календарь">
+  <div class="kicker">MCP внутри работающего приложения</div>
+  <h2>VK WorkSpace Calendar: не экспорт, а живая интеграция</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Цепочка вызова</h3>
+      <p><code>Streamlit / FastAPI → calendar_engine → MCP Client → calendar_list_events → CalDAV → VK WorkSpace</code></p>
+      <ul>
+        <li>Официальный MCP Python SDK, локальный stdio или удалённый Streamable HTTP.</li>
+        <li>Типизированный ответ, повторяющиеся и многодневные события.</li>
+        <li>Кэш 5 минут и ручное обновление без поиска билетов.</li>
+        <li>Пароль внешнего приложения — только в Streamlit Secrets.</li>
+      </ul></div>
+    <div class="card"><h3>Что доказано вживую</h3>
+      <ul>
+        <li>Самостоятельная вкладка показывает события без поиска.</li>
+        <li>Добавленные пользователем события появились из VK через MCP.</li>
+        <li>На Streamlit Cloud работает тот же stdio MCP client/server.</li>
+        <li>При сбое явно показывается резервная копия, а не живой статус.</li>
+      </ul>
+      <p class="muted">Режим read-only: создание и редактирование остаются в VK WorkSpace.</p></div>
+  </div>
+</section>
+
 <!-- 8 -->
 <section class="slide" data-title="Выбор LLM">
   <div class="kicker">LLM: доступность и измерение</div>
@@ -244,13 +268,14 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
       <p style="font-size:.92rem">Выдача получена в 100% запросов, цены — в 90% (MOW→BAX: перевозчик не отдаёт цены в Google). Кэш SQLite: <b>19 мс</b>.
         Вывод: httpx — основной путь, curl — страховка от SSL-сбоев.</p></div>
     <div class="card"><h3>LLM на синтетике <span class="pill" id="llmstatus">…</span></h3>
-      <p class="muted" style="margin-top:0">44 кейса на боевом промпте: 20 tool-call, 10 «без поиска», 8 опора на данные, 6 саммари новостей · <code>bench/run_llm_bench.py</code></p>
+      <p class="muted" style="margin-top:0">44 кейса на боевом промпте: 20 tool-call, 10 «без поиска», 8 опора на данные, 6 саммари новостей · <code>bench/run_codex_bench.py</code></p>
       <div id="llmbench"></div></div>
   </div>
   <div class="card" style="margin-top:14px"><h3>ML и контрольные примеры <span class="pill p-tested">проверено</span></h3>
     <p class="muted" style="margin-top:0"><code>train_synthetic_price_model.py</code> · <code>run_price_backtest.py</code> · <code>run_news_bench.py</code></p>
     <p style="font-size:.92rem;margin-bottom:0"><b>Синтетика:</b> CatBoost MAPE <b>1,49%</b> против <b>5,71%</b> у baseline, R² 0,9960. <b>Реальная история:</b> 383 снапшота, MAPE <b>3,66%</b> (baseline 3,65%), coverage <b>81,7%</b>; WAIT успешен только в <b>29/239</b>.
-      Дайджест: <b>6/6</b> проверок, включая пустой результат и сбой источников. Синтетическая и краткосрочная оценка не доказывают реальную полезность.</p></div>
+      Дайджест: <b>6/6</b> проверок, включая пустой результат и сбой источников. Синтетическая и краткосрочная оценка не доказывают реальную полезность.</p>
+    <p class="muted" style="margin-bottom:0"><a href="../bench/results/synthetic_price_model.md">ML-отчёт</a> · <a href="../bench/results/price_backtest.md">Backtest и кейсы</a> · <a href="../bench/results/news_bench.md">Дайджест</a> · <a href="../bench/results/llm_bench.md">LLM и ошибки</a></p></div>
 </section>
 
 <!-- 10 -->
@@ -282,19 +307,16 @@ pre{background:#0b1426;border:1px solid var(--line);border-radius:10px;padding:1
 </section>
 
 <!-- 12 -->
-<section class="slide" data-title="Включить чат">
-  <div class="kicker">Инструкция · отмечайте шаги</div>
-  <h2>Как включить AI-помощника</h2>
+<section class="slide" data-title="Воспроизведение">
+  <div class="kicker">Контрольные команды · отмечайте шаги</div>
+  <h2>Как воспроизвести результаты</h2>
   <div class="grid g2">
-    <div class="card"><h3>Веб-версия (YandexGPT)</h3><div class="steps" id="stepsWeb"></div></div>
-    <div class="card"><h3>Локально (Anthropic или YandexGPT)</h3><div class="steps" id="stepsLocal"></div>
-<pre># &lt;корень репозитория&gt;/.streamlit/secrets.toml
-ANTHROPIC_BASE_URL = "https://ai-proxy.vk.team"
-ANTHROPIC_AUTH_TOKEN = "..."
-ANTHROPIC_MODEL = "claude-sonnet-5"
-# или
-YANDEX_GPT_API_KEY = "AQVN..."
-YANDEX_GPT_FOLDER_ID = "b1g..."</pre></div>
+    <div class="card"><h3>ML и реальная история</h3><div class="steps" id="stepsWeb"></div></div>
+    <div class="card"><h3>LLM и новостной дайджест</h3><div class="steps" id="stepsLocal"></div>
+<pre>VK_CALDAV_URL = "ссылка из настроек календаря"
+VK_CALDAV_USERNAME = "name@company.ru"
+VK_CALDAV_PASSWORD = "пароль внешнего приложения"
+VK_CALENDAR_TIMEZONE = "Europe/Moscow"</pre></div>
   </div>
 </section>
 
@@ -361,18 +383,18 @@ slides.forEach((s, k) => {
 const NODES = {
   ui:   {x: 20,  y: 40,  w: 130, t: 'Streamlit UI', d: 'frontend/app.py — форма поиска, вердикт, прогноз, календарь, чат. Для людей. Перезагружает изменённые модули backend/ (иначе облако держит старый код).', why: 'Формы, графики и чат за десятки строк; бесплатный хостинг Streamlit Cloud.'},
   api:  {x: 20,  y: 120, w: 130, t: 'FastAPI', d: 'backend/app/main.py — /api/recommend, /calendar, /news, /visa, /busy, /chat, /diag. Для интеграций, документация на /docs.', why: 'pydantic-валидация и автодокументация; тот же конвейер, что у UI.'},
-  adv:  {x: 200, y: 80,  w: 130, t: 'advisor.analyze', d: 'Единый конвейер: цены → регион/виза → новости → занятость → динамика → вердикт.', why: 'Раньше конвейер жил в app.py, и API отстал на несколько этапов. Общая функция убирает этот класс ошибок.'},
+  adv:  {x: 200, y: 80,  w: 130, t: 'advisor.analyze', d: 'Единый конвейер: цены → регион/виза → новости → занятость → динамика → прогноз → вердикт.', why: 'UI и FastAPI получают одинаковые BUY/WAIT и одну и ту же ML-кривую.'},
   pe:   {x: 380, y: 10,  w: 120, t: 'price_engine', d: 'Календарь min-цен по датам, кэш снапшотов, fallback USD → курс ЦБ.', why: 'Кэш: 19 мс против ~1 с на дату; изоляция ключа по пассажирам/валюте/round-trip.'},
-  or:   {x: 380, y: 80,  w: 120, t: 'orchestrator', d: 'Вердикт BUY/WAIT/WATCH из 4 сигналов, каждый с текстом.', why: 'Детерминированно, тестируемо (7 юнит-сценариев), объяснимо.'},
-  ne:   {x: 380, y: 150, w: 120, t: 'news · visa · cal', d: 'news_engine (Guardian + ТАСС → risk), visa_engine (справочник для граждан РФ), calendar_engine (MCP → CalDAV VK WorkSpace, snapshot fallback).', why: 'Календарь вызывается из приложения по MCP; при сбое остаётся резервный снапшот.'},
-  fe:   {x: 200, y: 240, w: 130, t: 'forecast_engine', d: 'Кривая цены от сегодня до вылета с коридором неопределённости.', why: 'Нет истории для ML → эвристика с якорем на реальной цене, помечена как демо.'},
+  or:   {x: 380, y: 80,  w: 120, t: 'orchestrator', d: 'BUY/WAIT по будущему минимуму; spread, тренд, новости и встречи — дополнительные сигналы.', why: 'Прошлый рост/падение не определяет решение напрямую; каждый сигнал объясним.'},
+  ne:   {x: 380, y: 150, w: 120, t: 'news · visa · cal', d: 'news_engine со статусами ok/empty/partial/error, visa_engine, calendar_engine (MCP → CalDAV VK WorkSpace).', why: 'Сбой источника не ломает поиск и отличается от пустой ленты.'},
+  fe:   {x: 200, y: 240, w: 130, t: 'forecast + CatBoost', d: 'CatBoost synthetic-v3 на парах «сегодня → будущая дата», нормировка на текущую реальную цену.', why: 'Хронологический split и fallback на эвристику; synthetic явно помечен.'},
   ch:   {x: 200, y: 320, w: 130, t: 'chat_engine', d: 'AI-помощник: агентный цикл до 3 раундов с инструментом search_prices.', why: 'LLM — интерфейс к тем же движкам, цифры берутся из реального поиска.'},
-  llm:  {x: 370, y: 320, w: 165, t: 'Anthropic / YandexGPT', d: 'Провайдер выбирается по наличию ключей или LLM_PROVIDER.', why: 'Облако не видит корпоративный гейтвей → YandexGPT в вебе.', llm: true},
+  llm:  {x: 370, y: 320, w: 165, t: 'LLM при наличии ключей', d: 'Поддерживаются Anthropic/Yandex; Codex gpt-6.1-sol использован для benchmark.', why: 'Недоступные провайдеры не выдаются за действующие; Codex: 43/44 кейсов.', llm: true},
   gf:   {x: 540, y: 10,  w: 90,  t: 'gf.py', d: 'Скрейпер Google Flights: URL через fast_flights, httpx → curl, cookies согласия, диагностика consent/captcha.', why: 'Бесплатный источник без ключа с полной выдачей; httpx p50 0,86 с.'},
   db:   {x: 540, y: 90,  w: 90,  t: 'SQLite', d: 'Снапшоты цен (+ синтетика с пометкой), кэш новостей и курсов.', why: 'Встроенная БД — ничего не нужно разворачивать в облаке.'},
   poll: {x: 540, y: 170, w: 90,  t: 'поллер', d: 'scripts/poll_prices.py — каждые 4 часа опрашивает отслеживаемые маршруты.', why: 'История цен — путь к будущему CatBoost.'},
 };
-const EDGES = [['ui','adv'],['api','adv'],['adv','pe'],['adv','or'],['adv','ne'],['ui','fe'],['ui','ch'],['ch','llm'],['ch','pe'],['pe','gf'],['pe','db'],['poll','db']];
+const EDGES = [['ui','adv'],['api','adv'],['adv','pe'],['adv','fe'],['adv','or'],['adv','ne'],['ui','fe'],['ui','ch'],['ch','llm'],['ch','pe'],['pe','gf'],['pe','db'],['poll','db']];
 const H = 40;
 function drawArch() {
   const eg = $('#edges'), ng = $('#nodes');
@@ -436,8 +458,8 @@ const DEC = [
    'Временной split: MAPE 1,49% vs baseline 5,71%. На реальных 5 днях полезность не доказана, WAIT слабый.', 'Переобучение после сбора реальной истории минимум за 5–6 месяцев.'],
   ['Модульный монолит + общий конвейер', 'advisor.analyze() вызывают и Streamlit, и FastAPI.',
    'API отставал от UI на несколько этапов, пока конвейер жил в app.py. Один процесс — под Streamlit Cloud.', 'Микросервисы — инфраструктура без выгоды.'],
-  ['Два LLM: Anthropic локально, YandexGPT в вебе', 'Общий агентный цикл, выбор по ключам или LLM_PROVIDER.',
-   'Решает доступность: облако не видит корпоративный гейтвей; YandexGPT — публичный API с оплатой в рублях.', 'Один провайдер: либо нет облака, либо хуже локально.'],
+  ['LLM по доступности, качество — по измерениям', 'В чате провайдер выбирается по ключам; для контрольной проверки использован Codex gpt-6.1-sol.',
+   'Codex: 43/44 кейсов, F1 97,4%. Kimi без отдельного API не сравнивается формально.', 'Нельзя выбирать LLM по предположению: нужен одинаковый набор кейсов и повторы.'],
   ['Календарь через MCP + snapshot fallback', 'VK WorkSpace читается инструментом calendar_list_events поверх CalDAV; JSON — только резерв.',
    'Живые события без ручного экспорта; сбой интеграции не ломает поиск. Пароль приложения хранится в Secrets.', 'Google OAuth — сделан и удалён; внешний MCP из Claude Code не подходил веб-процессу.'],
 ];
@@ -456,18 +478,18 @@ function verdict() {
   const S = [];
   if (nd > 1 && disc >= 3) S.push(['📅 Календарь цен', `минимум на ${disc}% ниже средней по диапазону`, 'buy']);
   else S.push(['📅 Календарь цен', nd > 1 ? `цены близки, разброс ${disc}%` : 'единственная дата с ценой', 'neutral']);
-  const dmap = {'растёт': 'buy', 'падает': 'wait', 'стабильно': 'neutral', 'collecting': 'neutral'};
-  S.push(['📈 Динамика цены', dyn === 'collecting' ? 'мало измерений — собираем историю' : `цена ${dyn} относительно медианы`, dmap[dyn]]);
+  S.push(['📈 Динамика цены', 'прошлый тренд — только контекст', 'neutral']);
+  S.push(['🔮 Прогноз до вылета', dyn === 'collecting' ? 'прогноз недоступен' : (dyn === 'wait' ? 'будущий минимум ниже текущей цены' : 'будущий минимум не ниже текущей цены'), dyn === 'collecting' ? 'neutral' : dyn]);
   S.push(['📰 Новости региона', news === 'warning' ? 'опасные события — возможны колебания цен и расписания' : 'опасных событий не обнаружено', news === 'warning' ? 'careful' : 'neutral']);
   S.push(['🗓 Ваш календарь', busy ? 'в день вылета есть встречи' : 'занятых встреч нет', busy ? 'careful' : 'neutral']);
   const score = S.reduce((a, s) => a + (s[2] === 'buy' ? 1 : s[2] === 'wait' ? -1 : 0), 0);
   const careful = S.some(s => s[2] === 'careful');
   let sig, title, text;
-  if (score > 0) [sig, title, text] = ['BUY', 'Покупайте сейчас', 'Цена заметно ниже соседних дат и/или растёт; дальше ждать обычно дороже.'];
-  else if (score < 0) [sig, title, text] = ['WAIT', 'Можно подождать — цена снижается', 'Цена падает относительно истории: покупка ближе к минимуму может быть выгоднее.'];
+  if (score > 0) [sig, title, text] = ['BUY', 'Покупайте сейчас', 'По прогнозу до вылета цена не опустится ниже текущей или вырастет. Модель обучена на синтетике.'];
+  else if (score < 0) [sig, title, text] = ['WAIT', 'Можно подождать — прогноз ниже текущей цены', 'До вылета ожидается более низкая цена. До предполагаемой даты минимума можно не покупать, но реальная полезность не доказана.'];
   else [sig, title, text] = ['WATCH', 'Ситуация нейтральная — следим', 'Сильных сигналов «покупать срочно» или «ждать» нет.'];
   if (careful) text += ' ⚠️ Есть предупреждения — см. сигналы.';
-  const conf = dyn !== 'collecting' ? 'средняя' : 'низкая';
+  const conf = dyn === 'collecting' ? 'низкая' : 'низкая · модель на синтетике';
   $('#verdict').className = 'verdict v-' + sig;
   $('#verdict').innerHTML = `<div class="kicker" style="color:inherit">${sig} · скор ${score > 0 ? '+' : ''}${score} · уверенность ${conf}</div><h3>${title}</h3><p style="margin:0">${text}</p>`;
   $('#signals').innerHTML = S.map(([n, v, i]) => `<div class="sig"><span class="tag t-${i}">${i}</span><div><b>${n}</b><br><span class="muted">${v}</span></div></div>`).join('');
@@ -535,7 +557,7 @@ fetch('../bench/results/llm_bench.json').then(r => r.ok ? r.json() : Promise.rej
 }).catch(() => {
   $('#llmstatus').textContent = 'ещё не прогнан'; $('#llmstatus').className = 'pill p-later';
   $('#llmbench').innerHTML = `<p class="warn">Цифр пока нет: в окружении разработки не было ключей провайдеров, а выдумывать метрики мы не стали.
-    После <code>python -m bench.run_llm_bench</code> и коммита <code>bench/results/llm_bench.json</code> этот блок построит графики сам.</p>
+    После <code>python -m bench.run_codex_bench</code> и коммита <code>bench/results/llm_bench.json</code> этот блок построит графики сам.</p>
     <table><tr><th>Задача</th><th>Кейсов</th><th>Метрика</th></tr>
     <tr><td>Вызов search_prices + аргументы</td><td>20</td><td>все поля верны, F1 маршрутизации</td></tr>
     <tr><td>Общие вопросы без поиска</td><td>10</td><td>precision вызова</td></tr>
@@ -574,18 +596,16 @@ tl(0);
 
 /* ---------- инструкция ---------- */
 const WEB = [
-  'console.yandex.cloud → активный платёжный аккаунт (стартовый грант)',
-  'Каталог → скопировать его ID (b1g…) — это YANDEX_GPT_FOLDER_ID',
-  'IAM → Сервисные аккаунты → создать, роль ai.languageModels.user',
-  'Аккаунт → Создать API-ключ (yc.ai.languageModels.execute) → скопировать AQVN… — это YANDEX_GPT_API_KEY',
-  'share.streamlit.io → приложение → ⋮ → Settings → Secrets → вставить оба ключа → Save',
-  'Через минуту: страница «AI-помощник» → «Ответы генерирует YandexGPT»',
+  '.venv/bin/python -m bench.train_synthetic_price_model — обучить synthetic-v3',
+  '.venv/bin/python -m bench.export_price_history --db /path/to/flight_advisor.db',
+  '.venv/bin/python -m bench.run_price_backtest — baseline, coverage, BUY/WAIT',
+  'Артефакты: backend/app/data/price_model.cbm + bench/results/*.md и *.json',
 ];
 const LOCAL = [
-  'cd ~/flight-advisor && cp .streamlit/secrets.toml.example .streamlit/secrets.toml',
-  'Заполнить ANTHROPIC_* (токен гейтвея, как у Claude Code) или YANDEX_GPT_*',
-  'Если заданы оба, а нужен YandexGPT — LLM_PROVIDER = "yandex"',
-  'Перезапустить streamlit run frontend/app.py (секреты читаются при старте)',
+  '.venv/bin/python -m bench.run_codex_bench --repeats 1 — Codex 43/44',
+  '.venv/bin/python -m bench.run_news_bench — контрольные примеры 6/6',
+  'Для MCP добавить VK_CALDAV_* в локальные Secrets или Streamlit Cloud Secrets',
+  'Проверить вкладку «Календарь» и статус «Синхронизировано через MCP»',
 ];
 const steps = (el, arr) => { el.innerHTML = arr.map(s => `<label class="step"><input type="checkbox"><span class="txt">${s}</span></label>`).join('');
   el.onchange = e => e.target.closest('.step').classList.toggle('done', e.target.checked); };
